@@ -1,3 +1,71 @@
 <resources>
-    <string name="app_name">MobileApplication</string>
+    <string-array name="cities">
+        <item>Moscow</item>
+        <item>Saint Petersburg</item>
+    </string-array>
+
+    <string name="app_name">my_first_project</string>
+
+    <string name="login_now">Login now</string>
+    <string name="submit">Submit</string>
+    <string name="error_while_logging_in">Error while logging in</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_name">Enter name</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="register_now">Register now</string>
+    <string name="reset_password">Reset password</string>
+
+    <!-- Reset password   -->
+    <string name="topic_reset_password">Reset password</string>
+    <string name="enter_new_password">New password</string>
+    <string name="enter_confirmation_password">Confirmation password</string>
+
+    <!--  Profile  -->
+    <string name="profile">Profile</string>
+
+    <!-- PERSONAL INFO -->
+    <string name="personal_information">Personal information</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+
+    <string name="hint_name">Name*></string>
+    <string name="hint_surname">Surname*</string>
+
+
+    <!--  Date of Birth    -->
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="hint_date">DATE OF BIRTH*</string>
+
+    <!-- Gender    -->
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <!-- About    -->
+    <string name="about">About</string>
+    <string name="write">write about yourself</string>
+
+    <!--  Contacts  -->
+    <string name="contacts">contacts</string>
+    <string name="mobile">Mobile</string>
+    <string name="email">Email</string>
+    <string name="social_media">Social Media</string>
+
+    <!-- Save   -->
+    <string name="account_info_save">save</string>
+
+    <!-- Delete   -->
+    <string name="delete_profile">delete profile</string>
+
+    <!--  NavigationView  -->
+    <string name="card">Card</string>
+    <string name="list">List</string>
+    <string name="dialogs">Dialogs</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
 </resources>
