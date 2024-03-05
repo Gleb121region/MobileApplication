@@ -4,13 +4,13 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class FlatResponse(
-    @SerializedName("Id") @Expose val id: Int,
-    @SerializedName("Floor") @Expose val floor: Int,
-    @SerializedName("FloorsCount") @Expose val floorsCount: Int,
-    @SerializedName("TotalMeters") @Expose val totalMeters: Double,
-    @SerializedName("RoomsCount") @Expose val roomsCount: Int,
-    @SerializedName("PricePerMonth") @Expose val pricePerMonth: Double,
-    @SerializedName("Address") @Expose val address: String,
-    @SerializedName("Underground") @Expose val underground: String,
-    @SerializedName("PhotoUrls") @Expose val photoUrls: Set<String>
+    @SerializedName("id") @Expose val id: Int,
+    @SerializedName("floor") @Expose val floor: Int,
+    @SerializedName("floorsCount") @Expose val floorsCount: Int,
+    @SerializedName("totalMeters") @Expose val totalMeters: Double,
+    @SerializedName("roomsCount") @Expose val roomsCount: Int,
+    @SerializedName("pricePerMonth") @Expose val pricePerMonth: Double,
+    @SerializedName("address") @Expose val address: String,
+    @SerializedName("underground") @Expose val underground: String,
+    @SerializedName("photoUrls") @Expose val photoUrls: Set<String>
 )

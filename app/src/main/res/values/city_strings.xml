@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="moscow">Москва</string>
+    <string name="saint_petersburg">Санкт-Петербург</string>
+    <string name="novosibirsk">Новосибирск</string>
+    <string name="yekaterinburg">Екатеринбург</string>
+    <string name="kazan">Казань</string>
+    <string name="nizhny_novgorod">Нижний Новгород</string>
+    <string name="chelyabinsk">Челябинск</string>
+    <string name="samara">Самара</string>
+    <string name="ufa">Уфа</string>
+    <string name="rostov_on_don">Ростов-на-Дону</string>
+    <string name="omsk">Омск</string>
+    <string name="krasnoyarsk">Красноярск</string>
+    <string name="voronezh">Воронеж</string>
+    <string name="perm">Пермь</string>
+    <string name="volgograd">Волгоград</string>
+</resources>

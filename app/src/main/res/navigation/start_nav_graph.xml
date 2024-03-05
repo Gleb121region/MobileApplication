@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_signInFragment_to_basicActivity"
             app:destination="@id/bottomNavigationActivity" />
+        <action
+            android:id="@+id/action_signInFragment_to_interviewActivity"
+            app:destination="@id/interviewActivity" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -31,6 +34,9 @@
         <action
             android:id="@+id/action_signUpFragment_to_basicActivity"
             app:destination="@id/bottomNavigationActivity" />
+        <action
+            android:id="@+id/action_signUpFragment_to_interviewActivity"
+            app:destination="@id/interviewActivity" />
     </fragment>
     <fragment
         android:id="@+id/restoreAccessFragment"
@@ -43,9 +49,16 @@
         <action
             android:id="@+id/action_restoreAccessFragment_to_basicActivity"
             app:destination="@id/bottomNavigationActivity" />
+        <action
+            android:id="@+id/action_restoreAccessFragment_to_interviewActivity"
+            app:destination="@id/interviewActivity" />
     </fragment>
     <activity
         android:id="@+id/bottomNavigationActivity"
         android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity"
         android:label="BottomNavigationActivity" />
+    <activity
+        android:id="@+id/interviewActivity"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.InterviewActivity"
+        android:label="InterviewActivity" />
 </navigation>
