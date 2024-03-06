@@ -4,17 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
+import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
 import ru.spbstu.mobileapplication.data.database.token.TokenDbModel
 import ru.spbstu.mobileapplication.data.database.token.TokenInfoDao
-import javax.inject.Inject
 
 @Database(
     entities = [
         TokenDbModel::class,
+        AnswerDbModel::class,
     ],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
 
@@ -40,4 +44,5 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     abstract fun TokenInfoDao(): TokenInfoDao
+    abstract fun AnswerInfoDao(): AnswerInfoDao
 }

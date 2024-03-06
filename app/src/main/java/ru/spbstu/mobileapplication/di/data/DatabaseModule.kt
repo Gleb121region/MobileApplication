@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.spbstu.mobileapplication.data.database.AppDatabase
+import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
 import ru.spbstu.mobileapplication.data.database.token.TokenInfoDao
 import javax.inject.Singleton
 
@@ -19,5 +20,13 @@ class DatabaseModule {
         application: Application
     ): TokenInfoDao {
         return AppDatabase.getInstance(application).TokenInfoDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSurveyAnswersInfoDao(
+        application: Application
+    ): AnswerInfoDao {
+        return AppDatabase.getInstance(application).AnswerInfoDao()
     }
 }

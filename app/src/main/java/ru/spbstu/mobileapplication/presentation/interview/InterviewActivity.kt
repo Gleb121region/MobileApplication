@@ -2,7 +2,6 @@ package ru.spbstu.mobileapplication.presentation.interview
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.spbstu.mobileapplication.R
@@ -13,15 +12,13 @@ class InterviewActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityInterviewBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityInterviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: FragmentContainerView = binding.interviewNavigationView
-
         val navController = findNavController(R.id.fragmentBottomBar)
-
     }
 }

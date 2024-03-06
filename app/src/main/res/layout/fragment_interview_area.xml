@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="Какая нужна общая площадь?"
+            android:text="@string/q_area"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:hint="Минимальная площадь (кв. м)"
+                android:hint="@string/a_area_min_area"
                 android:inputType="numberDecimal"
                 android:padding="12dp" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:hint="Максимальная площадь (кв. м)"
+                android:hint="@string/a_area_max_area"
                 android:inputType="numberDecimal"
                 android:padding="12dp" />
 
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Продолжить"
+                android:text="@string/proceed"
                 app:cornerRadius="8dp" />
         </LinearLayout>
 

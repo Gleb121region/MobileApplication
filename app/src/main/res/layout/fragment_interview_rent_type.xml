@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="На какой срок?"
+            android:text="@string/q_rent_type"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="На несколько месяцев"
+                android:text="@string/a_few_months"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="На несколько дней"
+                android:text="@string/a_few_days"
                 app:cornerRadius="8dp" />
         </LinearLayout>
 

@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="Сколько хотите комнат?"
+            android:text="@string/q_rooms_count"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Студия"
+                android:text="@string/a_studio"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Однокомнатная квартира"
+                android:text="@string/a_one_room_flat"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Двухкомнатная квартира"
+                android:text="@string/a_two_rooms_flat"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Трехкомнатная квартира"
+                android:text="@string/a_three_rooms_flat"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Четырехкомнатная квартира"
+                android:text="@string/a_four_rooms_flat"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Пятикомнатная квартира"
+                android:text="@string/a_five_rooms_flat"
                 app:cornerRadius="8dp" />
         </LinearLayout>
 

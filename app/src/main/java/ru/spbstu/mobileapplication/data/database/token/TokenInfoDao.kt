@@ -1,18 +1,22 @@
 package ru.spbstu.mobileapplication.data.database.token
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface TokenInfoDao {
-//  todo: add Token ( After sign up or after sign in )
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertToken(token: TokenDbModel)
 
-//  todo: remove Token ( After refresh token, restore token)
-    @Query("DELETE FROM tokens")
-    suspend fun deleteToken()
+    @Query("SELECT * FROM tokens where token = :token")
+    suspend fun getToken(token: String): TokenDbModel?
+
+    @Query("SELECT * FROM tokens ORDER BY tokenId DESC LIMIT 1")
+    suspend fun getLastToken(): TokenDbModel?
+
+    @Update
+    suspend fun updateToken(token: TokenDbModel)
 }

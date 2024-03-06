@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.data.enums.interview
+package ru.spbstu.mobileapplication.domain.enums.interview
 
 import android.content.Context
 import ru.spbstu.mobileapplication.R

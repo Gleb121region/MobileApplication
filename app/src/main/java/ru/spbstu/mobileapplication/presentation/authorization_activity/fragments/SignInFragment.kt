@@ -80,7 +80,7 @@ class SignInFragment : Fragment() {
                     is SignInViewModel.SignInResult.Success -> {
                         Log.d(TAG, result.tokenItem.accessToken)
                         Log.d(TAG, result.tokenItem.refreshToken)
-                        findNavController().navigate(R.id.action_signInFragment_to_basicActivity)
+                        findNavController().navigate(R.id.action_signInFragment_to_interviewActivity)
                     }
 
                     is SignInViewModel.SignInResult.Error -> {

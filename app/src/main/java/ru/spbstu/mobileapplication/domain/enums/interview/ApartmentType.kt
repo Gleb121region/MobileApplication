@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.data.enums.interview
+package ru.spbstu.mobileapplication.domain.enums.interview
 
 enum class ApartmentType {
     STUDIO,

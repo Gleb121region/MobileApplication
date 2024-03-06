@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="С чем вам помочь?"
+            android:text="@string/q_purpose"
             android:textSize="28sp" />
 
         <TextView
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="Настроим ваш первый поиск и покажем сервисы, которые могут вам пригодиться"
+            android:text="@string/recommendations"
             android:textColor="@android:color/darker_gray"
             android:textSize="18sp" />
 
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Снять"
+                android:text="@string/rent"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Сдать"
+                android:text="@string/rent_out"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:text="Просто хочу посмотреть"
+                android:text="@string/just_look"
                 app:cornerRadius="8dp" />
         </LinearLayout>
 

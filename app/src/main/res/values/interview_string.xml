@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="q_budget">Какой у вас бюджет?</string>
+    <string name="a_budget_min_price">Минимальная цена аренды за месяц (₽)</string>
+    <string name="a_budget_max_price">Максимальная цена аренды за месяц (₽)</string>
+    <string name="q_area">Какая нужна общая площадь?</string>
+    <string name="a_area_min_area">Минимальная площадь (кв. м)</string>
+    <string name="a_area_max_area">Максимальная площадь (кв. м)</string>
+    <string name="q_purpose">С чем вам помочь?</string>
+    <string name="recommendations">Настроим ваш первый поиск и покажем сервисы, которые могут вам пригодиться</string>
+    <string name="rent">Снять</string>
+    <string name="rent_out">Сдать</string>
+    <string name="just_look">Просто хочу посмотреть</string>
+    <string name="q_rent_type">На какой срок?</string>
+    <string name="a_few_months">На несколько месяцев</string>
+    <string name="a_few_days">На несколько дней</string>
+    <string name="q_rooms_count">Сколько хотите комнат?</string>
+    <string name="a_studio">Студия</string>
+    <string name="a_one_room_flat">Однокомнатная квартира</string>
+    <string name="a_two_rooms_flat">Двухкомнатная квартира</string>
+    <string name="a_three_rooms_flat">Трехкомнатная квартира</string>
+    <string name="a_four_rooms_flat">Четырехкомнатная квартира</string>
+    <string name="a_five_rooms_flat">Пятикомнатная квартира</string>
+    <string name="q_where">Где ищете?</string>
+    <string name="edit_text_city">Город или регион</string>
+    <string name="proceed">Продолжить</string>
+</resources>

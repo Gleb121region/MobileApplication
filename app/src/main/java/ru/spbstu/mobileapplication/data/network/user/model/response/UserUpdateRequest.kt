@@ -2,7 +2,7 @@ package ru.spbstu.mobileapplication.data.network.user.model.response
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import ru.spbstu.mobileapplication.data.enums.Gender
+import ru.spbstu.mobileapplication.domain.enums.Gender
 
 
 data class UserUpdateRequest(

@@ -6,17 +6,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.spbstu.mobileapplication.databinding.ActivityMainBinding
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
-import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.RestoreAccessViewModel
-import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignInViewModel
-import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignUpViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var signInViewModel: SignInViewModel
-    private lateinit var signUpViewModel: SignUpViewModel
-    private lateinit var restoreAccessViewModel: RestoreAccessViewModel
 
     private lateinit var binding: ActivityMainBinding
 

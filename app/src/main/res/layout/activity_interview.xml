@@ -9,14 +9,22 @@
 
         <include layout="@layout/layout_header" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/interviewNavigationView"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:defaultNavHost="true"
-            tools:layout="@layout/fragment_purpose_interview"
-            />
+            android:fillViewport="true"
+            android:isScrollContainer="true">
+
+            <fragment
+                android:id="@+id/fragmentBottomBar"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/interview_nav_graph" />
+        </androidx.core.widget.NestedScrollView>
+
     </LinearLayout>
 
 </layout>
