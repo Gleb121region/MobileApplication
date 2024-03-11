@@ -10,6 +10,14 @@ import ru.spbstu.mobileapplication.presentation.authorization_activity.MainActiv
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.RestoreAccessFragment
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignInFragment
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignUpFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity
+import ru.spbstu.mobileapplication.presentation.interview.InterviewActivity
+import ru.spbstu.mobileapplication.presentation.interview.fragments.AreaFragment
+import ru.spbstu.mobileapplication.presentation.interview.fragments.BudgetFragment
+import ru.spbstu.mobileapplication.presentation.interview.fragments.CityFragment
+import ru.spbstu.mobileapplication.presentation.interview.fragments.PurposeFragment
+import ru.spbstu.mobileapplication.presentation.interview.fragments.TermFragment
+import ru.spbstu.mobileapplication.presentation.interview.fragments.ApartmentTypeFragment
 import javax.inject.Singleton
 
 @Singleton
@@ -30,6 +38,19 @@ interface ApplicationComponent {
     fun inject(fragment: RestoreAccessFragment)
     fun inject(fragment: SignInFragment)
     fun inject(fragment: SignUpFragment)
+
+    fun inject(activity: BottomNavigationActivity)
+    //
+
+    fun inject(activity: InterviewActivity)
+
+    fun inject(fragment: AreaFragment)
+    fun inject(fragment: BudgetFragment)
+    fun inject(fragment: CityFragment)
+    fun inject(fragment: PurposeFragment)
+    fun inject(fragment: TermFragment)
+    fun inject(fragment: ApartmentTypeFragment)
+
 
     @Component.Factory
     interface Factory {
