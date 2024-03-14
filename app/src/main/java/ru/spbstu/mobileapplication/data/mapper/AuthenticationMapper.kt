@@ -11,7 +11,7 @@ import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem
 import javax.inject.Inject
 
 class AuthenticationMapper @Inject constructor() {
-     fun mapRegisterItemToRegisterRequest(item: RegisterItem): RegisterRequest =
+    fun mapRegisterItemToRegisterRequest(item: RegisterItem): RegisterRequest =
         RegisterRequest(
             firstname = item.firstName,
             email = item.email,

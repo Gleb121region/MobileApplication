@@ -12,12 +12,12 @@ import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignUpFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity
 import ru.spbstu.mobileapplication.presentation.interview.InterviewActivity
+import ru.spbstu.mobileapplication.presentation.interview.fragments.ApartmentTypeFragment
 import ru.spbstu.mobileapplication.presentation.interview.fragments.AreaFragment
 import ru.spbstu.mobileapplication.presentation.interview.fragments.BudgetFragment
-import ru.spbstu.mobileapplication.presentation.interview.fragments.CityFragment
 import ru.spbstu.mobileapplication.presentation.interview.fragments.PurposeFragment
 import ru.spbstu.mobileapplication.presentation.interview.fragments.TermFragment
-import ru.spbstu.mobileapplication.presentation.interview.fragments.ApartmentTypeFragment
+import ru.spbstu.mobileapplication.presentation.interview.fragments.city.CityFragment
 import javax.inject.Singleton
 
 @Singleton

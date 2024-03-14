@@ -1,6 +1,10 @@
 package ru.spbstu.mobileapplication.domain.enums.interview
 
-enum class ApartmentType {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class ApartmentType : Parcelable {
     STUDIO,
     ONE_ROOM_APARTMENT,
     TWO_ROOM_APARTMENT,

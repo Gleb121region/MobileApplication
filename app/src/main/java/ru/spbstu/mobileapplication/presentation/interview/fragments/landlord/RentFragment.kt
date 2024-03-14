@@ -1,13 +1,13 @@
 package ru.spbstu.mobileapplication.presentation.interview.fragments.landlord
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.spbstu.mobileapplication.presentation.interview.view_models.landlord.RentViewModel
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import ru.spbstu.mobileapplication.R
+import ru.spbstu.mobileapplication.presentation.interview.view_models.landlord.RentViewModel
 
 class RentFragment : Fragment() {
 

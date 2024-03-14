@@ -9,14 +9,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import ru.spbstu.mobileapplication.R
+import androidx.navigation.fragment.navArgs
 import ru.spbstu.mobileapplication.databinding.FragmentInterviewAreaBinding
+import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.AreaViewModel
 import javax.inject.Inject
 
 class AreaFragment : Fragment() {
+
+    private val args by navArgs<AreaFragmentArgs>()
 
     private lateinit var viewModel: AreaViewModel
 
@@ -49,11 +52,21 @@ class AreaFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        with(binding) {
+            // todo: надо обработать случаи когда не то пытаются закинуть в int!
+//            val minArea = editTextMinSpace.text.toString().toIntOrNull()
+//            val maxArea = editTextMaxSpace.text.toString().toIntOrNull()
+            buttonSearch.setOnClickListener {
+                launchFlatBudget(
+                    editTextMinSpace.text.toString().toInt(),
+                    editTextMaxSpace.text.toString().toInt()
+                )
+            }
+        }
+        //        buttonBackListenerHandler()
+
+        Log.d(TAG, "Survey Result: $args.surveyResult")
         Log.d(TAG, "AreaFragment onViewCreated")
-
-//        buttonBackListenerHandler()
-
-        buttonFewMonthsListenerHandler()
     }
 
 //    private fun buttonBackListenerHandler() {
@@ -62,10 +75,20 @@ class AreaFragment : Fragment() {
 //    }
 
 
-    private fun buttonFewMonthsListenerHandler() {
-        binding.buttonSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_areaFragment_to_budgetFragment)
-        }
+    private fun launchFlatBudget(minArea: Int, maxArea: Int) {
+        findNavController().navigate(
+            AreaFragmentDirections.actionAreaFragmentToBudgetFragment(
+                SurveyResult(
+                    args.surveyResult.term,
+                    args.surveyResult.apartmentType,
+                    null,
+                    minArea,
+                    maxArea,
+                    null,
+                    null
+                )
+            )
+        )
     }
 
     private companion object {

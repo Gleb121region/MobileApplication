@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_purposeInterviewFragment_to_interviewRentTypeFragment"
             app:destination="@id/interviewRentTypeFragment" />
+        <action
+            android:id="@+id/action_purposeInterviewFragment_to_bottomNavigationActivity2"
+            app:destination="@id/bottomNavigationActivity2" />
     </fragment>
     <fragment
         android:id="@+id/interviewRentFragment"
@@ -38,6 +41,9 @@
         <action
             android:id="@+id/action_roomInterviewFragment_to_areaFragment"
             app:destination="@id/areaFragment" />
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
     </fragment>
     <fragment
         android:id="@+id/areaFragment"
@@ -47,6 +53,9 @@
         <action
             android:id="@+id/action_areaFragment_to_budgetFragment"
             app:destination="@id/budgetFragment" />
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
     </fragment>
     <fragment
         android:id="@+id/budgetFragment"
@@ -56,18 +65,28 @@
         <action
             android:id="@+id/action_budgetFragment_to_cityFragment"
             app:destination="@id/cityFragment" />
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
     </fragment>
     <fragment
         android:id="@+id/cityFragment"
-        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.CityFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.city.CityFragment"
         android:label="fragment_city_interview"
         tools:layout="@layout/fragment_city_interview" >
         <action
             android:id="@+id/action_cityFragment_to_bottomNavigationActivity2"
             app:destination="@id/bottomNavigationActivity2" />
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
     </fragment>
     <activity
         android:id="@+id/bottomNavigationActivity2"
         android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity"
-        android:label="BottomNavigationActivity" />
+        android:label="BottomNavigationActivity" >
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+    </activity>
 </navigation>

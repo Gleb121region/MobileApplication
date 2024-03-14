@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.presentation.interview.fragments
+package ru.spbstu.mobileapplication.presentation.interview.fragments.city
 
 import android.content.Context
 import android.os.Bundle
@@ -9,14 +9,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import ru.spbstu.mobileapplication.R
+import androidx.navigation.fragment.navArgs
 import ru.spbstu.mobileapplication.databinding.FragmentCityInterviewBinding
+import ru.spbstu.mobileapplication.domain.enums.interview.City
+import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.CityViewModel
 import javax.inject.Inject
 
 class CityFragment : Fragment() {
+    private val args by navArgs<CityFragmentArgs>()
 
     private lateinit var viewModel: CityViewModel
 
@@ -48,24 +51,33 @@ class CityFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        val cityAdapter =
+            CityAdapter(City.entries, object : CityAdapter.OnCityClickListener {
+                override fun onCityClick(city: City) {
+                    launchMainActivity(city)
+                }
+            })
+        binding.recyclerViewCities.adapter = cityAdapter
+        //        buttonBackListenerHandler()
 
+        Log.d(TAG, "Survey Result: $args.surveyResult")
         Log.d(TAG, "CityFragment onViewCreated")
-
-//        buttonBackListenerHandler()
-
-        buttonFewMonthsListenerHandler()
     }
 
-//    private fun buttonBackListenerHandler() {
-//         обработать кнопку назад
-//        TODO("Not yet implemented")
-//    }
-
-
-    private fun buttonFewMonthsListenerHandler() {
-        binding.recyclerViewCities.setOnClickListener {
-            findNavController().navigate(R.id.action_cityFragment_to_bottomNavigationActivity2)
-        }
+    private fun launchMainActivity(selectedCity: City) {
+        findNavController().navigate(
+            CityFragmentDirections.actionCityFragmentToBottomNavigationActivity2(
+                SurveyResult(
+                    args.surveyResult.term,
+                    args.surveyResult.apartmentType,
+                    selectedCity,
+                    args.surveyResult.minArea,
+                    args.surveyResult.maxArea,
+                    args.surveyResult.minBudget,
+                    args.surveyResult.maxBudget
+                )
+            )
+        )
     }
 
     private companion object {

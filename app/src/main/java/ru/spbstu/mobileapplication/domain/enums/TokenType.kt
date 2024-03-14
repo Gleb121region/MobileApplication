@@ -1,7 +1,10 @@
 package ru.spbstu.mobileapplication.domain.enums
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-enum class TokenType {
+@Parcelize
+enum class TokenType : Parcelable {
     BEARER
 }
 

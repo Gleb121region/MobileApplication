@@ -1,6 +1,10 @@
 package ru.spbstu.mobileapplication.domain.enums
 
-enum class Gender {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class Gender : Parcelable {
     MALE,
     FEMALE
 }

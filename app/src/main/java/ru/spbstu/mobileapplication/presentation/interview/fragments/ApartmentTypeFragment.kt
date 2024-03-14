@@ -6,17 +6,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.button.MaterialButton
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.FragmentRoomInterviewBinding
+import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
+import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.ApartmentTypeViewModel
 import javax.inject.Inject
 
 class ApartmentTypeFragment : Fragment() {
+
+    private val args by navArgs<ApartmentTypeFragmentArgs>()
+
+    private var selectedApartmentTypes: MutableSet<ApartmentType> = mutableSetOf()
 
     private lateinit var viewModel: ApartmentTypeViewModel
 
@@ -49,11 +58,34 @@ class ApartmentTypeFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        with(binding) {
+            buttonStudio.setOnClickListener {
+                toggleApartmentTypeSelection(ApartmentType.STUDIO)
+            }
+            buttonOne.setOnClickListener {
+                toggleApartmentTypeSelection(ApartmentType.ONE_ROOM_APARTMENT)
+            }
+            buttonTwo.setOnClickListener {
+                toggleApartmentTypeSelection(ApartmentType.TWO_ROOM_APARTMENT)
+            }
+            buttonThree.setOnClickListener {
+                toggleApartmentTypeSelection(ApartmentType.THREE_ROOM_APARTMENT)
+            }
+            buttonFour.setOnClickListener {
+                toggleApartmentTypeSelection(ApartmentType.FOUR_ROOM_APARTMENT)
+            }
+            buttonFive.setOnClickListener {
+                toggleApartmentTypeSelection(ApartmentType.FIVE_ROOM_APARTMENT)
+            }
+            buttonSearch.setOnClickListener {
+                launchFlatArea(selectedApartmentTypes)
+            }
+        }
+        Log.d(TAG, "Survey Result: $args.surveyResult")
         Log.d(TAG, "ApartmentTypeFragment onViewCreated")
 
 //        buttonBackListenerHandler()
 
-        buttonFewMonthsListenerHandler()
     }
 
 //    private fun buttonBackListenerHandler() {
@@ -61,26 +93,51 @@ class ApartmentTypeFragment : Fragment() {
 //        TODO("Not yet implemented")
 //    }
 
+    private fun toggleApartmentTypeSelection(apartmentType: ApartmentType) {
+        val buttonId = when (apartmentType) {
+            ApartmentType.STUDIO -> R.id.buttonStudio
+            ApartmentType.ONE_ROOM_APARTMENT -> R.id.buttonOne
+            ApartmentType.TWO_ROOM_APARTMENT -> R.id.buttonTwo
+            ApartmentType.THREE_ROOM_APARTMENT -> R.id.buttonThree
+            ApartmentType.FOUR_ROOM_APARTMENT -> R.id.buttonFour
+            ApartmentType.FIVE_ROOM_APARTMENT -> R.id.buttonFive
+        }
 
-    private fun buttonFewMonthsListenerHandler() {
-        binding.buttonStudio.setOnClickListener {
-            findNavController().navigate(R.id.action_roomInterviewFragment_to_areaFragment)
+        val button = binding.root.findViewById<MaterialButton>(buttonId)
+        if (selectedApartmentTypes.contains(apartmentType)) {
+            selectedApartmentTypes.remove(apartmentType)
+            button.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.unselected_button_color
+                )
+            )
+        } else {
+            selectedApartmentTypes.add(apartmentType)
+            button.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.selected_button_color
+                )
+            )
         }
-        binding.buttonOne.setOnClickListener {
-            findNavController().navigate(R.id.action_roomInterviewFragment_to_areaFragment)
-        }
-        binding.buttonTwo.setOnClickListener {
-            findNavController().navigate(R.id.action_roomInterviewFragment_to_areaFragment)
-        }
-        binding.buttonThree.setOnClickListener {
-            findNavController().navigate(R.id.action_roomInterviewFragment_to_areaFragment)
-        }
-        binding.buttonFour.setOnClickListener {
-            findNavController().navigate(R.id.action_roomInterviewFragment_to_areaFragment)
-        }
-        binding.buttonFive.setOnClickListener {
-            findNavController().navigate(R.id.action_roomInterviewFragment_to_areaFragment)
-        }
+    }
+
+
+    private fun launchFlatArea(apartmentTypes: Set<ApartmentType>) {
+        findNavController().navigate(
+            ApartmentTypeFragmentDirections.actionRoomInterviewFragmentToAreaFragment(
+                surveyResult = SurveyResult(
+                    args.surveyResult.term,
+                    apartmentTypes,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+            )
+        )
     }
 
     private companion object {

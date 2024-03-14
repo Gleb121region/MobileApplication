@@ -8,6 +8,7 @@ import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
 
 object Converters {
     private val gson = Gson()
+
     @TypeConverter
     fun stringToSet(data: String?): Set<ApartmentType> {
         if (data == null) {

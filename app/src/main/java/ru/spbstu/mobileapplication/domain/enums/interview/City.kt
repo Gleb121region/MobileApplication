@@ -1,9 +1,12 @@
 package ru.spbstu.mobileapplication.domain.enums.interview
 
 import android.content.Context
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.spbstu.mobileapplication.R
 
-enum class City(private val cityNameResId: Int) {
+@Parcelize
+enum class City(private val cityNameResId: Int) : Parcelable {
     MOSCOW(R.string.moscow),
     SAINT_PETERSBURG(R.string.saint_petersburg),
     NOVOSIBIRSK(R.string.novosibirsk),

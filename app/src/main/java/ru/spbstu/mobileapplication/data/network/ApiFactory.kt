@@ -17,7 +17,8 @@ object ApiFactory {
         .build()
 
     val authApiService: AuthApiService = retrofit.create(AuthApiService::class.java)
-    val announcementApiService: AnnouncementApiService = retrofit.create(AnnouncementApiService::class.java)
+    val announcementApiService: AnnouncementApiService =
+        retrofit.create(AnnouncementApiService::class.java)
     val userApiService: UserApiService = retrofit.create(UserApiService::class.java)
     val surveyApiService: SurveyApiService = retrofit.create(SurveyApiService::class.java)
 }

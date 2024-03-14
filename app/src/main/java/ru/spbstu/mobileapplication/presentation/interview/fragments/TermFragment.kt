@@ -9,8 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.FragmentInterviewTermBinding
+import ru.spbstu.mobileapplication.domain.enums.interview.Term
+import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.TermViewModel
@@ -49,12 +50,16 @@ class TermFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        with(binding) {
+            buttonFewDays.setOnClickListener {
+                launchFlatType(Term.SHORT)
+            }
+            buttonFewMonths.setOnClickListener {
+                launchFlatType(Term.LONG)
+            }
+        }
+
         Log.d(TAG, "TermFragment onViewCreated")
-
-//        buttonBackListenerHandler()
-
-        buttonFewDaysOutListenerHandler()
-        buttonFewMonthsListenerHandler()
     }
 
 //    private fun buttonBackListenerHandler() {
@@ -62,17 +67,22 @@ class TermFragment : Fragment() {
 //        TODO("Not yet implemented")
 //    }
 
-    private fun buttonFewDaysOutListenerHandler() {
-        binding.buttonFewDays.setOnClickListener {
-            findNavController().navigate(R.id.action_interviewRentTypeFragment_to_roomInterviewFragment)
-        }
+    private fun launchFlatType(selectedTerm: Term) {
+        findNavController().navigate(
+            TermFragmentDirections.actionInterviewRentTypeFragmentToRoomInterviewFragment(
+                surveyResult = SurveyResult(
+                    selectedTerm,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+            )
+        )
     }
 
-    private fun buttonFewMonthsListenerHandler() {
-        binding.buttonFewMonths.setOnClickListener {
-            findNavController().navigate(R.id.action_interviewRentTypeFragment_to_roomInterviewFragment)
-        }
-    }
 
     private companion object {
         private const val TAG = "TermFragment"

@@ -88,6 +88,17 @@
                 android:gravity="center"
                 android:text="@string/a_five_rooms_flat"
                 app:cornerRadius="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSearch"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="@string/proceed"
+                app:cornerRadius="8dp" />
+
         </LinearLayout>
 
     </LinearLayout>

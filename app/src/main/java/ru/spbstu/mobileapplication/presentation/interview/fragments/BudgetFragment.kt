@@ -9,14 +9,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import ru.spbstu.mobileapplication.R
+import androidx.navigation.fragment.navArgs
 import ru.spbstu.mobileapplication.databinding.FragmentBudgetInterviewBinding
+import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.BudgetViewModel
 import javax.inject.Inject
 
 class BudgetFragment : Fragment() {
+
+    private val args by navArgs<BudgetFragmentArgs>()
 
     private lateinit var viewModel: BudgetViewModel
 
@@ -49,11 +52,21 @@ class BudgetFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        with(binding) {
+            // todo: надо обработать случаи когда не то пытаются закинуть в int!
+//            val minBudget = editTextMinSpace.text.toString().toIntOrNull()
+//            val maxBudget = editTextMaxSpace.text.toString().toIntOrNull()
+            buttonSearch.setOnClickListener {
+                launchFlatCity(
+                    editTextMinSpace.text.toString().toInt(),
+                    editTextMaxSpace.text.toString().toInt()
+                )
+            }
+        }
+        //        buttonBackListenerHandler()
+
+        Log.d(TAG, "Survey Result: $args.surveyResult")
         Log.d(TAG, "BudgetFragment onViewCreated")
-
-//        buttonBackListenerHandler()
-
-        buttonFewMonthsListenerHandler()
     }
 
 //    private fun buttonBackListenerHandler() {
@@ -62,10 +75,20 @@ class BudgetFragment : Fragment() {
 //    }
 
 
-    private fun buttonFewMonthsListenerHandler() {
-        binding.buttonSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_budgetFragment_to_cityFragment)
-        }
+    private fun launchFlatCity(minBudget: Int, maxBudget: Int) {
+        findNavController().navigate(
+            BudgetFragmentDirections.actionBudgetFragmentToCityFragment(
+                SurveyResult(
+                    args.surveyResult.term,
+                    args.surveyResult.apartmentType,
+                    null,
+                    args.surveyResult.minArea,
+                    args.surveyResult.maxArea,
+                    minBudget,
+                    maxBudget
+                )
+            )
+        )
     }
 
     private companion object {
