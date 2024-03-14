@@ -1,6 +1,5 @@
 package ru.spbstu.mobileapplication.data.network.announcement
 
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -13,7 +12,7 @@ interface AnnouncementApiService {
 
     @Headers("accept: */*")
     @GET("/api/v1/flats")
-    fun getFewFlats(
+    suspend fun getFewFlats(
         @Query("city") city: String,
         @Query("underground") underground: String?,
         @Query("district") district: String?,
@@ -33,13 +32,13 @@ interface AnnouncementApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
         @Header("Authorization") token: String
-    ): Call<List<FlatResponse>>
+    ): List<FlatResponse>
 
     @Headers("accept: */*")
     @GET("/api/v1/flats/{flatId}")
-    fun getFlatInfo(
+    suspend fun getFlatInfo(
         @Path("flatId") flatId: Int,
         @Header("Authorization") token: String
-    ): Call<FlatWithDescriptionResponse?>
+    ): FlatWithDescriptionResponse?
 
 }

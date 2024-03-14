@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import ru.spbstu.mobileapplication.R
-import ru.spbstu.mobileapplication.data.enums.Role
 import ru.spbstu.mobileapplication.databinding.FragmentSignUpBinding
+import ru.spbstu.mobileapplication.domain.enums.Role
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignUpViewModel

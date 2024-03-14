@@ -1,7 +1,6 @@
 package ru.spbstu.mobileapplication.domain.authentication.repository
 
 import ru.spbstu.mobileapplication.domain.authentication.entity.LoginItem
-import ru.spbstu.mobileapplication.domain.authentication.entity.RefreshItem
 import ru.spbstu.mobileapplication.domain.authentication.entity.RegisterItem
 import ru.spbstu.mobileapplication.domain.authentication.entity.RestoreItem
 import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem

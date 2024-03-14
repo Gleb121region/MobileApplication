@@ -3,13 +3,14 @@ package ru.spbstu.mobileapplication.di.data
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import ru.spbstu.mobileapplication.data.repository.AnnouncementRepositoryImpl
 import ru.spbstu.mobileapplication.data.repository.AuthRepositoryImpl
+import ru.spbstu.mobileapplication.data.repository.SurveyAnswersRepositoryImpl
 import ru.spbstu.mobileapplication.data.repository.UserRepositoryImpl
 import ru.spbstu.mobileapplication.domain.announcement.repository.AnnouncementRepository
 import ru.spbstu.mobileapplication.domain.authentication.repository.AuthRepository
+import ru.spbstu.mobileapplication.domain.survey_answers.repository.SurveyAnswersRepository
 import ru.spbstu.mobileapplication.domain.user.repository.UserRepository
 import javax.inject.Singleton
 
@@ -33,4 +34,10 @@ interface RepositoryModule {
     fun bindUserRepository(
         impl: UserRepositoryImpl
     ): UserRepository
+
+    @Singleton
+    @Binds
+    fun bindSurveyAnswersRepository(
+        impl: SurveyAnswersRepositoryImpl
+    ): SurveyAnswersRepository
 }

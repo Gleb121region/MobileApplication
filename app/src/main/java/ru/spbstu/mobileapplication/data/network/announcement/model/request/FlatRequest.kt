@@ -4,20 +4,20 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class FlatRequest(
-    @SerializedName("City") @Expose val city: String,
-    @SerializedName("Underground") @Expose val underground: String?,
-    @SerializedName("District") @Expose val district: String?,
-    @SerializedName("RoomsCounts") @Expose val roomsCounts: Set<Int>?,
-    @SerializedName("MaxPricePerMonth") @Expose val maxPricePerMonth: Double?,
-    @SerializedName("MinPricePerMonth") @Expose val minPricePerMonth: Double?,
-    @SerializedName("IsRefrigerator") @Expose val isRefrigerator: Boolean?,
-    @SerializedName("IsWashingMachine") @Expose val isWashingMachine: Boolean?,
-    @SerializedName("IsTV") @Expose val isTV: Boolean?,
-    @SerializedName("IsShowerCubicle") @Expose val isShowerCubicle: Boolean?,
-    @SerializedName("IsBathtub") @Expose val isBathtub: Boolean?,
-    @SerializedName("IsFurnitureRoom") @Expose val isFurnitureRoom: Boolean?,
-    @SerializedName("IsFurnitureKitchen") @Expose val isFurnitureKitchen: Boolean?,
-    @SerializedName("IsDishwasher") @Expose val isDishwasher: Boolean?,
-    @SerializedName("IsAirConditioning") @Expose val isAirConditioning: Boolean?,
-    @SerializedName("IsInternet") @Expose val isInternet: Boolean?
+    @SerializedName("city") @Expose val city: String,
+    @SerializedName("underground") @Expose val underground: String?,
+    @SerializedName("district") @Expose val district: String?,
+    @SerializedName("roomsCounts") @Expose val roomsCounts: Set<Int>?,
+    @SerializedName("maxPricePerMonth") @Expose val maxPricePerMonth: Double?,
+    @SerializedName("minPricePerMonth") @Expose val minPricePerMonth: Double?,
+    @SerializedName("isRefrigerator") @Expose val isRefrigerator: Boolean?,
+    @SerializedName("isWashingMachine") @Expose val isWashingMachine: Boolean?,
+    @SerializedName("isTV") @Expose val isTV: Boolean?,
+    @SerializedName("isShowerCubicle") @Expose val isShowerCubicle: Boolean?,
+    @SerializedName("isBathtub") @Expose val isBathtub: Boolean?,
+    @SerializedName("isFurnitureRoom") @Expose val isFurnitureRoom: Boolean?,
+    @SerializedName("isFurnitureKitchen") @Expose val isFurnitureKitchen: Boolean?,
+    @SerializedName("isDishwasher") @Expose val isDishwasher: Boolean?,
+    @SerializedName("isAirConditioning") @Expose val isAirConditioning: Boolean?,
+    @SerializedName("isInternet") @Expose val isInternet: Boolean?
 )

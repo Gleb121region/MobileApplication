@@ -2,7 +2,6 @@ package ru.spbstu.mobileapplication.presentation.authorization_activity.view_mod
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.spbstu.mobileapplication.domain.authentication.entity.RegisterItem
 import ru.spbstu.mobileapplication.domain.authentication.usecase.SignUpUseCase
 import javax.inject.Inject

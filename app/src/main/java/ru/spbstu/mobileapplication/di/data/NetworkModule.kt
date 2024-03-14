@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.spbstu.mobileapplication.data.network.ApiFactory
 import ru.spbstu.mobileapplication.data.network.announcement.AnnouncementApiService
 import ru.spbstu.mobileapplication.data.network.auth.AuthApiService
+import ru.spbstu.mobileapplication.data.network.survey.SurveyApiService
 import ru.spbstu.mobileapplication.data.network.user.UserApiService
 import javax.inject.Singleton
 
@@ -30,5 +31,11 @@ class NetworkModule {
     @Singleton
     fun AnnouncementApiService(): AnnouncementApiService {
         return ApiFactory.announcementApiService
+    }
+
+    @Provides
+    @Singleton
+    fun SurveyApiService(): SurveyApiService {
+        return ApiFactory.surveyApiService
     }
 }

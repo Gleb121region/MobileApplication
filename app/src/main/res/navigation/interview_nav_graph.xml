@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/interview_nav_graph"
+    app:startDestination="@id/purposeInterviewFragment">
+    <fragment
+        android:id="@+id/purposeInterviewFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.PurposeFragment"
+        android:label="fragment_purpose_interview"
+        tools:layout="@layout/fragment_purpose_interview" >
+        <action
+            android:id="@+id/action_purposeInterviewFragment_to_interviewRentFragment"
+            app:destination="@id/interviewRentFragment" />
+        <action
+            android:id="@+id/action_purposeInterviewFragment_to_interviewRentTypeFragment"
+            app:destination="@id/interviewRentTypeFragment" />
+        <action
+            android:id="@+id/action_purposeInterviewFragment_to_bottomNavigationActivity2"
+            app:destination="@id/bottomNavigationActivity2" />
+    </fragment>
+    <fragment
+        android:id="@+id/interviewRentFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.landlord.RentFragment"
+        android:label="fragment_interview_rent"
+        tools:layout="@layout/fragment_interview_rent" />
+    <fragment
+        android:id="@+id/interviewRentTypeFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.TermFragment"
+        android:label="fragment_interview_rent_type"
+        tools:layout="@layout/fragment_interview_term" >
+        <action
+            android:id="@+id/action_interviewRentTypeFragment_to_roomInterviewFragment"
+            app:destination="@id/roomInterviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/roomInterviewFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.ApartmentTypeFragment"
+        android:label="fragment_room_interview"
+        tools:layout="@layout/fragment_room_interview" >
+        <action
+            android:id="@+id/action_roomInterviewFragment_to_areaFragment"
+            app:destination="@id/areaFragment" />
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+    </fragment>
+    <fragment
+        android:id="@+id/areaFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.AreaFragment"
+        android:label="fragment_interview_area"
+        tools:layout="@layout/fragment_interview_area" >
+        <action
+            android:id="@+id/action_areaFragment_to_budgetFragment"
+            app:destination="@id/budgetFragment" />
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+    </fragment>
+    <fragment
+        android:id="@+id/budgetFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.BudgetFragment"
+        android:label="fragment_budget_interview"
+        tools:layout="@layout/fragment_budget_interview" >
+        <action
+            android:id="@+id/action_budgetFragment_to_cityFragment"
+            app:destination="@id/cityFragment" />
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+    </fragment>
+    <fragment
+        android:id="@+id/cityFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.interview.fragments.city.CityFragment"
+        android:label="fragment_city_interview"
+        tools:layout="@layout/fragment_city_interview" >
+        <action
+            android:id="@+id/action_cityFragment_to_bottomNavigationActivity2"
+            app:destination="@id/bottomNavigationActivity2" />
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+    </fragment>
+    <activity
+        android:id="@+id/bottomNavigationActivity2"
+        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity"
+        android:label="BottomNavigationActivity" >
+        <argument
+            android:name="surveyResult"
+            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+    </activity>
+</navigation>
