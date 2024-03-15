@@ -1,14 +1,19 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem
+import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
+import ru.spbstu.mobileapplication.domain.survey_answers.usecase.database.GetLastSurveyFromDataBaseUseCase
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val getTokenUseCase: GetTokenFromLocalStorageUseCase,
+    private val getLastSurveyFromDataBaseUseCase: GetLastSurveyFromDataBaseUseCase
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+    fun getToken(): TokenItem = getTokenUseCase()
+
+    suspend fun getLastSurvey() = getLastSurveyFromDataBaseUseCase()
+
+//    suspend fun getAnnouncementByParam()
 }

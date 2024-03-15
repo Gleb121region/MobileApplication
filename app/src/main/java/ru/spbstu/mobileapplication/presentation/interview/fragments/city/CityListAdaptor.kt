@@ -2,23 +2,17 @@ package ru.spbstu.mobileapplication.presentation.interview.fragments.city
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.domain.enums.interview.City
 
 class CityAdapter(
     private val cities: List<City>, private val onCityClickListener: OnCityClickListener
-) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
+) : RecyclerView.Adapter<CityViewHolder>() {
 
     interface OnCityClickListener {
         fun onCityClick(city: City)
-    }
-
-    class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cityNameTextView: TextView = itemView.findViewById(R.id.cityNameTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {

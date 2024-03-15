@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.databinding.FragmentHomeBinding
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
+import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.HomeViewModel
@@ -50,10 +52,11 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val arguments = arguments
-        if (arguments != null) {
-            val surveyResult = arguments.getParcelable<SurveyResult>("surveyResult")
-            Log.d(TAG, surveyResult.toString())
+        val token: TokenItem = viewModel.getToken()
+        Log.d(TAG, token.toString())
+
+        val getLastSurvey = lifecycleScope.launch {
+            Log.d(TAG, viewModel.getLastSurvey().toString())
         }
 
         Log.d(TAG, "HomeFragment onViewCreated")

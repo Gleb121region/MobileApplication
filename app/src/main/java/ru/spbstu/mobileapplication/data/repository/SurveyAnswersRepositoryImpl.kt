@@ -1,14 +1,11 @@
 package ru.spbstu.mobileapplication.data.repository
 
-import androidx.lifecycle.MutableLiveData
 import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
-import ru.spbstu.mobileapplication.data.database.token.TokenInfoDao
 import ru.spbstu.mobileapplication.data.mapper.SurveyMapper
 import ru.spbstu.mobileapplication.data.network.survey.SurveyApiService
-import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
-import ru.spbstu.mobileapplication.domain.enums.interview.City
-import ru.spbstu.mobileapplication.domain.enums.interview.Term
+import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyAnswersItem
+import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
 import ru.spbstu.mobileapplication.domain.survey_answers.repository.SurveyAnswersRepository
 import javax.inject.Inject
 
@@ -16,34 +13,18 @@ class SurveyAnswersRepositoryImpl @Inject constructor(
     private val api: SurveyApiService,
     private val mapper: SurveyMapper,
     private val answerDao: AnswerInfoDao,
-    private val tokenInfoDao: TokenInfoDao
+    // todo: исправить.
+    private val getToken: GetTokenFromLocalStorageUseCase
 ) : SurveyAnswersRepository {
-    private val _tempSurvey =
-        MutableLiveData(
-            SurveyAnswersItem(
-                Term.LONG,
-                setOf<ApartmentType>(
-                    ApartmentType.STUDIO,
-                    ApartmentType.ONE_ROOM_APARTMENT,
-                    ApartmentType.TWO_ROOM_APARTMENT
-                ),
-                City.MOSCOW,
-                0, 100_000,
-                0, 1_000_000
-            )
-        )
-
     // network
-    override suspend fun fillOutSurvey(survey: SurveyAnswersItem) {
-        val requestDTO = mapper.mapSurveyAnswersItemToCreateSurveyRequest(survey)
-        val token = findToken()
+    override suspend fun fillOutSurvey(survey: SurveyResult) {
+        val requestDTO = mapper.mapSurveyResultToCreateSurveyRequest(survey)
+        val token = getAccessToken()
         api.createSurvey(token, requestDTO)
-        val answerDbModel = mapper.mapSurveyAnswersItemToAnswerDbModel(survey)
-        answerDao.insertAnswer(answerDbModel)
     }
 
     override suspend fun getFillOutSurvey(): Set<SurveyAnswersItem> {
-        val token = findToken()
+        val token = getAccessToken()
         val responseDTO = api.getSurvey(token)
         val result = responseDTO.map { mapper.mapGetSurveyResponseToSurveyAnswersItem(it) }.toSet()
         result
@@ -52,30 +33,22 @@ class SurveyAnswersRepositoryImpl @Inject constructor(
         return result
     }
 
-    private suspend fun findToken(): String {
-        return tokenInfoDao.getLastToken()?.token ?: " "
+    private fun getAccessToken(): String {
+        return "Bearer ${getToken().accessToken}"
     }
 
-    // local
-    // enums
-    override suspend fun fillOutSurveyTerm(term: Term) {
-        _tempSurvey.value = _tempSurvey.value?.copy(term = term)
+    // database
+    override suspend fun insertAnswersIntoDataBase(survey: SurveyResult) {
+        val answerDbModel = mapper.mapSurveyResultToAnswerDbModel(survey)
+        answerDao.insertAnswer(answerDbModel)
     }
 
-    override suspend fun fillOutSurveyApartmentType(apartmentType: Set<ApartmentType>) {
-        _tempSurvey.value = _tempSurvey.value?.copy(apartmentType = apartmentType)
-    }
+    override suspend fun getAnswersFromDataBase(): List<SurveyAnswersItem> =
+        answerDao.getAnswers().map { mapper.mapAnswerDbModelToSurveyResult(it) }
 
-    override suspend fun fillOutSurveyCity(city: City) {
-        _tempSurvey.value = _tempSurvey.value?.copy(city = city)
-    }
+    override suspend fun getLastAnswerFromDataBase(): SurveyAnswersItem =
+        mapper.mapAnswerDbModelToSurveyResult(
+            answerDao.findLastAnswer() ?: throw RuntimeException("answerDbModel is null")
+        )
 
-    // Int
-    override suspend fun fillOutSurveyBudget(minBudget: Int, maxBudget: Int) {
-        _tempSurvey.value = _tempSurvey.value?.copy(minBudget = minBudget, maxBudget = maxBudget)
-    }
-
-    override suspend fun fillOutSurveyArea(minArea: Int, maxArea: Int) {
-        _tempSurvey.value = _tempSurvey.value?.copy(minArea = minArea, maxArea = maxArea)
-    }
 }

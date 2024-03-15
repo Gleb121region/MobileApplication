@@ -2,12 +2,14 @@ package ru.spbstu.mobileapplication.data.network.announcement.model.request
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
+import ru.spbstu.mobileapplication.domain.enums.interview.City
 
 data class FlatRequest(
-    @SerializedName("city") @Expose val city: String,
+    @SerializedName("city") @Expose val city: City,
     @SerializedName("underground") @Expose val underground: String?,
     @SerializedName("district") @Expose val district: String?,
-    @SerializedName("roomsCounts") @Expose val roomsCounts: Set<Int>?,
+    @SerializedName("apartmentTypes") @Expose val apartmentTypes: Set<ApartmentType>?,
     @SerializedName("maxPricePerMonth") @Expose val maxPricePerMonth: Double?,
     @SerializedName("minPricePerMonth") @Expose val minPricePerMonth: Double?,
     @SerializedName("isRefrigerator") @Expose val isRefrigerator: Boolean?,

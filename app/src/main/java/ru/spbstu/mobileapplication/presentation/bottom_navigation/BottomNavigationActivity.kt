@@ -25,17 +25,9 @@ class BottomNavigationActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.bottomNavigationView
 
         val navController = findNavController(R.id.fragmentBottomBar)
-
-        // Получение аргументов из навигации
-        val arguments = intent.extras
-        if (arguments != null) {
-            // Передача аргументов в ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.HomeFragment
-            val surveyResult = arguments.getParcelable<SurveyResult>("surveyResult")
-            Log.d(TAG, surveyResult.toString())
-            navController.setGraph(R.navigation.bottom_view_nav_graph, arguments)
-        }
-
+        Log.d(TAG, "onCreate")
         navView.setupWithNavController(navController)
+
     }
 
     companion object {

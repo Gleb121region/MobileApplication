@@ -1,23 +1,16 @@
 package ru.spbstu.mobileapplication.domain.survey_answers.repository
 
-import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
-import ru.spbstu.mobileapplication.domain.enums.interview.City
-import ru.spbstu.mobileapplication.domain.enums.interview.Term
 import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyAnswersItem
+import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
 
 interface SurveyAnswersRepository {
     // network
     suspend fun getFillOutSurvey(): Set<SurveyAnswersItem>
-    suspend fun fillOutSurvey(survey: SurveyAnswersItem)
+    suspend fun fillOutSurvey(survey: SurveyResult)
 
-    // local
-    // enums
-    suspend fun fillOutSurveyTerm(term: Term)
-    suspend fun fillOutSurveyApartmentType(apartmentType: Set<ApartmentType>)
-    suspend fun fillOutSurveyCity(city: City)
-
-    // Int
-    suspend fun fillOutSurveyBudget(minBudget: Int, maxBudget: Int)
-    suspend fun fillOutSurveyArea(minArea: Int, maxArea: Int)
+    // database
+    suspend fun insertAnswersIntoDataBase(survey: SurveyResult)
+    suspend fun getAnswersFromDataBase(): List<SurveyAnswersItem>
+    suspend fun getLastAnswerFromDataBase(): SurveyAnswersItem
 
 }

@@ -80,7 +80,7 @@ class BudgetFragment : Fragment() {
             BudgetFragmentDirections.actionBudgetFragmentToCityFragment(
                 SurveyResult(
                     args.surveyResult.term,
-                    args.surveyResult.apartmentType,
+                    args.surveyResult.apartmentTypes,
                     null,
                     args.surveyResult.minArea,
                     args.surveyResult.maxArea,

@@ -80,7 +80,7 @@ class AreaFragment : Fragment() {
             AreaFragmentDirections.actionAreaFragmentToBudgetFragment(
                 SurveyResult(
                     args.surveyResult.term,
-                    args.surveyResult.apartmentType,
+                    args.surveyResult.apartmentTypes,
                     null,
                     minArea,
                     maxArea,

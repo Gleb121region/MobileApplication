@@ -84,9 +84,5 @@
     <activity
         android:id="@+id/bottomNavigationActivity2"
         android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity"
-        android:label="BottomNavigationActivity" >
-        <argument
-            android:name="surveyResult"
-            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
-    </activity>
+        android:label="BottomNavigationActivity" />
 </navigation>
