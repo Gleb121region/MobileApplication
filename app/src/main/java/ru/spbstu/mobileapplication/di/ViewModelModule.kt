@@ -9,6 +9,10 @@ import dagger.multibindings.IntoMap
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.RestoreAccessViewModel
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignInViewModel
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignUpViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.CompilationViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.FavoriteViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.HomeViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.CabinetViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.ApartmentTypeViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.AreaViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.BudgetViewModel
@@ -20,6 +24,7 @@ import ru.spbstu.mobileapplication.presentation.interview.view_models.TermViewMo
 @InstallIn(SingletonComponent::class)
 interface ViewModelModule {
 
+    // Authorization
     @Binds
     @IntoMap
     @ViewModelKey(RestoreAccessViewModel::class)
@@ -35,7 +40,28 @@ interface ViewModelModule {
     @ViewModelKey(SignUpViewModel::class)
     fun bindSignUpViewModel(viewModel: SignUpViewModel): ViewModel
 
+    // Bottom navigation
+    @Binds
+    @IntoMap
+    @ViewModelKey(HomeViewModel::class)
+    fun bindHomeViewModel(viewModel: HomeViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(CompilationViewModel::class)
+    fun bindCompilationViewModel(viewModel: CompilationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoriteViewModel::class)
+    fun bindDashboardViewModel(viewModel: FavoriteViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CabinetViewModel::class)
+    fun bindCabinetViewModel(viewModel: CabinetViewModel): ViewModel
+
+    // Interview
     @Binds
     @IntoMap
     @ViewModelKey(PurposeViewModel::class)

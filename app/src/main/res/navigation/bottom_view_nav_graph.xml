@@ -12,14 +12,26 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_compilation"
+        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationFragment"
+        android:label="@string/title_compilation"
+        tools:layout="@layout/fragment_compilation" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_favorite"
+        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.FavoriteFragment"
+        android:label="@string/title_favorite"
+        tools:layout="@layout/fragment_favorite" />
+
+    <fragment
+        android:id="@+id/navigation_chat"
+        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/navigation_cabinet"
+        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.CabinetFragment"
+        android:label="@string/title_cabinet"
+        tools:layout="@layout/fragment_cabinet" />
 </navigation>

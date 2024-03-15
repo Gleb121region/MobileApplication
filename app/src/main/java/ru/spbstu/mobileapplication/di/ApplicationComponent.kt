@@ -11,6 +11,10 @@ import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignInFragment
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignUpFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.FavoriteFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.HomeFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.CabinetFragment
 import ru.spbstu.mobileapplication.presentation.interview.InterviewActivity
 import ru.spbstu.mobileapplication.presentation.interview.fragments.ApartmentTypeFragment
 import ru.spbstu.mobileapplication.presentation.interview.fragments.AreaFragment
@@ -33,15 +37,25 @@ import javax.inject.Singleton
 )
 interface ApplicationComponent {
 
+    // Authorization
     fun inject(activity: MainActivity)
 
     fun inject(fragment: RestoreAccessFragment)
     fun inject(fragment: SignInFragment)
     fun inject(fragment: SignUpFragment)
 
+    // Bottom navigation
     fun inject(activity: BottomNavigationActivity)
-    //
 
+
+    fun inject(fragment: HomeFragment)
+    fun inject(fragment: CompilationFragment)
+    fun inject(fragment: FavoriteFragment)
+
+    fun inject(fragment: CabinetFragment)
+
+
+    // Interview
     fun inject(activity: InterviewActivity)
 
     fun inject(fragment: AreaFragment)

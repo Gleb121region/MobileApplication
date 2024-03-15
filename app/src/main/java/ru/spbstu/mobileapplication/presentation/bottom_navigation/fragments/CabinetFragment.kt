@@ -9,58 +9,52 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
-import ru.spbstu.mobileapplication.databinding.FragmentHomeBinding
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
+import ru.spbstu.mobileapplication.databinding.FragmentCabinetBinding
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.HomeViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.CabinetViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class CabinetFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: CabinetViewModel
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding: FragmentHomeBinding
-        get() = _binding ?: throw RuntimeException("FragmentHomeBinding is null")
+    private var _binding: FragmentCabinetBinding? = null
+    private val binding: FragmentCabinetBinding
+        get() = _binding ?: throw RuntimeException("FragmentNotificationsBinding is null")
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (context.applicationContext as App).component.inject(this)
-        Log.d(TAG, "HomeFragment onAttach")
+        Log.d(TAG, "NotificationsFragment onAttach")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        Log.d(TAG, "HomeFragment onCreateView")
+        _binding = FragmentCabinetBinding.inflate(inflater, container, false)
+        Log.d(TAG, "NotificationsFragment onCreateView")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "HomeFragment onViewCreating")
+        Log.d(TAG, "NotificationsFragment onViewCreating")
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[CabinetViewModel::class.java]
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val arguments = arguments
-        if (arguments != null) {
-            val surveyResult = arguments.getParcelable<SurveyResult>("surveyResult")
-            Log.d(TAG, surveyResult.toString())
-        }
 
-        Log.d(TAG, "HomeFragment onViewCreated")
+        Log.d(TAG, "NotificationsFragment onViewCreated")
     }
 
 
     private companion object {
-        private const val TAG = "HomeFragment"
+        private const val TAG = "NotificationsFragment"
     }
 }
