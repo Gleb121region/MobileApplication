@@ -9,7 +9,7 @@ import javax.inject.Inject
 class SignInUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-    suspend fun signIn(loginItem: LoginItem): TokenItem {
+    suspend operator fun invoke(loginItem: LoginItem): TokenItem {
         Log.d(TAG, "Sign In")
         return authRepository.signIn(loginItem)
     }

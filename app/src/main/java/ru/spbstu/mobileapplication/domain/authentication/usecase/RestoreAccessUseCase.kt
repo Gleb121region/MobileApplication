@@ -8,7 +8,7 @@ import javax.inject.Inject
 class RestoreAccessUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-    suspend fun restoreAccess(restoreItem: RestoreItem): TokenItem {
+    suspend operator fun invoke(restoreItem: RestoreItem): TokenItem {
         return authRepository.restore(restoreItem)
     }
 }

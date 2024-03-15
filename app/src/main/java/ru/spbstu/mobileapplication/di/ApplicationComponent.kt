@@ -3,6 +3,7 @@ package ru.spbstu.mobileapplication.di
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
+import ru.spbstu.mobileapplication.di.data.AppModule
 import ru.spbstu.mobileapplication.di.data.DatabaseModule
 import ru.spbstu.mobileapplication.di.data.NetworkModule
 import ru.spbstu.mobileapplication.di.data.RepositoryModule
@@ -11,10 +12,10 @@ import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignInFragment
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignUpFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.CabinetFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.FavoriteFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.HomeFragment
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.CabinetFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationFragment
 import ru.spbstu.mobileapplication.presentation.interview.InterviewActivity
 import ru.spbstu.mobileapplication.presentation.interview.fragments.ApartmentTypeFragment
 import ru.spbstu.mobileapplication.presentation.interview.fragments.AreaFragment
@@ -27,6 +28,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
+        AppModule::class,
         // Data
         DatabaseModule::class,
         NetworkModule::class,

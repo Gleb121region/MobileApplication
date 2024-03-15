@@ -7,12 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
-import ru.spbstu.mobileapplication.data.database.token.TokenDbModel
-import ru.spbstu.mobileapplication.data.database.token.TokenInfoDao
 
 @Database(
     entities = [
-        TokenDbModel::class,
         AnswerDbModel::class,
     ],
     version = 1,
@@ -43,6 +40,5 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun TokenInfoDao(): TokenInfoDao
     abstract fun AnswerInfoDao(): AnswerInfoDao
 }

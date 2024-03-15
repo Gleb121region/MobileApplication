@@ -1,23 +1,21 @@
 package ru.spbstu.mobileapplication.di.data
 
 import android.app.Application
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.spbstu.mobileapplication.data.database.AppDatabase
-import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DatabaseModule {
-
-    @Provides
+object AppModule {
     @Singleton
-    fun provideSurveyAnswersInfoDao(
+    @Provides
+    fun provideContext(
         application: Application
-    ): AnswerInfoDao {
-        return AppDatabase.getInstance(application).AnswerInfoDao()
+    ): Context {
+        return application.applicationContext
     }
 }

@@ -7,10 +7,12 @@ import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.domain.authentication.entity.RestoreItem
 import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem
 import ru.spbstu.mobileapplication.domain.authentication.usecase.RestoreAccessUseCase
+import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.SaveTokenUseCase
 import javax.inject.Inject
 
 class RestoreAccessViewModel @Inject constructor(
-    private val restoreAccessUseCase: RestoreAccessUseCase
+    private val restoreAccessUseCase: RestoreAccessUseCase,
+    private val saveTokenUseCase: SaveTokenUseCase
 ) : ViewModel() {
 
     sealed class RestoreAccessResult {
@@ -24,10 +26,15 @@ class RestoreAccessViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val restoreItem = RestoreItem(email, newPassword, confirmationPassword)
-                val result = restoreAccessUseCase.restoreAccess(restoreItem)
+                val result = restoreAccessUseCase(restoreItem)
+                saveTokenUseCase(result)
                 restoreAccessResult.postValue(RestoreAccessResult.Success(result))
             } catch (e: Exception) {
-                restoreAccessResult.postValue(RestoreAccessResult.Error(e.message ?: "Unknown error"))
+                restoreAccessResult.postValue(
+                    RestoreAccessResult.Error(
+                        e.message ?: "Unknown error"
+                    )
+                )
             }
         }
     }

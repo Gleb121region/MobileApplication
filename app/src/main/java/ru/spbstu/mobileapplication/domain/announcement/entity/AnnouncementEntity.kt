@@ -1,29 +1,13 @@
 package ru.spbstu.mobileapplication.domain.announcement.entity
 
-//{
-//  "city": "string",
-//  "underground": "string",
-//  "district": "string",
-//  "roomsCounts": [ 0 ],
-//  "maxPricePerMonth": 100000000,
-//  "minPricePerMonth": 0,
-//  "isRefrigerator": true,
-//  "isWashingMachine": true,
-//  "isTV": true,
-//  "isShowerCubicle": true,
-//  "isBathtub": true,
-//  "isFurnitureRoom": true,
-//  "isFurnitureKitchen": true,
-//  "isDishwasher": true,
-//  "isAirConditioning": true,
-//  "isInternet": true
-//}
+import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
+import ru.spbstu.mobileapplication.domain.enums.interview.City
 
 data class AnnouncementEntity(
-    val city: String,
+    val city: City,
     val underground: String,
     val district: String,
-    val roomsCounts: List<Int>,
+    val roomsCounts: Set<ApartmentType>,
     val maxPricePerMonth: Int,
     val minPricePerMonth: Int,
     val isRefrigerator: Boolean,

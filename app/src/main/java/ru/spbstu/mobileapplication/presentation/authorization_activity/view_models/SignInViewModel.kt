@@ -7,10 +7,12 @@ import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.domain.authentication.entity.LoginItem
 import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem
 import ru.spbstu.mobileapplication.domain.authentication.usecase.SignInUseCase
+import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.SaveTokenUseCase
 import javax.inject.Inject
 
 class SignInViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
+    private val saveTokenUseCase: SaveTokenUseCase
 ) : ViewModel() {
 
     sealed class SignInResult {
@@ -24,7 +26,8 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val loginItem = LoginItem(email, password)
-                val result = signInUseCase.signIn(loginItem)
+                val result = signInUseCase(loginItem)
+                saveTokenUseCase(result)
                 signInResult.postValue(SignInResult.Success(result))
             } catch (e: Exception) {
                 signInResult.postValue(SignInResult.Error(e.message ?: "Unknown error"))
