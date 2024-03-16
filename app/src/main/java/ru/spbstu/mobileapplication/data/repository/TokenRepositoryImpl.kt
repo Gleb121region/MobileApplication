@@ -7,8 +7,7 @@ import javax.inject.Inject
 
 class TokenRepositoryImpl @Inject constructor(
     private val sharedPreferencesStorage: SharedPreferencesStorage
-) :
-    TokenRepository {
+) : TokenRepository {
 
     override fun saveTokenToLocalStorage(token: TokenItem) {
         sharedPreferencesStorage.saveToken(token)

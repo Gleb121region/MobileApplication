@@ -13,6 +13,7 @@ import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignUpFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.CabinetFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.ChatFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.FavoriteFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.HomeFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationFragment
@@ -49,11 +50,10 @@ interface ApplicationComponent {
     // Bottom navigation
     fun inject(activity: BottomNavigationActivity)
 
-
     fun inject(fragment: HomeFragment)
     fun inject(fragment: CompilationFragment)
     fun inject(fragment: FavoriteFragment)
-
+    fun inject(fragment: ChatFragment)
     fun inject(fragment: CabinetFragment)
 
 

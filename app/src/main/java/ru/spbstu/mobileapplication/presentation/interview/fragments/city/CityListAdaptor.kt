@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.spbstu.mobileapplication.R
-import ru.spbstu.mobileapplication.domain.enums.interview.City
+import ru.spbstu.mobileapplication.domain.enums.City
 
 class CityAdapter(
     private val cities: List<City>, private val onCityClickListener: OnCityClickListener

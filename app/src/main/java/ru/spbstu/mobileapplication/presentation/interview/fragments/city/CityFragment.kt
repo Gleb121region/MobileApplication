@@ -13,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.databinding.FragmentCityInterviewBinding
-import ru.spbstu.mobileapplication.domain.enums.interview.City
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
+import ru.spbstu.mobileapplication.domain.enums.City
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.CityViewModel

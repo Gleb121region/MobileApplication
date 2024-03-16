@@ -43,7 +43,7 @@
             app:destination="@id/areaFragment" />
         <argument
             android:name="surveyResult"
-            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+            app:argType="ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult" />
     </fragment>
     <fragment
         android:id="@+id/areaFragment"
@@ -55,7 +55,7 @@
             app:destination="@id/budgetFragment" />
         <argument
             android:name="surveyResult"
-            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+            app:argType="ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult" />
     </fragment>
     <fragment
         android:id="@+id/budgetFragment"
@@ -67,7 +67,7 @@
             app:destination="@id/cityFragment" />
         <argument
             android:name="surveyResult"
-            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+            app:argType="ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult" />
     </fragment>
     <fragment
         android:id="@+id/cityFragment"
@@ -79,7 +79,7 @@
             app:destination="@id/bottomNavigationActivity2" />
         <argument
             android:name="surveyResult"
-            app:argType="ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult" />
+            app:argType="ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult" />
     </fragment>
     <activity
         android:id="@+id/bottomNavigationActivity2"

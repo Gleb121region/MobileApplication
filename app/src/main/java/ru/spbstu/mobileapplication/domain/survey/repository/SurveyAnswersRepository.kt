@@ -1,7 +1,7 @@
-package ru.spbstu.mobileapplication.domain.survey_answers.repository
+package ru.spbstu.mobileapplication.domain.survey.repository
 
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyAnswersItem
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyAnswersItem
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 
 interface SurveyAnswersRepository {
     // network

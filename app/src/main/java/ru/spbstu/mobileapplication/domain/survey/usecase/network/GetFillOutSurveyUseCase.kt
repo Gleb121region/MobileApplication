@@ -1,8 +1,8 @@
-package ru.spbstu.mobileapplication.domain.survey_answers.usecase.network
+package ru.spbstu.mobileapplication.domain.survey.usecase.network
 
 import android.util.Log
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyAnswersItem
-import ru.spbstu.mobileapplication.domain.survey_answers.repository.SurveyAnswersRepository
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyAnswersItem
+import ru.spbstu.mobileapplication.domain.survey.repository.SurveyAnswersRepository
 import javax.inject.Inject
 
 class GetFillOutSurveyUseCase @Inject constructor(

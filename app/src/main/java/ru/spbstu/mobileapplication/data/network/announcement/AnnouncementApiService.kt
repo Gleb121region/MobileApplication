@@ -5,18 +5,20 @@ import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.spbstu.mobileapplication.data.network.announcement.model.response.FlatResponse
-import ru.spbstu.mobileapplication.data.network.announcement.model.response.FlatWithDescriptionResponse
+import ru.spbstu.mobileapplication.data.network.announcement.model.response.AnnouncementResponse
+import ru.spbstu.mobileapplication.data.network.announcement.model.response.AnnouncementWithDescriptionResponse
+import ru.spbstu.mobileapplication.domain.enums.ApartmentType
+import ru.spbstu.mobileapplication.domain.enums.City
 
 interface AnnouncementApiService {
 
-    @Headers("accept: */*")
+    @Headers("accept: */*", "Content-Type: application/json")
     @GET("/api/v1/flats")
-    suspend fun getFewFlats(
-        @Query("city") city: String,
+    suspend fun getFewAnnouncements(
+        @Query("city") city: City,
         @Query("underground") underground: String?,
         @Query("district") district: String?,
-        @Query("roomsCounts") roomsCounts: List<Int>?,
+        @Query("apartmentTypes") apartmentTypes: Set<ApartmentType>?,
         @Query("maxPricePerMonth") maxPricePerMonth: Double?,
         @Query("minPricePerMonth") minPricePerMonth: Double?,
         @Query("isRefrigerator") isRefrigerator: Boolean?,
@@ -32,13 +34,13 @@ interface AnnouncementApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
         @Header("Authorization") token: String
-    ): List<FlatResponse>
+    ): List<AnnouncementResponse>
 
-    @Headers("accept: */*")
+    @Headers("accept: */*", "Content-Type: application/json")
     @GET("/api/v1/flats/{flatId}")
-    suspend fun getFlatInfo(
+    suspend fun getAnnouncementInfo(
         @Path("flatId") flatId: Int,
         @Header("Authorization") token: String
-    ): FlatWithDescriptionResponse?
+    ): AnnouncementWithDescriptionResponse?
 
 }

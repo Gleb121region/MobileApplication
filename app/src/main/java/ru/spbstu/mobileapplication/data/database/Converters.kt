@@ -3,7 +3,7 @@ package ru.spbstu.mobileapplication.data.database
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
+import ru.spbstu.mobileapplication.domain.enums.ApartmentType
 
 
 object Converters {

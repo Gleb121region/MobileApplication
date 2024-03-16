@@ -5,7 +5,7 @@
 
         <variable
             name="announcementItem"
-            type="ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity" />
+            type="ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementFilterEntity" />
     </data>
 
     <!--   todo: надо продумать. -->

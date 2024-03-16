@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.domain.enums.interview
+package ru.spbstu.mobileapplication.domain.enums
 
 import android.content.Context
 import android.os.Parcelable

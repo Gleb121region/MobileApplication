@@ -2,10 +2,10 @@ package ru.spbstu.mobileapplication.data.network.announcement.model.request
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
-import ru.spbstu.mobileapplication.domain.enums.interview.City
+import ru.spbstu.mobileapplication.domain.enums.ApartmentType
+import ru.spbstu.mobileapplication.domain.enums.City
 
-data class FlatRequest(
+data class AnnouncementFilterRequest(
     @SerializedName("city") @Expose val city: City,
     @SerializedName("underground") @Expose val underground: String?,
     @SerializedName("district") @Expose val district: String?,

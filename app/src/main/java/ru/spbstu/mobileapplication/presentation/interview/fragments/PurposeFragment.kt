@@ -15,10 +15,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.FragmentPurposeInterviewBinding
-import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
-import ru.spbstu.mobileapplication.domain.enums.interview.City
-import ru.spbstu.mobileapplication.domain.enums.interview.Term
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
+import ru.spbstu.mobileapplication.domain.enums.ApartmentType
+import ru.spbstu.mobileapplication.domain.enums.City
+import ru.spbstu.mobileapplication.domain.enums.Term
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.PurposeViewModel

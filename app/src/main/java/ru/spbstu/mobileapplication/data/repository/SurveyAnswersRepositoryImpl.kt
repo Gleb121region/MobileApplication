@@ -4,9 +4,9 @@ import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
 import ru.spbstu.mobileapplication.data.mapper.SurveyMapper
 import ru.spbstu.mobileapplication.data.network.survey.SurveyApiService
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyAnswersItem
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
-import ru.spbstu.mobileapplication.domain.survey_answers.repository.SurveyAnswersRepository
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyAnswersItem
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
+import ru.spbstu.mobileapplication.domain.survey.repository.SurveyAnswersRepository
 import javax.inject.Inject
 
 class SurveyAnswersRepositoryImpl @Inject constructor(

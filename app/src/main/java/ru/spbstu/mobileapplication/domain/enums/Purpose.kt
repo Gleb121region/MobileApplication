@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.domain.enums.interview
+package ru.spbstu.mobileapplication.domain.enums
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
