@@ -7,7 +7,7 @@ import ru.spbstu.mobileapplication.domain.enums.City
 import ru.spbstu.mobileapplication.domain.enums.Term
 
 data class CreateSurveyRequest(
-    @SerializedName("apartmentTypes") @Expose val apartmentTypes: Set<ApartmentType>,
+    @SerializedName("apartmentTypes") @Expose val apartmentTypes: List<ApartmentType>,
     @SerializedName("city") @Expose val city: City,
     @SerializedName("term") @Expose val term: Term,
     @SerializedName("maxArea") @Expose val maxArea: Int,

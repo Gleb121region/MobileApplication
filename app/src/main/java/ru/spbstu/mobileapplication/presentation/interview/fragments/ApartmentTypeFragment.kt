@@ -25,7 +25,7 @@ class ApartmentTypeFragment : Fragment() {
 
     private val args by navArgs<ApartmentTypeFragmentArgs>()
 
-    private var selectedApartmentTypes: MutableSet<ApartmentType> = mutableSetOf()
+    private var selectedApartmentTypes: MutableList<ApartmentType> = mutableListOf()
 
     private lateinit var viewModel: ApartmentTypeViewModel
 
@@ -124,7 +124,7 @@ class ApartmentTypeFragment : Fragment() {
     }
 
 
-    private fun launchFlatArea(apartmentTypes: Set<ApartmentType>) {
+    private fun launchFlatArea(apartmentTypes: List<ApartmentType>) {
         findNavController().navigate(
             ApartmentTypeFragmentDirections.actionRoomInterviewFragmentToAreaFragment(
                 surveyResult = SurveyResult(

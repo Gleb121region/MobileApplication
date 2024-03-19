@@ -5,10 +5,9 @@
 
         <variable
             name="announcementItem"
-            type="ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementFilterEntity" />
+            type="ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity" />
     </data>
 
-    <!--   todo: надо продумать. -->
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -29,15 +28,22 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tv_city"
+            <ImageView
+                android:id="@+id/iv_announcement_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{announcementItem.city.name}"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{announcementItem.address}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="Москва" />
+                tools:text="Address" />
 
             <TextView
                 android:id="@+id/tv_underground"
@@ -46,32 +52,34 @@
                 android:text="@{announcementItem.underground}"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                tools:text="Метро: Крылатское" />
+                tools:text="Underground: Krylatskoe" />
 
             <TextView
-                android:id="@+id/tv_district"
+                android:id="@+id/tv_apartment_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{announcementItem.district}"
+                android:text="@{announcementItem.apartmentType.name}"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                tools:text="Район: Крылатское" />
+                tools:text="Apartment Type: Studio" />
 
             <TextView
-                android:id="@+id/tv_rooms_count"
+                android:id="@+id/tv_price_per_month"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@{String.valueOf(announcementItem.pricePerMonth)}"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                tools:text="Комнат: 2" />
+                tools:text="Price per Month: 10000" />
 
             <TextView
-                android:id="@+id/tv_price_range"
+                android:id="@+id/tv_total_meters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{announcementItem.minPricePerMonth }"
+                android:text="@{String.valueOf(announcementItem.totalMeters)}"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="Total Meters: 30" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,20 +87,22 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_refrigerator"
+                    android:id="@+id/tv_floor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{String.valueOf(announcementItem.floor)}"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:text="Floor: 5" />
 
                 <TextView
-                    android:id="@+id/tv_washing_machine"
+                    android:id="@+id/tv_floors_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{String.valueOf(announcementItem.floorsCount)}"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <!-- Добавьте остальные элементы TextView для других удобств -->
+                    android:textSize="14sp"
+                    tools:text="Floors Count: 10" />
 
             </LinearLayout>
 

@@ -1,5 +1,6 @@
 package ru.spbstu.mobileapplication.data.repository
 
+import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
 import ru.spbstu.mobileapplication.data.mapper.SurveyMapper
 import ru.spbstu.mobileapplication.data.network.survey.SurveyApiService
@@ -13,28 +14,20 @@ class SurveyAnswersRepositoryImpl @Inject constructor(
     private val api: SurveyApiService,
     private val mapper: SurveyMapper,
     private val answerDao: AnswerInfoDao,
-    // todo: исправить.
-    private val getToken: GetTokenFromLocalStorageUseCase
 ) : SurveyAnswersRepository {
     // network
-    override suspend fun fillOutSurvey(survey: SurveyResult) {
+    override suspend fun fillOutSurvey(survey: SurveyResult, token: String) {
         val requestDTO = mapper.mapSurveyResultToCreateSurveyRequest(survey)
-        val token = getAccessToken()
         api.createSurvey(token, requestDTO)
     }
 
-    override suspend fun getFillOutSurvey(): Set<SurveyAnswersItem> {
-        val token = getAccessToken()
+    override suspend fun getFillOutSurvey(token: String): Set<SurveyAnswersItem> {
         val responseDTO = api.getSurvey(token)
         val result = responseDTO.map { mapper.mapGetSurveyResponseToSurveyAnswersItem(it) }.toSet()
         result
             .map { mapper.mapSurveyAnswersItemToAnswerDbModel(it) }
             .map { answerDao.insertAnswer(it) }
         return result
-    }
-
-    private fun getAccessToken(): String {
-        return "Bearer ${getToken().accessToken}"
     }
 
     // database
@@ -46,9 +39,7 @@ class SurveyAnswersRepositoryImpl @Inject constructor(
     override suspend fun getAnswersFromDataBase(): List<SurveyAnswersItem> =
         answerDao.getAnswers().map { mapper.mapAnswerDbModelToSurveyResult(it) }
 
-    override suspend fun getLastAnswerFromDataBase(): SurveyAnswersItem =
-        mapper.mapAnswerDbModelToSurveyResult(
-            answerDao.findLastAnswer() ?: throw RuntimeException("answerDbModel is null")
-        )
+    override suspend fun getLastAnswerFromDataBase(): AnswerDbModel =
+        answerDao.findLastAnswer()
 
 }

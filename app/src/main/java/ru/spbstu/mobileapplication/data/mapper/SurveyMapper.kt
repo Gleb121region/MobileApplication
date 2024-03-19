@@ -4,6 +4,7 @@ import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.data.network.announcement.model.request.AnnouncementFilterRequest
 import ru.spbstu.mobileapplication.data.network.survey.model.request.CreateSurveyRequest
 import ru.spbstu.mobileapplication.data.network.survey.model.response.GetSurveyResponse
+import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementFilterEntity
 import ru.spbstu.mobileapplication.domain.survey.entity.SurveyAnswersItem
 import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 import javax.inject.Inject
@@ -82,8 +83,29 @@ class SurveyMapper @Inject constructor() {
             isAirConditioning = survey.isAirConditioning,
             isDishwasher = survey.isDishwasher,
             isInternet = survey.isInternet,
+        )
 
-            )
+    fun mapSurveyAnswersItemToAnnouncementFilterEntity(survey: SurveyAnswersItem): AnnouncementFilterEntity =
+        AnnouncementFilterEntity(
+            city = survey.city,
+            underground = "",
+            district = "",
+            apartmentTypes = survey.apartmentTypes,
+            maxPricePerMonth = survey.maxBudget,
+            minPricePerMonth = survey.minBudget,
+            maxArea = survey.maxArea,
+            minArea = survey.minArea,
+            isRefrigerator = survey.isRefrigerator,
+            isWashingMachine = survey.isWashingMachine,
+            isTV = survey.isTV,
+            isShowerCubicle = survey.isShowerCubicle,
+            isBathtub = survey.isBathtub,
+            isFurnitureRoom = survey.isFurnitureRoom,
+            isFurnitureKitchen = survey.isFurnitureKitchen,
+            isAirConditioning = survey.isAirConditioning,
+            isDishwasher = survey.isDishwasher,
+            isInternet = survey.isInternet,
+        )
 
     fun mapGetSurveyResponseToSurveyAnswersItem(response: GetSurveyResponse): SurveyAnswersItem =
         SurveyAnswersItem(
@@ -126,14 +148,16 @@ class SurveyMapper @Inject constructor() {
         isInternet = model.isInternet,
     )
 
-    fun mapAnswerDbModelToAnnouncementFilterRequest(model: AnswerDbModel): AnnouncementFilterRequest =
-        AnnouncementFilterRequest(
+    fun mapAnswerDbModelToAnnouncementFilterRequest(model: AnswerDbModel): AnnouncementFilterEntity =
+        AnnouncementFilterEntity(
             city = model.city,
             underground = null,
             district = null,
             apartmentTypes = model.apartmentTypes,
-            maxPricePerMonth = model.maxBudget.toDouble(),
-            minPricePerMonth = model.minBudget.toDouble(),
+            maxPricePerMonth = model.maxBudget,
+            minPricePerMonth = model.minBudget,
+            maxArea = model.maxArea,
+            minArea = model.minArea,
             isRefrigerator = model.isRefrigerator,
             isWashingMachine = model.isWashingMachine,
             isTV = model.isTV,

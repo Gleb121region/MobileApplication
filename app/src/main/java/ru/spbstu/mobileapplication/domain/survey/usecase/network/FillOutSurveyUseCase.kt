@@ -8,9 +8,9 @@ import javax.inject.Inject
 class FillOutSurveyUseCase @Inject constructor(
     private val surveyAnswersRepository: SurveyAnswersRepository
 ) {
-    suspend fun fillOutSurvey(survey: SurveyResult) {
+    suspend fun fillOutSurvey(survey: SurveyResult, token: String) {
         Log.d(TAG, "fill out survey")
-        return surveyAnswersRepository.fillOutSurvey(survey)
+        return surveyAnswersRepository.fillOutSurvey(survey, token)
     }
 
     private companion object {

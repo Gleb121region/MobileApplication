@@ -16,7 +16,7 @@ class PurposeViewModel @Inject constructor(
         insertIntoDatabase(survey)
     }
 
-    suspend fun sendRequest(survey: SurveyResult) {
-        fillOutSurveyUseCase.fillOutSurvey(survey)
+    suspend fun sendRequest(survey: SurveyResult, token: String) {
+        fillOutSurveyUseCase.fillOutSurvey(survey, token)
     }
 }

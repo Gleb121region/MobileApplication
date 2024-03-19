@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.FragmentPurposeInterviewBinding
+import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.enums.ApartmentType
 import ru.spbstu.mobileapplication.domain.enums.City
 import ru.spbstu.mobileapplication.domain.enums.Term
@@ -31,6 +32,9 @@ class PurposeFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
     private var _binding: FragmentPurposeInterviewBinding? = null
     private val binding: FragmentPurposeInterviewBinding
@@ -92,7 +96,7 @@ class PurposeFragment : Fragment() {
     private suspend fun insetIntoDB() {
         val surveyResult = SurveyResult(
             Term.LONG,
-            setOf<ApartmentType>(
+            listOf<ApartmentType>(
                 ApartmentType.STUDIO,
                 ApartmentType.ONE_ROOM_APARTMENT,
                 ApartmentType.TWO_ROOM_APARTMENT,
@@ -104,8 +108,9 @@ class PurposeFragment : Fragment() {
             0,
             1_000_000
         )
+        val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
         viewModel.recordIntoDB(surveyResult)
-        viewModel.sendRequest(surveyResult)
+        viewModel.sendRequest(surveyResult, token)
     }
 
     private companion object {

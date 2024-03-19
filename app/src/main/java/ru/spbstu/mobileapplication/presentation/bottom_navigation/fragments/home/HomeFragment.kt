@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments
+package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
 import android.content.Context
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.databinding.FragmentHomeBinding
-import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem
+import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.HomeViewModel
@@ -25,6 +25,9 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
@@ -44,6 +47,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "HomeFragment onViewCreating")
         super.onViewCreated(view, savedInstanceState)
@@ -52,15 +56,27 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val token: TokenItem = viewModel.getToken()
-        Log.d(TAG, token.toString())
+        lifecycleScope.launch {
+            val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
+            Log.d(TAG, token)
+            val model = viewModel.getLastSurveyFromDB()
+            Log.d(TAG, model.toString())
+            try {
+                val announcements =
+                    viewModel.sendRequest(lastSurvey = model, limit = 10, offset = 0, token = token)
 
-        val getLastSurvey = lifecycleScope.launch {
-            Log.d(TAG, viewModel.getLastSurvey().toString())
+                val announcementAdapter = AnnouncementAdapter(announcements)
+                binding.rvShopList.adapter = announcementAdapter
+            } catch (e: Exception) {
+                // Обработка исключений
+                Log.e(TAG, "Ошибка при получении объявлений", e)
+                // Здесь вы можете добавить дополнительную логику для обработки ошибок, например, показать сообщение пользователю
+            }
         }
 
         Log.d(TAG, "HomeFragment onViewCreated")
     }
+
 
 
     private companion object {

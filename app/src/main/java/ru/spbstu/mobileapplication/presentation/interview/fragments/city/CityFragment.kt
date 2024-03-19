@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.databinding.FragmentCityInterviewBinding
+import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.enums.City
 import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
@@ -27,6 +28,9 @@ class CityFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
     private var _binding: FragmentCityInterviewBinding? = null
     private val binding: FragmentCityInterviewBinding
@@ -74,9 +78,11 @@ class CityFragment : Fragment() {
             args.surveyResult.minBudget,
             args.surveyResult.maxBudget
         )
+        val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
         viewModel.recordIntoDB(surveyResult)
-        viewModel.sendRequest(surveyResult)
+        viewModel.sendRequest(surveyResult, token)
     }
+
 
     private fun launchMainActivity() {
         findNavController().navigate(CityFragmentDirections.actionCityFragmentToBottomNavigationActivity2())

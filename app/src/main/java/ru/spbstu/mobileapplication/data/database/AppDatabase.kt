@@ -12,7 +12,7 @@ import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
     entities = [
         AnswerDbModel::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

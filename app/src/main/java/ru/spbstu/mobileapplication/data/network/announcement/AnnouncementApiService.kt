@@ -13,14 +13,16 @@ import ru.spbstu.mobileapplication.domain.enums.City
 interface AnnouncementApiService {
 
     @Headers("accept: */*", "Content-Type: application/json")
-    @GET("/api/v1/flats")
+    @GET("/api/v1/announcement")
     suspend fun getFewAnnouncements(
         @Query("city") city: City,
         @Query("underground") underground: String?,
         @Query("district") district: String?,
-        @Query("apartmentTypes") apartmentTypes: Set<ApartmentType>?,
-        @Query("maxPricePerMonth") maxPricePerMonth: Double?,
-        @Query("minPricePerMonth") minPricePerMonth: Double?,
+        @Query(value = "apartmentTypes", encoded = true) apartmentTypes: List<String>?,
+        @Query("maxPricePerMonth") maxPricePerMonth: Int?,
+        @Query("minPricePerMonth") minPricePerMonth: Int?,
+        @Query("maxArea") maxArea: Int?,
+        @Query("minArea") minArea: Int?,
         @Query("isRefrigerator") isRefrigerator: Boolean?,
         @Query("isWashingMachine") isWashingMachine: Boolean?,
         @Query("isTV") isTV: Boolean?,
@@ -37,9 +39,9 @@ interface AnnouncementApiService {
     ): List<AnnouncementResponse>
 
     @Headers("accept: */*", "Content-Type: application/json")
-    @GET("/api/v1/flats/{flatId}")
+    @GET("/api/v1/announcement/{announcementId}")
     suspend fun getAnnouncementInfo(
-        @Path("flatId") flatId: Int,
+        @Path("announcementId") flatId: Int,
         @Header("Authorization") token: String
     ): AnnouncementWithDescriptionResponse?
 

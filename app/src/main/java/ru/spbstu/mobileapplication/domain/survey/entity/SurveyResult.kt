@@ -9,7 +9,7 @@ import ru.spbstu.mobileapplication.domain.enums.Term
 @Parcelize
 data class SurveyResult(
     val term: Term?,
-    val apartmentTypes: Set<ApartmentType>?,
+    val apartmentTypes: List<ApartmentType>?,
     val city: City?,
     val minArea: Int?,
     val maxArea: Int?,

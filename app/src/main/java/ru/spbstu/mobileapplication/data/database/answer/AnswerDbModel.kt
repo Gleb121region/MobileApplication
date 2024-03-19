@@ -14,7 +14,7 @@ data class AnswerDbModel(
     @PrimaryKey(autoGenerate = true) val answerId: Int = 0,
     val term: Term,
     val city: City,
-    val apartmentTypes: Set<ApartmentType>,
+    val apartmentTypes: List<ApartmentType>,
     val minArea: Int,
     val maxArea: Int,
     val minBudget: Int,

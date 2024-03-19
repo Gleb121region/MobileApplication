@@ -14,8 +14,8 @@ interface AnswerInfoDao {
     @Query("SELECT * FROM answers")
     suspend fun getAnswers(): List<AnswerDbModel>
 
-    @Query("SELECT * FROM answers ORDER BY answerId LIMIT 1")
-    suspend fun findLastAnswer(): AnswerDbModel?
+    @Query("SELECT * FROM answers ORDER BY answerId DESC LIMIT 1")
+    suspend fun findLastAnswer(): AnswerDbModel
 
     @Query("SELECT * FROM answers where answerId = :answerId")
     suspend fun findAnswerById(answerId: Int): AnswerDbModel?

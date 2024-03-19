@@ -7,7 +7,7 @@ import ru.spbstu.mobileapplication.domain.enums.Term
 
 data class SurveyAnswersItem(
     val term: Term,
-    val apartmentTypes: Set<ApartmentType>,
+    val apartmentTypes: List<ApartmentType>,
     val city: City,
     val minArea: Int,
     val maxArea: Int,
