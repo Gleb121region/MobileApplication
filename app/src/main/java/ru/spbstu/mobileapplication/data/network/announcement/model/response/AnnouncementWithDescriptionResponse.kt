@@ -13,6 +13,6 @@ data class AnnouncementWithDescriptionResponse(
     @SerializedName("pricePerMonth") @Expose val pricePerMonth: Int,
     @SerializedName("address") @Expose val address: String,
     @SerializedName("underground") @Expose val underground: String,
-    @SerializedName("photoUrls") @Expose val photoUrls: Set<String>,
+    @SerializedName("photoUrls") @Expose val photoUrls: List<String>,
     @SerializedName("description") @Expose val description: String
 )

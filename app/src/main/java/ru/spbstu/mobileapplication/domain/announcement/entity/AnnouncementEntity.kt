@@ -11,5 +11,5 @@ data class AnnouncementEntity(
     val pricePerMonth: Int,
     val address: String,
     val underground: String,
-    val photoUrls: Set<String>,
+    val photoUrls: List<String>,
 )
