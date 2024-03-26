@@ -14,5 +14,6 @@ data class AnnouncementWithDescriptionResponse(
     @SerializedName("address") @Expose val address: String,
     @SerializedName("underground") @Expose val underground: String,
     @SerializedName("photoUrls") @Expose val photoUrls: List<String>,
+    @SerializedName("isLikedByUser") @Expose val isLikedByUser: Boolean,
     @SerializedName("description") @Expose val description: String
 )

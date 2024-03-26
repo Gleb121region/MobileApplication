@@ -27,6 +27,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_announcement" />
 
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/rv_shop_list"
+            app:layout_constraintEnd_toEndOf="@id/rv_shop_list"
+            app:layout_constraintStart_toStartOf="@id/rv_shop_list"
+            app:layout_constraintTop_toTopOf="@id/rv_shop_list" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,7 +4,6 @@ import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
 import ru.spbstu.mobileapplication.data.mapper.SurveyMapper
 import ru.spbstu.mobileapplication.data.network.survey.SurveyApiService
-import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.survey.entity.SurveyAnswersItem
 import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 import ru.spbstu.mobileapplication.domain.survey.repository.SurveyAnswersRepository

@@ -1,7 +1,6 @@
 package ru.spbstu.mobileapplication.data.mapper
 
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
-import ru.spbstu.mobileapplication.data.network.announcement.model.request.AnnouncementFilterRequest
 import ru.spbstu.mobileapplication.data.network.survey.model.request.CreateSurveyRequest
 import ru.spbstu.mobileapplication.data.network.survey.model.response.GetSurveyResponse
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementFilterEntity

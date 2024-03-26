@@ -9,26 +9,31 @@ import androidx.viewpager.widget.ViewPager
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.ItemAnnouncementBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 
-class AnnouncementViewHolder(private val binding: ItemAnnouncementBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+class AnnouncementViewHolder(
+    private val binding: ItemAnnouncementBinding,
+    private val dislikeClickListener: OnDislikeClickListener?,
+    private val likeClickListener: OnLikeClickListener?,
+) : RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var dots: Array<ImageView>
 
-    fun bind(announcement: AnnouncementEntity) {
-        binding.announcementItem = announcement
+    init {
+        dots = Array(0) { ImageView(itemView.context) }
+    }
 
-        val viewPager = binding.root.findViewById<ViewPager>(R.id.view_pager_photos)
-        val dotsLayout = binding.root.findViewById<LinearLayout>(R.id.dots_layout)
+    fun bind(announcement: AnnouncementEntity, position: Int) {
+        binding.announcementItem = announcement
+        binding.executePendingBindings()
 
         val adapter = PhotoPagerAdapter(itemView.context, announcement.photoUrls)
-        viewPager.adapter = adapter
+        binding.viewPagerPhotos.adapter = adapter
 
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        binding.viewPagerPhotos.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
+                position: Int, positionOffset: Float, positionOffsetPixels: Int
             ) {
             }
 
@@ -39,29 +44,45 @@ class AnnouncementViewHolder(private val binding: ItemAnnouncementBinding) :
             override fun onPageScrollStateChanged(state: Int) {}
         })
 
-        addDots(announcement.photoUrls.size, dotsLayout)
+        updateDotsCount(announcement.photoUrls.size, binding.dotsLayout)
 
         if (announcement.photoUrls.isNotEmpty()) {
             updateDots(0)
         }
+
+        if (announcement.isLikedByUser) {
+            binding.ivLike.setImageResource(R.drawable.like_green_24dp)
+        } else {
+            binding.ivLike.setImageResource(R.drawable.like_gray_24dp)
+        }
+
+        binding.ivLike.setOnClickListener {
+            likeClickListener?.onItemLike(position)
+        }
+
+        binding.ivDislike.setOnClickListener {
+            dislikeClickListener?.onItemDislike(position)
+        }
+
     }
 
-    private fun addDots(size: Int, dotsLayout: LinearLayout) {
-        dots = Array(size) { ImageView(itemView.context) }
-        for (i in dots.indices) {
-            dots[i].setImageDrawable(
+    private fun updateDotsCount(size: Int, dotsLayout: LinearLayout) {
+        dotsLayout.removeAllViews()
+
+        dots = Array(size) {
+            val dot = ImageView(itemView.context)
+            dot.setImageDrawable(
                 ContextCompat.getDrawable(
-                    itemView.context,
-                    R.drawable.non_active_dot
+                    itemView.context, R.drawable.non_active_dot
                 )
             )
 
             val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
             )
             params.setMargins(8, 0, 8, 0)
-            dotsLayout.addView(dots[i], params)
+            dotsLayout.addView(dot, params)
+            dot
         }
     }
 

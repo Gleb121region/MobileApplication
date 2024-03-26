@@ -18,7 +18,8 @@ class AnnouncementMapper @Inject constructor() {
             pricePerMonth = announcementWithDescriptionResponse.pricePerMonth,
             address = announcementWithDescriptionResponse.address,
             underground = announcementWithDescriptionResponse.underground,
-            photoUrls = announcementWithDescriptionResponse.photoUrls
+            photoUrls = announcementWithDescriptionResponse.photoUrls,
+            isLikedByUser = announcementWithDescriptionResponse.isLikedByUser
         )
 
     fun mapAnnouncementResponseToAnnouncementEntity(
@@ -33,7 +34,8 @@ class AnnouncementMapper @Inject constructor() {
             pricePerMonth = announcementResponse.pricePerMonth,
             address = announcementResponse.address,
             underground = announcementResponse.underground,
-            photoUrls = announcementResponse.photoUrls
+            photoUrls = announcementResponse.photoUrls,
+            isLikedByUser = announcementResponse.isLikedByUser
         )
 
 }

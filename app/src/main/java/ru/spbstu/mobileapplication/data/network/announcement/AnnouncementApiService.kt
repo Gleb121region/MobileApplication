@@ -7,7 +7,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.spbstu.mobileapplication.data.network.announcement.model.response.AnnouncementResponse
 import ru.spbstu.mobileapplication.data.network.announcement.model.response.AnnouncementWithDescriptionResponse
-import ru.spbstu.mobileapplication.domain.enums.ApartmentType
 import ru.spbstu.mobileapplication.domain.enums.City
 
 interface AnnouncementApiService {
