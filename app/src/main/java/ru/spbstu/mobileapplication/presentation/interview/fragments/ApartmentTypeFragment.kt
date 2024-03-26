@@ -14,8 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.FragmentRoomInterviewBinding
-import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
+import ru.spbstu.mobileapplication.domain.enums.ApartmentType
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.ApartmentTypeViewModel
@@ -25,7 +25,7 @@ class ApartmentTypeFragment : Fragment() {
 
     private val args by navArgs<ApartmentTypeFragmentArgs>()
 
-    private var selectedApartmentTypes: MutableSet<ApartmentType> = mutableSetOf()
+    private var selectedApartmentTypes: MutableList<ApartmentType> = mutableListOf()
 
     private lateinit var viewModel: ApartmentTypeViewModel
 
@@ -124,7 +124,7 @@ class ApartmentTypeFragment : Fragment() {
     }
 
 
-    private fun launchFlatArea(apartmentTypes: Set<ApartmentType>) {
+    private fun launchFlatArea(apartmentTypes: List<ApartmentType>) {
         findNavController().navigate(
             ApartmentTypeFragmentDirections.actionRoomInterviewFragmentToAreaFragment(
                 surveyResult = SurveyResult(

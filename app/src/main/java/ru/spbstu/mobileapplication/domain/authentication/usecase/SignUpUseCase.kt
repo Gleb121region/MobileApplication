@@ -8,7 +8,7 @@ import javax.inject.Inject
 class SignUpUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-    suspend fun signUp(registerItem: RegisterItem): TokenItem {
+    suspend operator fun invoke(registerItem: RegisterItem): TokenItem {
         return authRepository.signUp(registerItem)
     }
 }

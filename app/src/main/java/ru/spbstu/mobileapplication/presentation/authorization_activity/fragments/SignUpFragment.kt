@@ -55,15 +55,23 @@ class SignUpFragment : Fragment() {
         binding.buttonSubmit.setOnClickListener {
             Log.d(TAG, "buttonSubmit clicked")
             viewModel.signUp(
+                firstName = binding.editTextName.text.toString(),
                 email = binding.editTextEmail.text.toString(),
                 password = binding.editTextPassword.text.toString(),
-                firstName = binding.editTextName.text.toString(),
                 role = Role.USER.toString()
-            ).observe(viewLifecycleOwner, Observer { result ->
-                run {
-                    Log.d(TAG, result.refreshToken)
-                    Log.d(TAG, result.accessToken)
-                    findNavController().navigate(R.id.action_signUpFragment_to_basicActivity)
+            )
+            viewModel.signUpResult.observe(viewLifecycleOwner, Observer { result ->
+                when (result) {
+                    is SignUpViewModel.SignUpResult.Success -> {
+                        Log.d(TAG, result.tokenItem.accessToken)
+                        Log.d(TAG, result.tokenItem.refreshToken)
+                        findNavController().navigate(R.id.action_signUpFragment_to_basicActivity)
+                    }
+
+                    is SignUpViewModel.SignUpResult.Error -> {
+                        binding.textViewError.text = result.message
+                        binding.textViewError.visibility = View.VISIBLE
+                    }
                 }
             })
         }

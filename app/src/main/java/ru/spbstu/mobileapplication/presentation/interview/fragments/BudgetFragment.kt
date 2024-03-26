@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.spbstu.mobileapplication.databinding.FragmentBudgetInterviewBinding
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.BudgetViewModel
@@ -80,7 +80,7 @@ class BudgetFragment : Fragment() {
             BudgetFragmentDirections.actionBudgetFragmentToCityFragment(
                 SurveyResult(
                     args.surveyResult.term,
-                    args.surveyResult.apartmentType,
+                    args.surveyResult.apartmentTypes,
                     null,
                     args.surveyResult.minArea,
                     args.surveyResult.maxArea,

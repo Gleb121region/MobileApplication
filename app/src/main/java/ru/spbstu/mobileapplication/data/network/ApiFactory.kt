@@ -4,6 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.spbstu.mobileapplication.data.network.announcement.AnnouncementApiService
 import ru.spbstu.mobileapplication.data.network.auth.AuthApiService
+import ru.spbstu.mobileapplication.data.network.feedback.FeedbackApiService
 import ru.spbstu.mobileapplication.data.network.survey.SurveyApiService
 import ru.spbstu.mobileapplication.data.network.user.UserApiService
 
@@ -21,4 +22,5 @@ object ApiFactory {
         retrofit.create(AnnouncementApiService::class.java)
     val userApiService: UserApiService = retrofit.create(UserApiService::class.java)
     val surveyApiService: SurveyApiService = retrofit.create(SurveyApiService::class.java)
+    val feedbackApiService: FeedbackApiService = retrofit.create(FeedbackApiService::class.java)
 }

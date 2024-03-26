@@ -3,23 +3,23 @@ package ru.spbstu.mobileapplication.data.database
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import ru.spbstu.mobileapplication.domain.enums.interview.ApartmentType
+import ru.spbstu.mobileapplication.domain.enums.ApartmentType
 
 
 object Converters {
     private val gson = Gson()
 
     @TypeConverter
-    fun stringToSet(data: String?): Set<ApartmentType> {
+    fun stringToList(data: String?): List<ApartmentType> {
         if (data == null) {
-            return emptySet()
+            return emptyList()
         }
-        val listType = object : TypeToken<Set<ApartmentType?>?>() {}.type
+        val listType = object : TypeToken<List<ApartmentType?>?>() {}.type
         return gson.fromJson(data, listType)
     }
 
     @TypeConverter
-    fun setToString(someObjects: Set<ApartmentType?>?): String {
+    fun listToString(someObjects: List<ApartmentType?>?): String {
         return gson.toJson(someObjects)
     }
 }

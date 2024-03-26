@@ -56,12 +56,20 @@ class RestoreAccessFragment : Fragment() {
             viewModel.restoreAccess(
                 email = binding.editTextEmail.text.toString(),
                 newPassword = binding.editTextNewPassword.text.toString(),
-                confirmationPassword = binding.editTextConfirmationPassword.text.toString()
-            ).observe(viewLifecycleOwner, Observer { result ->
-                run {
-                    Log.d(TAG, result.refreshToken)
-                    Log.d(TAG, result.accessToken)
-                    findNavController().navigate(R.id.action_restoreAccessFragment_to_basicActivity)
+                confirmationPassword = binding.editTextConfirmationPassword.text.toString(),
+            )
+            viewModel.restoreAccessResult.observe(viewLifecycleOwner, Observer { result ->
+                when (result) {
+                    is RestoreAccessViewModel.RestoreAccessResult.Success -> {
+                        Log.d(TAG, result.tokenItem.accessToken)
+                        Log.d(TAG, result.tokenItem.refreshToken)
+                        findNavController().navigate(R.id.action_restoreAccessFragment_to_basicActivity)
+                    }
+
+                    is RestoreAccessViewModel.RestoreAccessResult.Error -> {
+                        binding.textViewError.text = result.message
+                        binding.textViewError.visibility = View.VISIBLE
+                    }
                 }
             })
         }

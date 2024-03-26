@@ -13,9 +13,10 @@ interface SurveyApiService {
     @GET("/api/v1/survey")
     suspend fun getSurvey(@Header("Authorization") token: String): Set<GetSurveyResponse>
 
-    @Headers("accept: */*")
-    @POST("/api/v1/survey/create")
+    @Headers("accept: */*", "Content-Type: application/json")
+    @POST("/api/v1/survey/fill_out")
     suspend fun createSurvey(
-        @Header("Authorization") token: String, @Body request: CreateSurveyRequest
+        @Header("Authorization") token: String,
+        @Body request: CreateSurveyRequest
     )
 }

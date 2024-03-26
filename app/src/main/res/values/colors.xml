@@ -2,9 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="holo_purple">#AA66CC</color>
 
     <!-- todo: выбрать другие цвета. -->
     <color name="selected_button_color">#FF4081</color>
     <color name="unselected_button_color">#FFFFFF</color>
+
+    <!-- todo: цвет для нравится или не нравится    -->
+
+    <color name="neutral_color">#808080</color>
+    <color name="liked_color">#6FE2B3</color>
+    <color name="disliked_color">#FFED7563</color>
+
 
 </resources>

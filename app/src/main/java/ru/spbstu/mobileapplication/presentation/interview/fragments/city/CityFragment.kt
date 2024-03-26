@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.databinding.FragmentCityInterviewBinding
-import ru.spbstu.mobileapplication.domain.enums.interview.City
-import ru.spbstu.mobileapplication.domain.survey_answers.entity.SurveyResult
+import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
+import ru.spbstu.mobileapplication.domain.enums.City
+import ru.spbstu.mobileapplication.domain.survey.entity.SurveyResult
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.interview.view_models.CityViewModel
@@ -25,6 +28,9 @@ class CityFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
     private var _binding: FragmentCityInterviewBinding? = null
     private val binding: FragmentCityInterviewBinding
@@ -45,7 +51,6 @@ class CityFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "CityFragment onViewCreating")
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory)[CityViewModel::class.java]
 
@@ -54,30 +59,33 @@ class CityFragment : Fragment() {
         val cityAdapter =
             CityAdapter(City.entries, object : CityAdapter.OnCityClickListener {
                 override fun onCityClick(city: City) {
-                    launchMainActivity(city)
+                    lifecycleScope.launch {
+                        insetIntoDB(city)
+                        launchMainActivity()
+                    }
                 }
             })
         binding.recyclerViewCities.adapter = cityAdapter
-        //        buttonBackListenerHandler()
-
-        Log.d(TAG, "Survey Result: $args.surveyResult")
-        Log.d(TAG, "CityFragment onViewCreated")
     }
 
-    private fun launchMainActivity(selectedCity: City) {
-        findNavController().navigate(
-            CityFragmentDirections.actionCityFragmentToBottomNavigationActivity2(
-                SurveyResult(
-                    args.surveyResult.term,
-                    args.surveyResult.apartmentType,
-                    selectedCity,
-                    args.surveyResult.minArea,
-                    args.surveyResult.maxArea,
-                    args.surveyResult.minBudget,
-                    args.surveyResult.maxBudget
-                )
-            )
+    private suspend fun insetIntoDB(selectedCity: City) {
+        val surveyResult = SurveyResult(
+            args.surveyResult.term,
+            args.surveyResult.apartmentTypes,
+            selectedCity,
+            args.surveyResult.minArea,
+            args.surveyResult.maxArea,
+            args.surveyResult.minBudget,
+            args.surveyResult.maxBudget
         )
+        val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
+        viewModel.recordIntoDB(surveyResult)
+        viewModel.sendRequest(surveyResult, token)
+    }
+
+
+    private fun launchMainActivity() {
+        findNavController().navigate(CityFragmentDirections.actionCityFragmentToBottomNavigationActivity2())
     }
 
     private companion object {

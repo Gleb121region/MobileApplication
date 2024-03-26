@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="announcementItem"
+            type="ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_purple"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager_photos"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/dots_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:src="@drawable/like_gray_24dp" />
+
+                <ImageView
+                    android:id="@+id/iv_dislike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:src="@drawable/dislike_gray_24dp" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_basic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{announcementItem.getFormattedAddress()}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:text="Адрес: гор. Москва, ул. Ленина, д. 1" />
+
+                <TextView
+                    android:id="@+id/tv_underground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{announcementItem.underground}"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="Метро: Цветной бульвар" />
+
+                <TextView
+                    android:id="@+id/tv_apartment_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{announcementItem.getApartmentTypeRusName()}"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="Тип недвижимости: Студия" />
+
+                <TextView
+                    android:id="@+id/tv_price_per_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{announcementItem.getFormattedPricePerMonth()}"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="Цена за месяц: 10000 руб." />
+
+                <TextView
+                    android:id="@+id/tv_total_meters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{announcementItem.getFormattedTotalMeters()}"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="Общая площадь: 30 м²" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout_floors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_floor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{announcementItem.getFormattedFloorAndFloorsCount()}"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="Этаж: 5 из 10" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
