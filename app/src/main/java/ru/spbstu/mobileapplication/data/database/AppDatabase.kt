@@ -5,14 +5,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import ru.spbstu.mobileapplication.data.database.announcement.AnnouncementDbModel
+import ru.spbstu.mobileapplication.data.database.announcement.AnnouncementInfoDao
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
 
 @Database(
     entities = [
         AnswerDbModel::class,
+        AnnouncementDbModel::class
     ],
-    version = 4,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -41,4 +44,5 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     abstract fun AnswerInfoDao(): AnswerInfoDao
+    abstract fun AnnouncementInfoDao(): AnnouncementInfoDao
 }
