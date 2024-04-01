@@ -14,6 +14,7 @@ data class AnnouncementEntity(
     val underground: String,
     val photoUrls: List<String>,
     val isLikedByUser: Boolean,
+    val description: String?,
     var currentImagePosition: Int = 0
 ) {
     fun getFormattedAddress(): String = "Адрес: $address"
