@@ -1,5 +1,7 @@
 package ru.spbstu.mobileapplication.data.repository
 
+import ru.spbstu.mobileapplication.data.database.announcement.AnnouncementDbModel
+import ru.spbstu.mobileapplication.data.database.announcement.AnnouncementInfoDao
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.data.mapper.AnnouncementMapper
 import ru.spbstu.mobileapplication.data.mapper.SurveyMapper
@@ -11,13 +13,13 @@ import javax.inject.Inject
 
 class AnnouncementRepositoryImpl @Inject constructor(
     private val api: AnnouncementApiService,
+    private val announcementDao: AnnouncementInfoDao,
     private val surveyMapper: SurveyMapper,
     private val announcementMapper: AnnouncementMapper,
 ) : AnnouncementRepository {
 
     override suspend fun getAnnouncementItem(
-        announcementItemId: Int,
-        token: String
+        announcementItemId: Int, token: String
     ): AnnouncementEntity {
         val announcementWithDescriptionResponse: AnnouncementWithDescriptionResponse? =
             api.getAnnouncementInfo(announcementItemId, token)
@@ -28,10 +30,7 @@ class AnnouncementRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAnnouncementList(
-        model: AnswerDbModel,
-        limit: Int,
-        offset: Int,
-        token: String
+        model: AnswerDbModel, limit: Int, offset: Int, token: String
     ): List<AnnouncementEntity> {
         val request = surveyMapper.mapAnswerDbModelToAnnouncementFilterRequest(model)
         val apartmentTypesAsString = request.apartmentTypes?.map { it.name }
@@ -66,5 +65,15 @@ class AnnouncementRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun insertAnswersIntoDataBase(announcement: AnnouncementEntity) {
+        val dbModel = announcementMapper.mapAnnouncementEntityToAnnouncementDbModel(announcement)
+        announcementDao.insertAnnouncement(dbModel)
+    }
+
+    override suspend fun getAnnouncementByAnnouncementId(announcementId: Int): AnnouncementDbModel? =
+        announcementDao.findAnnouncementById(announcementId)
+
+    override suspend fun getAnnouncements(): List<AnnouncementDbModel> =
+        announcementDao.getAllAnnouncements()
 
 }
