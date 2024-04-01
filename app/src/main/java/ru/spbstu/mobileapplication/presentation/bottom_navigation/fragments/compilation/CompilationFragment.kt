@@ -18,6 +18,7 @@ import com.yuyakaido.android.cardstackview.Duration
 import com.yuyakaido.android.cardstackview.RewindAnimationSetting
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.databinding.FragmentCompilationBinding
@@ -116,6 +117,13 @@ class CompilationFragment : Fragment(), CardStackListener {
             Log.d(TAG, "No more announcements to load")
             return
         }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            for (announcement in announcements) {
+                viewModel.recordIntoDB(announcement)
+            }
+        }
+
         val cardStackView = binding.cardStackView
         Log.d(TAG, announcements.toString())
 
