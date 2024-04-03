@@ -30,8 +30,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -70,8 +69,7 @@ dependencies {
     //FlexBox
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
-    // Navigation
-    // Kotlin
+    // Navigation Kotlin
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
@@ -87,18 +85,13 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // Picasso
-    implementation ("com.squareup.picasso:picasso:2.8")
+    implementation("com.squareup.picasso:picasso:2.8")
 
     //Crypto
     implementation("androidx.security:security-crypto:1.0.0")
 
     //CardStackView
     implementation("com.github.yuyakaido:CardStackView:v2.3.4")
-
-    //MediaPlayer
-    implementation("androidx.media3:media3-exoplayer:1.2.1")
-    implementation("androidx.media3:media3-exoplayer-dash:1.2.1")
-    implementation("androidx.media3:media3-ui:1.2.1")
 
     //Room
     implementation("androidx.room:room-runtime:2.6.1")
