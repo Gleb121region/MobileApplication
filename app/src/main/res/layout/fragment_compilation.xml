@@ -44,18 +44,18 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/skip_button"
+                        android:id="@+id/dislike_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/rewind_button"
+                        android:layout_toStartOf="@+id/skip_button"
                         android:src="@drawable/dislike_red_24dp"
                         app:backgroundTint="@android:color/white"
                         app:fabSize="auto"
                         app:rippleColor="#22ED7563" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/rewind_button"
+                        android:id="@+id/skip_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -63,7 +63,7 @@
                         android:layout_marginLeft="32dp"
                         android:layout_marginEnd="32dp"
                         android:layout_marginRight="32dp"
-                        android:src="@drawable/rewind_blue_24dp"
+                        android:src="@drawable/skip_black_24dp"
                         app:backgroundTint="@android:color/white"
                         app:fabSize="mini"
                         app:rippleColor="#225BC9FA" />
@@ -73,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/rewind_button"
+                        android:layout_toEndOf="@+id/skip_button"
                         android:src="@drawable/like_green_24dp"
                         app:backgroundTint="@android:color/white"
                         app:fabSize="auto"
