@@ -1,13 +1,12 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.spbstu.mobileapplication.domain.user.entity.EditUserItem
 import ru.spbstu.mobileapplication.domain.user.entity.UserItem
 import ru.spbstu.mobileapplication.domain.user.usecase.database.DeleteUserFromDatabaseUseCase
 import ru.spbstu.mobileapplication.domain.user.usecase.database.GetUserFromDatabaseUseCase
+import ru.spbstu.mobileapplication.domain.user.usecase.database.InsertUserFromDatabaseUseCase
 import ru.spbstu.mobileapplication.domain.user.usecase.database.UpdateUserFromDatabaseUseCase
 import ru.spbstu.mobileapplication.domain.user.usecase.network.DeleteUserByTokenUseCase
 import ru.spbstu.mobileapplication.domain.user.usecase.network.GetUserByTokenUseCase
@@ -15,20 +14,20 @@ import ru.spbstu.mobileapplication.domain.user.usecase.network.UpdateUserByToken
 import javax.inject.Inject
 
 class CabinetViewModel @Inject constructor(
+    private val insertUserFromDatabaseUseCase: InsertUserFromDatabaseUseCase,
     private val deleteUserFromDatabaseUseCase: DeleteUserFromDatabaseUseCase,
     private val getUserFromDatabaseUseCase: GetUserFromDatabaseUseCase,
     private val updateUserFromDatabaseUseCase: UpdateUserFromDatabaseUseCase,
+
     private val deleteUserByTokenUseCase: DeleteUserByTokenUseCase,
     private val getUserByTokenUseCase: GetUserByTokenUseCase,
     private val updateUserByTokenUseCase: UpdateUserByTokenUseCase
 ) : ViewModel() {
 
-    private val _currentUser = MutableLiveData<UserItem>()
-    val currentUser: LiveData<UserItem> = _currentUser
+    val currentUser: MutableLiveData<UserItem> = MutableLiveData()
 
-
-    suspend fun logout(token: String) {
-        deleteUserByTokenUseCase(token)
+    suspend fun insertUser(userItem: UserItem) {
+        insertUserFromDatabaseUseCase(userItem)
     }
 
     suspend fun deleteUser(userId: Int) {
@@ -49,9 +48,8 @@ class CabinetViewModel @Inject constructor(
 
     suspend fun getUserByToken(token: String) {
         val user = getUserByTokenUseCase(token)
-        _currentUser.postValue(user)
+        currentUser.postValue(user)
     }
-
 
     suspend fun updateUserByToken(token: String, editUserItem: EditUserItem) {
         updateUserByTokenUseCase(token, editUserItem)

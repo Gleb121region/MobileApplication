@@ -12,9 +12,10 @@ import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignInFragment
 import ru.spbstu.mobileapplication.presentation.authorization_activity.fragments.SignUpFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigationActivity
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet.CabinetFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.ChatFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.FavoriteFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet.CabinetFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet.ModifyUserDataFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeFragment
 import ru.spbstu.mobileapplication.presentation.interview.InterviewActivity
@@ -55,6 +56,7 @@ interface ApplicationComponent {
     fun inject(fragment: FavoriteFragment)
     fun inject(fragment: ChatFragment)
     fun inject(fragment: CabinetFragment)
+    fun inject(fragment: ModifyUserDataFragment)
 
 
     // Interview

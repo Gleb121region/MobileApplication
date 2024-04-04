@@ -13,10 +13,10 @@ data class UserDBModel(
     @PrimaryKey(autoGenerate = true) val userId: Int = 0,
     val firstname: String,
     val lastname: String?,
-    val aboutMe: String?,
+    val about: String?,
     val gender: Gender?,
     val birthdayDate: Date?,
     val phone: String?,
     val email: String,
-    val photos: Set<String>?
+    val photos: List<String>?
 ) : Parcelable

@@ -51,7 +51,6 @@
     <string name="five_rooms_flat">Пятикомнатная квартира</string>
 
     <!-- About    -->
-    <string name="about">About</string>
     <string name="write">write about yourself</string>
 
     <!--  Contacts  -->
@@ -65,6 +64,14 @@
 
     <!-- Delete   -->
     <string name="delete_profile">delete profile</string>
+
+    <string name="about">Обо мне</string>
+    <string name="save">Сохранить</string>
+    <string name="modify">Изменить</string>
+    <string name="exit">Выйти</string>
+
+
+    <string name="profile_info">%1$s %2$s, %3$s</string>
 
     <!--  NavigationView  -->
     <string name="card">Card</string>

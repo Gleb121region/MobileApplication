@@ -14,5 +14,5 @@ data class GetUserResponse(
     @SerializedName("birthdayDate") @Expose val birthdayDate: Date? = null,
     @SerializedName("phone") @Expose val phone: String? = null,
     @SerializedName("email") @Expose val email: String? = null,
-    @SerializedName("photosUrl") @Expose val photos: Set<String>? = null
+    @SerializedName("photosUrl") @Expose val photos: List<String>? = null
 )

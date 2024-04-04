@@ -6,5 +6,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 enum class Gender : Parcelable {
     MALE,
-    FEMALE
+    FEMALE,
+    UNKNOWN
 }

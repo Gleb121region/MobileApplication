@@ -11,11 +11,15 @@ import javax.inject.Inject
 //todo: перепроверить  всё
 class UserMapper @Inject constructor() {
     fun mapUserItemToUserDBModel(userItem: UserItem): UserDBModel {
+        val genderValue = userItem.gender?.let { gender ->
+            runCatching { Gender.valueOf(gender) }.getOrNull() ?: Gender.UNKNOWN
+        } ?: Gender.UNKNOWN
+
         return UserDBModel(
             firstname = userItem.firstname,
             lastname = userItem.lastname,
-            aboutMe = userItem.aboutMe,
-            gender = Gender.valueOf(userItem.gender ?: ""),
+            about = userItem.about,
+            gender = genderValue,
             birthdayDate = userItem.birthdayDate,
             phone = userItem.phone,
             email = userItem.email,
@@ -28,7 +32,7 @@ class UserMapper @Inject constructor() {
             email = userDBModel.email,
             firstname = userDBModel.firstname,
             lastname = userDBModel.lastname,
-            aboutMe = userDBModel.aboutMe,
+            about = userDBModel.about,
             gender = userDBModel.gender?.name ?: "",
             birthdayDate = userDBModel.birthdayDate,
             phone = userDBModel.phone,
@@ -53,7 +57,7 @@ class UserMapper @Inject constructor() {
             email = getUserResponse.email ?: "",
             firstname = getUserResponse.firstname ?: "",
             lastname = getUserResponse.lastname,
-            aboutMe = getUserResponse.about,
+            about = getUserResponse.about,
             gender = getUserResponse.gender?.name ?: "",
             birthdayDate = getUserResponse.birthdayDate,
             phone = getUserResponse.phone ?: "",

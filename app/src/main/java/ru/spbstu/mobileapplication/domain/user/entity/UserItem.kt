@@ -6,9 +6,10 @@ data class UserItem(
     val email: String,
     val firstname: String,
     val lastname: String?,
-    val aboutMe: String?,
+    val about: String?,
     val gender: String?,
     val birthdayDate: Date?,
     val phone: String?,
-    val photos: Set<String>?
+    val photos: List<String>?,
+    var imagePosition: Int = 0
 )
