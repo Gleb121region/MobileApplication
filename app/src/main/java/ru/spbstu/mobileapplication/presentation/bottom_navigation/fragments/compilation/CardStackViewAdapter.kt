@@ -9,8 +9,9 @@ import com.squareup.picasso.Picasso
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 
-class CardStackViewAdapter(private var announcements: List<AnnouncementEntity>) :
-    RecyclerView.Adapter<CompilationViewHolder>() {
+class CardStackViewAdapter(
+    var announcements: MutableList<AnnouncementEntity>
+) : RecyclerView.Adapter<CompilationViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompilationViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,8 +30,7 @@ class CardStackViewAdapter(private var announcements: List<AnnouncementEntity>) 
             Log.d(TAG, "PreviousLayout Listener")
             if (announcement.currentImagePosition > 0) {
                 announcement.currentImagePosition--
-                Picasso.get().load(announcement.photoUrls[announcement.currentImagePosition])
-                    .into(holder.image)
+                notifyItemChanged(holder.layoutPosition)
             }
         }
 
@@ -38,8 +38,7 @@ class CardStackViewAdapter(private var announcements: List<AnnouncementEntity>) 
             Log.d(TAG, "NextLayout Listener")
             if (announcement.currentImagePosition < size - 1) {
                 announcement.currentImagePosition++
-                Picasso.get().load(announcement.photoUrls[announcement.currentImagePosition])
-                    .into(holder.image)
+                notifyItemChanged(holder.layoutPosition)
             }
         }
 
@@ -50,14 +49,6 @@ class CardStackViewAdapter(private var announcements: List<AnnouncementEntity>) 
 
     override fun getItemCount(): Int {
         return announcements.size
-    }
-
-    fun setSpots(spots: List<AnnouncementEntity>) {
-        this.announcements = spots
-    }
-
-    fun getSpots(): List<AnnouncementEntity> {
-        return announcements
     }
 
     private companion object {
