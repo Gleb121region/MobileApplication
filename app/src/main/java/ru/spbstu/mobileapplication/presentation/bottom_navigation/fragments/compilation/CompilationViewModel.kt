@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models
+package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

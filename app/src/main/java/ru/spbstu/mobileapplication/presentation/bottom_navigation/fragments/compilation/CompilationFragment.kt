@@ -25,7 +25,6 @@ import ru.spbstu.mobileapplication.databinding.FragmentCompilationBinding
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.CompilationViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint

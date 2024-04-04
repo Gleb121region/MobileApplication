@@ -9,13 +9,16 @@ import ru.spbstu.mobileapplication.data.database.announcement.AnnouncementDbMode
 import ru.spbstu.mobileapplication.data.database.announcement.AnnouncementInfoDao
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.data.database.answer.AnswerInfoDao
+import ru.spbstu.mobileapplication.data.database.user.UserDBModel
+import ru.spbstu.mobileapplication.data.database.user.UserInfoDao
 
 @Database(
     entities = [
         AnswerDbModel::class,
-        AnnouncementDbModel::class
+        AnnouncementDbModel::class,
+        UserDBModel::class
     ],
-    version = 6,
+    version = 9,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -45,4 +48,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun AnswerInfoDao(): AnswerInfoDao
     abstract fun AnnouncementInfoDao(): AnnouncementInfoDao
+    abstract fun UserInfoDao(): UserInfoDao
 }

@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/navigation_cabinet"
-        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.CabinetFragment"
+        android:name="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet.CabinetFragment"
         android:label="@string/title_cabinet"
         tools:layout="@layout/fragment_cabinet" />
 </navigation>

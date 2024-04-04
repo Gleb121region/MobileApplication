@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">Обо мне</string>
+    <string name="save">Сохранить</string>
+    <string name="modify">Изменить</string>
+    <string name="exit">Выйти</string>
+</resources>
