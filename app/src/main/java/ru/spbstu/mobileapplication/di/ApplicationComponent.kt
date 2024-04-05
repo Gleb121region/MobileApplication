@@ -15,7 +15,7 @@ import ru.spbstu.mobileapplication.presentation.bottom_navigation.BottomNavigati
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.ChatFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.FavoriteFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet.CabinetFragment
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet.ModifyUserDataFragment
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.modify.ModifyUserDataFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationFragment
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeFragment
 import ru.spbstu.mobileapplication.presentation.interview.InterviewActivity

@@ -17,12 +17,11 @@ interface UserApiService {
     @Headers("accept: */*", "Content-Type: application/json")
     @PUT("/api/v1/users")
     suspend fun updateUserInfo(
-        @Header("Authorization") token: String,
-        @Body request: UpdateUserRequest
-    ): Void
+        @Header("Authorization") token: String, @Body request: UpdateUserRequest
+    )
 
 
     @Headers("accept: */*")
     @DELETE("/api/v1/users")
-    suspend fun deleteUser(@Header("Authorization") token: String): Void
+    suspend fun deleteUser(@Header("Authorization") token: String)
 }

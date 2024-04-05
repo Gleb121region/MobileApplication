@@ -3,6 +3,7 @@ package ru.spbstu.mobileapplication.domain.user.entity
 import java.util.Date
 
 data class UserItem(
+    val userId: Int,
     val email: String,
     val firstname: String,
     val lastname: String?,

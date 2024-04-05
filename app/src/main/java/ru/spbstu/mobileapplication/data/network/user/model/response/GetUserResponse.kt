@@ -7,6 +7,7 @@ import java.util.Date
 
 
 data class GetUserResponse(
+    @SerializedName("userId") @Expose val userId: Int,
     @SerializedName("firstname") @Expose val firstname: String? = null,
     @SerializedName("lastname") @Expose val lastname: String? = null,
     @SerializedName("about") @Expose val about: String? = null,

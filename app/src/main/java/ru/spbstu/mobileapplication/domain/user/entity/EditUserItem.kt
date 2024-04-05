@@ -4,10 +4,10 @@ import ru.spbstu.mobileapplication.domain.enums.Gender
 import java.util.Date
 
 data class EditUserItem(
+    val firstname: String?,
+    val lastname: String?,
     val about: String?,
     val birthdayDate: Date?,
-    val firstname: String?,
     val gender: Gender?,
-    val lastname: String?,
     val phone: String?
 )

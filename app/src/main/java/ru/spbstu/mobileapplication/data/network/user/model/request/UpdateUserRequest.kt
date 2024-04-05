@@ -7,8 +7,8 @@ import java.util.Date
 
 
 data class UpdateUserRequest(
-    @SerializedName("firstName") @Expose val firstName: String?,
-    @SerializedName("lastName") @Expose val lastName: String?,
+    @SerializedName("firstname") @Expose val firstName: String?,
+    @SerializedName("lastname") @Expose val lastName: String?,
     @SerializedName("about") @Expose val about: String?,
     @SerializedName("gender") @Expose val gender: Gender?,
     @SerializedName("birthdayDate") @Expose val birthdayDate: Date?,

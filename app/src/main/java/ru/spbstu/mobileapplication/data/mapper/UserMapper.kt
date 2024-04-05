@@ -16,6 +16,7 @@ class UserMapper @Inject constructor() {
         } ?: Gender.UNKNOWN
 
         return UserDBModel(
+            userId = userItem.userId,
             firstname = userItem.firstname,
             lastname = userItem.lastname,
             about = userItem.about,
@@ -27,41 +28,38 @@ class UserMapper @Inject constructor() {
         )
     }
 
-    fun mapUserDBModelToUserItem(userDBModel: UserDBModel): UserItem {
-        return UserItem(
-            email = userDBModel.email,
-            firstname = userDBModel.firstname,
-            lastname = userDBModel.lastname,
-            about = userDBModel.about,
-            gender = userDBModel.gender?.name ?: "",
-            birthdayDate = userDBModel.birthdayDate,
-            phone = userDBModel.phone,
-            photos = userDBModel.photos
-        )
-    }
+    fun mapUserDBModelToUserItem(userDBModel: UserDBModel) = UserItem(
+        userId = userDBModel.userId,
+        email = userDBModel.email,
+        firstname = userDBModel.firstname,
+        lastname = userDBModel.lastname,
+        about = userDBModel.about,
+        gender = userDBModel.gender?.name ?: "",
+        birthdayDate = userDBModel.birthdayDate,
+        phone = userDBModel.phone,
+        photos = userDBModel.photos
+    )
 
-    fun mapEditUserItemToUserUpdateRequest(editUserItem: EditUserItem): UpdateUserRequest {
-        return UpdateUserRequest(
-            firstName = editUserItem.firstname,
-            lastName = editUserItem.lastname,
-            about = editUserItem.about,
-            gender = editUserItem.gender,
-            birthdayDate = editUserItem.birthdayDate,
-            phone = editUserItem.phone
-        )
-    }
+    fun mapEditUserItemToUserUpdateRequest(editUserItem: EditUserItem) = UpdateUserRequest(
+        firstName = editUserItem.firstname,
+        lastName = editUserItem.lastname,
+        about = editUserItem.about,
+        gender = editUserItem.gender,
+        birthdayDate = editUserItem.birthdayDate,
+        phone = editUserItem.phone
+    )
 
 
-    fun mapUserUpdateRequestToUserItem(getUserResponse: GetUserResponse): UserItem {
-        return UserItem(
-            email = getUserResponse.email ?: "",
-            firstname = getUserResponse.firstname ?: "",
-            lastname = getUserResponse.lastname,
-            about = getUserResponse.about,
-            gender = getUserResponse.gender?.name ?: "",
-            birthdayDate = getUserResponse.birthdayDate,
-            phone = getUserResponse.phone ?: "",
-            photos = getUserResponse.photos
-        )
-    }
+    fun mapUserUpdateRequestToUserItem(getUserResponse: GetUserResponse) = UserItem(
+        userId = getUserResponse.userId,
+        email = getUserResponse.email ?: "",
+        firstname = getUserResponse.firstname ?: "",
+        lastname = getUserResponse.lastname,
+        about = getUserResponse.about,
+        gender = getUserResponse.gender?.name ?: "",
+        birthdayDate = getUserResponse.birthdayDate,
+        phone = getUserResponse.phone ?: "",
+        photos = getUserResponse.photos
+    )
+
 }

@@ -2,11 +2,13 @@ package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cab
 
 import android.app.AlertDialog
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -38,22 +40,26 @@ class CabinetFragment : Fragment() {
     private val binding: FragmentCabinetBinding
         get() = _binding ?: throw RuntimeException("FragmentCabinetBinding is null")
 
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                binding.profileImage.setImageURI(it)
+            }
+        }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (context.applicationContext as App).component.inject(this)
-        Log.d(TAG, "CabinetFragment onAttach")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCabinetBinding.inflate(inflater, container, false)
-        Log.d(TAG, "CabinetFragment onCreateView")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "CabinetFragment onViewCreating")
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory)[CabinetViewModel::class.java]
 
@@ -68,10 +74,16 @@ class CabinetFragment : Fragment() {
 
         loadUserInfoIntoTextViews()
 
-        binding.updateButton.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_cabinet_to_modifyUserDataFragment)
-        }
+        clickHandlers()
+    }
 
+    private fun clickHandlers() {
+        profileImageClickHandler()
+        updateButtonClickHandler()
+        logoutButtonClickHandler()
+    }
+
+    private fun logoutButtonClickHandler() {
         binding.logoutButton.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Logout")
@@ -82,8 +94,20 @@ class CabinetFragment : Fragment() {
                 .setNegativeButton("No", null)
                 .show()
         }
+    }
 
-        Log.d(TAG, "CabinetFragment onViewCreated")
+    private fun updateButtonClickHandler() {
+        binding.updateButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_cabinet_to_modifyUserDataFragment)
+        }
+    }
+
+    private fun profileImageClickHandler() {
+        binding.profileImage.setOnClickListener {
+            getContent.launch("image/*")
+            // после того как пользователь выбрал фотографию для аватарки,
+            // отправить запрос на backend чтобы прикрепить фотографию к профилю.
+        }
     }
 
     private fun loadUserByTokenFromNet(token: String) {
@@ -127,23 +151,19 @@ class CabinetFragment : Fragment() {
 
     private fun loadingUserInfo(it: UserItem) {
         val fullName = resources.getString(
-            R.string.profile_info,
-            it.lastname ?: "",
-            it.firstname,
-            it.gender ?: ""
+            R.string.profile_info, it.lastname ?: "", it.firstname, it.gender ?: ""
         )
         binding.profileFullNamePlusGenderPlusAge.text = fullName
         binding.profileEmail.text = it.email
     }
 
-    private fun loadingImageIntoImageView(photos: List<String>?, imagePosition: Int) {
+    private fun loadingImageIntoImageView(photos: List<String>?, position: Int) {
         if (photos?.isNotEmpty() == true) {
-            Picasso.get().load(photos[imagePosition]).into(binding.profileImage)
+            Picasso.get().load(photos[position]).error(R.drawable.camera).into(binding.profileImage)
         } else {
-            Picasso.get().load(R.drawable.camera).into(binding.profileImage)
+            binding.profileImage.setImageResource(R.drawable.camera)
         }
     }
-
 
     private companion object {
         private const val TAG = "CabinetFragment"
