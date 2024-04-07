@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.HomeViewModel" />
+            type="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel" />
     </data>
 
 

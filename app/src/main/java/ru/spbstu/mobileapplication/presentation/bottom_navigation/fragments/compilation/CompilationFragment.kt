@@ -27,7 +27,6 @@ import ru.spbstu.mobileapplication.domain.enums.FeedbackType
 import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.CompilationViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint

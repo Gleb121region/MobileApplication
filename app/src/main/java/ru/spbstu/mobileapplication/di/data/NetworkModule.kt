@@ -34,7 +34,6 @@ class NetworkModule {
         return ApiFactory.announcementApiService
     }
 
-
     @Provides
     @Singleton
     fun FeedbackApiService(): FeedbackApiService {

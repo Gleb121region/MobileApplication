@@ -3,9 +3,7 @@ package ru.spbstu.mobileapplication.data.database.announcement
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import kotlinx.parcelize.Parcelize
-import ru.spbstu.mobileapplication.data.database.Converters
 import ru.spbstu.mobileapplication.domain.enums.ApartmentType
 
 @Parcelize

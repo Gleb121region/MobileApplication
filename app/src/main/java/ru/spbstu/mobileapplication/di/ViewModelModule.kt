@@ -9,11 +9,12 @@ import dagger.multibindings.IntoMap
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.RestoreAccessViewModel
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignInViewModel
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignUpViewModel
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.CabinetViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet.CabinetViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.modify.ModifyUserDataViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.ChatViewModel
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.CompilationViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.FavoriteViewModel
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.HomeViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.ApartmentTypeViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.AreaViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.BudgetViewModel
@@ -66,6 +67,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(CabinetViewModel::class)
     fun bindCabinetViewModel(viewModel: CabinetViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ModifyUserDataViewModel::class)
+    fun bindModifyUserDataViewModel(viewModel: ModifyUserDataViewModel): ViewModel
 
     // Interview
     @Binds

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.CompilationViewModel" />
+            type="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

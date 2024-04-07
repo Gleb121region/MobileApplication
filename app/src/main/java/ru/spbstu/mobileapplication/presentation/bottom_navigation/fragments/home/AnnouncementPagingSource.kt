@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import retrofit2.HttpException
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.HomeViewModel
 
 class AnnouncementPagingSource(
     private val viewModel: HomeViewModel,

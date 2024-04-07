@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.spbstu.mobileapplication.domain.enums.ApartmentType
 import java.lang.reflect.Type
+import java.util.Date
 
 
 object Converters {
@@ -33,6 +34,27 @@ object Converters {
     @TypeConverter
     fun fromList(list: List<String>?): String {
         return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun stringSetToString(data: Set<String>?): String {
+        return gson.toJson(data)
+    }
+
+    @TypeConverter
+    fun stringToStringSet(data: String?): Set<String>? {
+        val listType: Type = object : TypeToken<Set<String>>() {}.type
+        return gson.fromJson(data, listType)
+    }
+
+    @TypeConverter
+    fun fromDate(date: Date?): Long? {
+        return date?.time
+    }
+
+    @TypeConverter
+    fun toDate(timestamp: Long?): Date? {
+        return timestamp?.let { Date(it) }
     }
 }
 

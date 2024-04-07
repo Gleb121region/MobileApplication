@@ -23,7 +23,6 @@ import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnSkipClickListener
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.HomeViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
