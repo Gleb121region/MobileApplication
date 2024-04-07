@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.FragmentModifyUserDataBinding
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
+import ru.spbstu.mobileapplication.domain.enums.Gender
 import ru.spbstu.mobileapplication.domain.user.entity.EditUserItem
 import ru.spbstu.mobileapplication.domain.user.entity.UserItem
 import ru.spbstu.mobileapplication.presentation.App
@@ -64,6 +65,8 @@ class ModifyUserDataFragment : Fragment() {
         val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
 
 
+        genderGroupListener()
+
         binding.saveButton.setOnClickListener {
             getCurrentUserId(token)
             updateUserInDataBase()
@@ -72,6 +75,17 @@ class ModifyUserDataFragment : Fragment() {
         }
 
         Log.d(TAG, "CabinetFragment onViewCreated")
+    }
+
+    private fun genderGroupListener() {
+        binding.genderGroup.setOnCheckedChangeListener { group, checkedId ->
+            val gender = when (checkedId) {
+                R.id.maleRadioButton -> Gender.MALE
+                R.id.femaleRadioButton -> Gender.FEMALE
+                else -> null
+            }
+            viewModel.gender.set(gender)
+        }
     }
 
     private fun moveIntoCabinet() {
@@ -86,7 +100,7 @@ class ModifyUserDataFragment : Fragment() {
                 about = binding.aboutEditText.text.toString(),
                 birthdayDate = null,
                 firstname = binding.firstNameEditText.text.toString(),
-                gender = null,
+                gender = viewModel.gender.get(),
                 lastname = binding.lastNameEditText.text.toString(),
                 phone = binding.phoneEditText.text.toString(),
             )

@@ -2,6 +2,7 @@ package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.mod
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
+import ru.spbstu.mobileapplication.domain.enums.Gender
 import ru.spbstu.mobileapplication.domain.user.entity.EditUserItem
 import ru.spbstu.mobileapplication.domain.user.entity.UserItem
 import ru.spbstu.mobileapplication.domain.user.usecase.database.GetUserFromDatabaseUseCase
@@ -20,9 +21,9 @@ class ModifyUserDataViewModel @Inject constructor(
 ) : ViewModel() {
     val firstname = ObservableField<String>()
     val lastname = ObservableField<String>()
-    val email = ObservableField<String>()
     val phone = ObservableField<String>()
     val about = ObservableField<String>()
+    val gender = ObservableField<Gender>()
 
     suspend fun getUser(userId: Int): UserItem? = getUserFromDatabaseUseCase(userId)
 
