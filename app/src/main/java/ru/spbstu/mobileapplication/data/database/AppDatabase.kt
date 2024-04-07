@@ -18,7 +18,7 @@ import ru.spbstu.mobileapplication.data.database.user.UserInfoDao
         AnnouncementDbModel::class,
         UserDBModel::class
     ],
-    version = 11,
+    version = 12,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
