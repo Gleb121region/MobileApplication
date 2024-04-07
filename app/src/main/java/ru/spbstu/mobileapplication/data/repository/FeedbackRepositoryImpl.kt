@@ -18,8 +18,10 @@ class FeedbackRepositoryImpl @Inject constructor(
         api.createFeedback(feedback, token)
     }
 
-    override suspend fun getFeedbacks(token: String): List<AnnouncementEntity> {
-        val liked = api.getFeedbackLiked(token)
+    override suspend fun getFeedbacks(
+        limit: Int, offset: Int, token: String
+    ): List<AnnouncementEntity> {
+        val liked = api.getFeedbackLiked(limit, offset, token)
         return liked.map { announcementMapper.mapAnnouncementResponseToAnnouncementEntity(it) }
     }
 }

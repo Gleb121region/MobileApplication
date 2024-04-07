@@ -7,8 +7,8 @@ import javax.inject.Inject
 class GetFeedbacksUseCase @Inject constructor(
     private val feedbackRepository: FeedbackRepository
 ) {
-    suspend operator fun invoke(token: String): List<AnnouncementEntity> {
-        return feedbackRepository.getFeedbacks(token)
+    suspend operator fun invoke(limit: Int, offset: Int, token: String): List<AnnouncementEntity> {
+        return feedbackRepository.getFeedbacks(limit, offset, token)
     }
 
 }

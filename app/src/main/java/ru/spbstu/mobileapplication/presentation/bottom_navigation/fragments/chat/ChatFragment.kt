@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments
+package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.chat
 
 import android.content.Context
 import android.os.Bundle
@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.spbstu.mobileapplication.databinding.FragmentChatBinding
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.ChatViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
