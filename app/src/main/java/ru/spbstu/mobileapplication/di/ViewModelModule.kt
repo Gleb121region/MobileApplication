@@ -13,8 +13,8 @@ import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabi
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.modify.ModifyUserDataViewModel
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.ChatViewModel
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.FavoriteViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.chat.ChatViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.favorite.FavoriteViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.ApartmentTypeViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.AreaViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.BudgetViewModel

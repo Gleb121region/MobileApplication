@@ -5,5 +5,5 @@ import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
 
 interface FeedbackRepository {
     suspend fun createFeedback(feedbackEntity: FeedbackCreateEntity, token: String)
-    suspend fun getFeedbacks(token: String): List<AnnouncementEntity>
+    suspend fun getFeedbacks(limit:Int, offset: Int, token: String): List<AnnouncementEntity>
 }

@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="ru.spbstu.mobileapplication.presentation.bottom_navigation.view_models.ChatViewModel" />
+            type="ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.chat.ChatViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.bottom_navigation.fragments.FavoriteFragment">
+        tools:context=".presentation.bottom_navigation.fragments.favorite.FavoriteFragment">
 
         <TextView
             android:id="@+id/text_dashboard"
