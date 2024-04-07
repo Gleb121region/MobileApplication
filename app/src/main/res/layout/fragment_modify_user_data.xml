@@ -114,6 +114,8 @@
                 android:text="@string/female" />
         </RadioGroup>
 
+        <!-- todo: Добавить возможность выбирать дату рождения        -->
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"

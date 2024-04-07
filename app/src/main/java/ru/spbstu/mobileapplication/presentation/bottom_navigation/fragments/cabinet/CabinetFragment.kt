@@ -103,6 +103,7 @@ class CabinetFragment : Fragment() {
     }
 
     private fun profileImageClickHandler() {
+        // todo: добавить возможнсоть отправлять фотографии в backend
         binding.profileImage.setOnClickListener {
             getContent.launch("image/*")
             // после того как пользователь выбрал фотографию для аватарки,
