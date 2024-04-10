@@ -1,5 +1,7 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
@@ -14,17 +16,46 @@ class HomeViewModel @Inject constructor(
     private val getAnnouncementListUseCase: GetAnnouncementListUseCase,
     private val createFeedbackUseCase: CreateFeedbackUseCase
 ) : ViewModel() {
+
+    val announcements: MutableLiveData<MutableList<AnnouncementEntity>> = MutableLiveData()
+
+    val isLoading: MutableLiveData<Boolean> = MutableLiveData()
+
     suspend fun getLastSurveyFromDB(): AnswerDbModel {
-        return getLastSurveyFromDataBaseUseCase()
+        Log.d(TAG, "getLastSurveyFromDB started")
+        isLoading.postValue(true)
+        val model: AnswerDbModel = getLastSurveyFromDataBaseUseCase()
+        isLoading.postValue(false)
+        return model
     }
 
     suspend fun getAnnouncements(
         lastSurvey: AnswerDbModel, limit: Int = 10, offset: Int = 0, token: String
-    ): List<AnnouncementEntity> {
-        return getAnnouncementListUseCase(lastSurvey, limit, offset, token)
+    ) {
+        try {
+            Log.d(TAG, "getAnnouncements")
+            isLoading.postValue(true)
+            val announcementEntities =
+                getAnnouncementListUseCase(lastSurvey, limit, offset, token).toMutableList()
+            Log.d(TAG, announcementEntities.toString())
+            announcements.postValue(announcementEntities)
+            isLoading.postValue(false)
+            Log.d(TAG, announcements.toString())
+        } catch (e: Exception) {
+            Log.d(TAG, e.toString())
+        }
     }
 
+
     suspend fun createFeedback(feedbackCreateEntity: FeedbackCreateEntity, token: String) {
+        Log.d(TAG, "createFeedback started")
+        isLoading.postValue(true)
         createFeedbackUseCase(feedbackCreateEntity, token)
+        isLoading.postValue(false)
+        Log.d(TAG, "createFeedback finished")
+    }
+
+    companion object {
+        const val TAG = "HomeViewModel"
     }
 }

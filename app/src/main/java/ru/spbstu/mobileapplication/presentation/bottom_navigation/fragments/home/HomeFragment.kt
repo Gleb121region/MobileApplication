@@ -66,7 +66,7 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val loadingIndicator = binding.loadingIndicator
+        isLoadingObserve()
 
         lifecycleScope.launch(Dispatchers.IO) {
             val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
@@ -74,18 +74,23 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
             val model = viewModel.getLastSurveyFromDB()
             Log.d(TAG, "Model from DB: $model")
             try {
-                loadingIndicator.visibility = View.VISIBLE
                 Log.d(TAG, "Start loading announcements")
-                loadAnnouncements(model, token, 10, 0)
+                loadAnnouncements(model, token)
             } catch (e: Exception) {
                 Log.e(TAG, "Error in network", e)
             } finally {
-                loadingIndicator.visibility = View.GONE
                 Log.d(TAG, "Loading finished")
             }
         }
 
         Log.d(TAG, "HomeFragment onViewCreated")
+    }
+
+    private fun isLoadingObserve() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            Log.d(TAG, "isLoading observer")
+            binding.loadingIndicator.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onItemSkip(position: Int) {
@@ -101,19 +106,15 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     }
 
     private suspend fun loadAnnouncements(
-        model: AnswerDbModel,
-        token: String,
-        limit: Int,
-        offset: Int
+        model: AnswerDbModel, token: String, offset: Int = 0
     ) {
         if (isLoading) {
             Log.d(TAG, "Already loading, skip loading")
             return
         }
         isLoading = true
-        Log.d(TAG, "Loading announcements with limit=$limit and offset=$offset")
-        val announcements = viewModel.getAnnouncements(model, limit, offset, token).toMutableList()
-        if (announcements.isEmpty()) {
+        viewModel.getAnnouncements(lastSurvey = model, token = token)
+        if (viewModel.announcements.value?.isEmpty() == true) {
             Log.d(TAG, "No more announcements to load")
             isLoading = false
             return
@@ -121,12 +122,12 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
 
         withContext(Dispatchers.Main) {
             Log.d(TAG, "Announcements loaded, updating RecyclerView")
-            val announcementAdapter = AnnouncementAdapter(
-                announcements,
-                this@HomeFragment,
-                this@HomeFragment,
-            )
-            binding.rvShopList.adapter = announcementAdapter
+
+            viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
+                val announcementAdapter =
+                    AnnouncementAdapter(announcements, this@HomeFragment, this@HomeFragment)
+                binding.rvShopList.adapter = announcementAdapter
+            }
 
             val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                 0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -153,7 +154,7 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
                     if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                         val newOffset = offset + 1
                         lifecycleScope.launch {
-                            loadAnnouncements(model, token, limit, newOffset)
+                            loadAnnouncements(model,token, newOffset)
                         }
                     }
                 }
@@ -172,20 +173,16 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
             Log.d(TAG, "Sending feedback for announcement with id=${announcement.id}")
             viewModel.createFeedback(feedbackCreateEntity, token)
 
-            when (feedbackType) {
-                FeedbackType.LIKE -> {
-                    val updatedAnnouncement = announcement.copy(isLikedByUser = true)
-                    announcementAdapter.updateAnnouncement(position, updatedAnnouncement)
-                }
+            withContext(Dispatchers.Main) {
+                when (feedbackType) {
+                    FeedbackType.LIKE -> {
+                        val updatedAnnouncement = announcement.copy(isLikedByUser = true)
+                        announcementAdapter.updateAnnouncement(position, updatedAnnouncement)
+                    }
 
-                FeedbackType.SKIP -> {
-                    // Убирает данное объявление на 2 недели из предложений для пользователя
-                    announcementAdapter.deleteAnnouncement(position)
-                }
-
-                FeedbackType.DISLIKE -> {
-                    // Убирает данное объявление навсегда из предлоций для пользователя
-                    announcementAdapter.deleteAnnouncement(position)
+                    FeedbackType.SKIP, FeedbackType.DISLIKE -> {
+                        announcementAdapter.deleteAnnouncement(position)
+                    }
                 }
             }
         }
