@@ -2,6 +2,7 @@ package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.hom
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,9 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         get() = _binding ?: throw RuntimeException("FragmentHomeBinding is null")
 
     private var isLoading = false
+    private var currentOffset = 0
+
+    private var layoutManagerState: Parcelable? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,17 +74,8 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
 
         lifecycleScope.launch(Dispatchers.IO) {
             val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
-            Log.d(TAG, "Token: $token")
             val model = viewModel.getLastSurveyFromDB()
-            Log.d(TAG, "Model from DB: $model")
-            try {
-                Log.d(TAG, "Start loading announcements")
-                loadAnnouncements(model, token)
-            } catch (e: Exception) {
-                Log.e(TAG, "Error in network", e)
-            } finally {
-                Log.d(TAG, "Loading finished")
-            }
+            loadAnnouncements(model, token)
         }
 
         Log.d(TAG, "HomeFragment onViewCreated")
@@ -113,7 +108,9 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
             return
         }
         isLoading = true
-        viewModel.getAnnouncements(lastSurvey = model, token = token)
+        layoutManagerState = binding.rvShopList.layoutManager?.onSaveInstanceState()
+
+        viewModel.getAnnouncements(lastSurvey = model, offset = currentOffset, token = token)
         if (viewModel.announcements.value?.isEmpty() == true) {
             Log.d(TAG, "No more announcements to load")
             isLoading = false
@@ -123,10 +120,11 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         withContext(Dispatchers.Main) {
             Log.d(TAG, "Announcements loaded, updating RecyclerView")
 
-            viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
-                val announcementAdapter =
-                    AnnouncementAdapter(announcements, this@HomeFragment, this@HomeFragment)
-                binding.rvShopList.adapter = announcementAdapter
+            viewModel.announcements.observe(viewLifecycleOwner) {
+                binding.rvShopList.layoutManager?.onRestoreInstanceState(layoutManagerState)
+
+                val adapter = AnnouncementAdapter(it, this@HomeFragment, this@HomeFragment)
+                binding.rvShopList.adapter = adapter
             }
 
             val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
@@ -152,9 +150,10 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        val newOffset = offset + 1
+                        val newOffset = currentOffset + 1
+                        currentOffset = newOffset
                         lifecycleScope.launch {
-                            loadAnnouncements(model,token, newOffset)
+                            loadAnnouncements(model, token, newOffset)
                         }
                     }
                 }

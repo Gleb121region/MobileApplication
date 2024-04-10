@@ -33,12 +33,16 @@ class HomeViewModel @Inject constructor(
         lastSurvey: AnswerDbModel, limit: Int = 10, offset: Int = 0, token: String
     ) {
         try {
-            Log.d(TAG, "getAnnouncements")
             isLoading.postValue(true)
             val announcementEntities =
                 getAnnouncementListUseCase(lastSurvey, limit, offset, token).toMutableList()
-            Log.d(TAG, announcementEntities.toString())
-            announcements.postValue(announcementEntities)
+            if (offset == 0) {
+                announcements.postValue(announcementEntities)
+            } else {
+                val currentList = announcements.value ?: mutableListOf()
+                currentList.addAll(announcementEntities)
+                announcements.postValue(currentList)
+            }
             isLoading.postValue(false)
             Log.d(TAG, announcements.toString())
         } catch (e: Exception) {
