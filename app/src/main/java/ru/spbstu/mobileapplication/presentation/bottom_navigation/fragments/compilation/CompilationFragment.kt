@@ -8,15 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
+import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.Duration
+import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
+import com.yuyakaido.android.cardstackview.SwipeableMethod
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +32,7 @@ import ru.spbstu.mobileapplication.domain.enums.FeedbackType
 import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,6 +40,9 @@ class CompilationFragment : Fragment(), CardStackListener {
     private val manager by lazy { CardStackLayoutManager(this.context, this) }
 
     private lateinit var viewModel: CompilationViewModel
+    private lateinit var adapter: CardStackViewAdapter
+    private lateinit var token: String
+    private lateinit var cardStackView: CardStackView
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -42,6 +51,8 @@ class CompilationFragment : Fragment(), CardStackListener {
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
     private var currentPosition: Int = 0
+
+    private var currentOffset: Int = 0
 
     private var _binding: FragmentCompilationBinding? = null
     private val binding: FragmentCompilationBinding
@@ -69,20 +80,20 @@ class CompilationFragment : Fragment(), CardStackListener {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         lifecycleScope.launch {
-            val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
+            token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
             val model = viewModel.getLastSurveyFromDB()
             try {
-                loadAnnouncements(model, token, 10, 0)
+                loadAnnouncements(model, 10, 0)
+                setupCardStackView()
             } catch (e: Exception) {
                 Log.e(TAG, "Error in network", e)
             }
         }
+        cardStackView = binding.cardStackView
         Log.d(TAG, "CompilationFragment onViewCreated")
     }
 
-    private suspend fun loadAnnouncements(
-        lastSurvey: AnswerDbModel, token: String, limit: Int, offset: Int
-    ) {
+    private suspend fun loadAnnouncements(lastSurvey: AnswerDbModel, limit: Int, offset: Int) {
         val announcements = viewModel.sendRequest(lastSurvey, limit, offset, token).toMutableList()
         if (announcements.isEmpty()) {
             Log.d(TAG, "No more announcements to load")
@@ -95,109 +106,83 @@ class CompilationFragment : Fragment(), CardStackListener {
             }
         }
 
-        val cardStackView = binding.cardStackView
-
-        val adapter = CardStackViewAdapter(announcements)
+        adapter = CardStackViewAdapter(announcements)
         cardStackView.adapter = adapter
 
-        setupButtonListeners(adapter, token)
+        setupButtonListeners()
+
+        // Обновляем текущее смещение
+        currentOffset++
     }
 
-    private fun setupButtonListeners(adapter: CardStackViewAdapter, token: String) {
-        val cardStackView = binding.cardStackView
 
+    private fun setupButtonListeners() {
         binding.dislikeButton.setOnClickListener {
-            dislikeHandler(adapter, token, cardStackView)
+            handleFeedback(FeedbackType.DISLIKE)
         }
 
         binding.skipButton.setOnClickListener {
-            skipHandler(adapter, token, cardStackView)
+            handleFeedback(FeedbackType.SKIP)
         }
         binding.likeButton.setOnClickListener {
-            likeHandler(adapter, token, cardStackView)
+            handleFeedback(FeedbackType.LIKE)
         }
     }
 
-    private fun likeHandler(
-        adapter: CardStackViewAdapter,
-        token: String,
-        cardStackView: CardStackView
-    ) {
-        Log.d(TAG, "like clicked")
+    private fun handleFeedback(feedbackType: FeedbackType) {
+        Log.d(TAG, "${feedbackType.name.lowercase(Locale.ROOT)} clicked")
         val announcement = adapter.announcements[currentPosition]
-        val feedbackType = FeedbackType.LIKE
         val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
-        lifecycleScope.launch(Dispatchers.Default) {
+        lifecycleScope.launch(Dispatchers.IO) {
             viewModel.sendRequest(feedbackCreateEntity, token)
         }
-        val setting = SwipeAnimationSetting.Builder().setDirection(Direction.Right)
-            .setDuration(Duration.Normal.duration).setInterpolator(AccelerateInterpolator())
-            .build()
-        manager.setSwipeAnimationSetting(setting)
-        cardStackView.swipe()
-        currentPosition++
-    }
 
-    private fun skipHandler(
-        adapter: CardStackViewAdapter,
-        token: String,
-        cardStackView: CardStackView
-    ) {
-        Log.d(TAG, "skip clicked")
-        val announcement = adapter.announcements[currentPosition]
-        val feedbackType = FeedbackType.SKIP
-        val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
-        lifecycleScope.launch(Dispatchers.Default) {
-            viewModel.sendRequest(feedbackCreateEntity, token)
+        val direction: Direction
+        val interpolator: Interpolator
+        when (feedbackType) {
+            FeedbackType.LIKE -> {
+                direction = Direction.Right
+                interpolator = AccelerateInterpolator()
+            }
+
+            FeedbackType.SKIP -> {
+                direction = Direction.Bottom
+                interpolator = DecelerateInterpolator()
+            }
+
+            FeedbackType.DISLIKE -> {
+                direction = Direction.Left
+                interpolator = AccelerateInterpolator()
+            }
         }
-        val setting = SwipeAnimationSetting.Builder().setDirection(Direction.Bottom)
-            .setDuration(Duration.Normal.duration).setInterpolator(DecelerateInterpolator())
-            .build()
+
+        val setting = SwipeAnimationSetting.Builder().setDirection(direction)
+            .setDuration(Duration.Normal.duration).setInterpolator(interpolator).build()
         manager.setSwipeAnimationSetting(setting)
         cardStackView.swipe()
-        currentPosition++
     }
-
-    private fun dislikeHandler(
-        adapter: CardStackViewAdapter,
-        token: String,
-        cardStackView: CardStackView
-    ) {
-        Log.d(TAG, "dislike clicked")
-        val announcement = adapter.announcements[currentPosition]
-        val feedbackType = FeedbackType.DISLIKE
-        val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
-        lifecycleScope.launch(Dispatchers.Default) {
-            viewModel.sendRequest(feedbackCreateEntity, token)
-        }
-        val setting = SwipeAnimationSetting.Builder().setDirection(Direction.Left)
-            .setDuration(Duration.Normal.duration).setInterpolator(AccelerateInterpolator())
-            .build()
-        manager.setSwipeAnimationSetting(setting)
-        cardStackView.swipe()
-        currentPosition++
-    }
-
 
     override fun onCardDragging(direction: Direction, ratio: Float) {
         Log.d(TAG, "onCardDragging: d = ${direction.name}, r = $ratio")
-        Log.d(TAG, manager.topPosition.toString())
     }
 
     override fun onCardSwiped(direction: Direction?) {
-        Log.d(TAG, "onCardSwiped: d = $direction")
-//        when (direction) {
-//            Direction.Left -> {
-//                dislikeHandler()
-//            }
-//            Direction.Right -> {
-//                likeHandler()
-//            }
-//            Direction.Bottom ->{
-//                skipHandler()
-//            }
-//            else -> {}
-//        }
+        Log.d(TAG, "onCardSwiped: p = ${manager.topPosition}, d = $direction")
+        when (direction) {
+            Direction.Left -> {
+                handleFeedback(FeedbackType.DISLIKE)
+            }
+
+            Direction.Right -> {
+                handleFeedback(FeedbackType.LIKE)
+            }
+
+            Direction.Bottom -> {
+                handleFeedback(FeedbackType.SKIP)
+            }
+
+            else -> {}
+        }
         Log.d(TAG, manager.topPosition.toString())
     }
 
@@ -221,6 +206,31 @@ class CompilationFragment : Fragment(), CardStackListener {
         Log.d(TAG, "onCardDisappeared: $position")
         Log.d(TAG, manager.topPosition.toString())
     }
+
+    private fun setupCardStackView() {
+        manager.setStackFrom(StackFrom.None)
+        manager.setVisibleCount(3)
+        manager.setTranslationInterval(8.0f)
+        manager.setScaleInterval(0.95f)
+        manager.setSwipeThreshold(0.3f)
+        manager.setMaxDegree(20.0f)
+        manager.setDirections(Direction.HORIZONTAL)
+        manager.setCanScrollHorizontal(true)
+        manager.setCanScrollVertical(true)
+        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
+        manager.setOverlayInterpolator(LinearInterpolator())
+
+        cardStackView.layoutManager = manager
+
+        cardStackView.adapter = adapter
+
+        cardStackView.itemAnimator.apply {
+            if (this is DefaultItemAnimator) {
+                supportsChangeAnimations = false
+            }
+        }
+    }
+
 
     private companion object {
         private const val TAG = "CompilationFragment"
