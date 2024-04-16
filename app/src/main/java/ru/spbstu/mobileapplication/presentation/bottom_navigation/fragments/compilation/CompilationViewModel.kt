@@ -25,12 +25,12 @@ class CompilationViewModel @Inject constructor(
 
     //DB
     suspend fun getLastSurveyFromDB(): AnswerDbModel {
-        Log.d(TAG, "getLastSurveyFromDB")
+        Log.d(TAG, "get last survey from DB")
         return getLastSurveyFromDataBaseUseCase()
     }
 
     suspend fun insertAnnouncementIntoDB(announcement: AnnouncementEntity) {
-        Log.d(TAG, "recordIntoDB")
+        Log.d(TAG, "insert announcement into DB")
         return insertAnnouncementIntoDataBaseUseCase(announcement)
     }
 
@@ -48,14 +48,12 @@ class CompilationViewModel @Inject constructor(
     suspend fun getAnnouncements(
         lastSurvey: AnswerDbModel, limit: Int = 10, offset: Int = 0, token: String
     ): List<AnnouncementEntity> {
-        Log.d(TAG, "sendRequest announcement")
+        Log.d(TAG, "get announcements")
         return getAnnouncementListUseCase(lastSurvey, limit, offset, token)
     }
 
-    suspend fun createFeedback(
-        feedbackCreateEntity: FeedbackCreateEntity, token: String
-    ) {
-        Log.d(TAG, "sendRequest feedback")
+    suspend fun createFeedback(feedbackCreateEntity: FeedbackCreateEntity, token: String) {
+        Log.d(TAG, "create feedback")
         createFeedbackUseCase(feedbackCreateEntity, token)
     }
 

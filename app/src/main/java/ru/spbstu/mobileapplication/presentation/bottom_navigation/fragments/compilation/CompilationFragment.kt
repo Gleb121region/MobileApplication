@@ -112,11 +112,7 @@ class CompilationFragment : Fragment(), CardStackListener {
         cardStackView.adapter = adapter
 
         setupButtonListeners()
-
-        // Обновляем текущее смещение
-        currentOffset++
     }
-
 
     private fun setupButtonListeners() {
         binding.dislikeButton.setOnClickListener {
@@ -206,7 +202,9 @@ class CompilationFragment : Fragment(), CardStackListener {
 
     override fun onCardAppeared(view: View?, position: Int) {
         Log.d(TAG, "onCardAppeared: $position")
-        currentPosition++
+        if (position == adapter.itemCount - 1) {
+            Log.d(TAG, "Need more ads")
+        }
         Log.d(TAG, manager.topPosition.toString())
     }
 
@@ -238,7 +236,6 @@ class CompilationFragment : Fragment(), CardStackListener {
             }
         }
     }
-
 
     private companion object {
         private const val TAG = "CompilationFragment"
