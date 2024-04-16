@@ -51,6 +51,7 @@ class CompilationFragment : Fragment(), CardStackListener {
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
     private var currentPosition: Int = 0
+    private var isClicked: Boolean = false
 
     private var currentOffset: Int = 0
 
@@ -94,7 +95,8 @@ class CompilationFragment : Fragment(), CardStackListener {
     }
 
     private suspend fun loadAnnouncements(lastSurvey: AnswerDbModel, limit: Int, offset: Int) {
-        val announcements = viewModel.getAnnouncements(lastSurvey, limit, offset, token).toMutableList()
+        val announcements =
+            viewModel.getAnnouncements(lastSurvey, limit, offset, token).toMutableList()
         if (announcements.isEmpty()) {
             Log.d(TAG, "No more announcements to load")
             return
@@ -131,6 +133,8 @@ class CompilationFragment : Fragment(), CardStackListener {
 
     private fun handleFeedback(feedbackType: FeedbackType) {
         Log.d(TAG, "${feedbackType.name.lowercase(Locale.ROOT)} clicked")
+        isClicked = true
+        Log.d(TAG, "value variable isClicked is $isClicked")
         val announcement = adapter.announcements[currentPosition]
         val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
         lifecycleScope.launch(Dispatchers.IO) {
@@ -168,6 +172,10 @@ class CompilationFragment : Fragment(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction?) {
         Log.d(TAG, "onCardSwiped: p = ${manager.topPosition}, d = $direction")
+        if (isClicked) {
+            isClicked = false
+            return
+        }
         when (direction) {
             Direction.Left -> {
                 handleFeedback(FeedbackType.DISLIKE)
@@ -176,7 +184,7 @@ class CompilationFragment : Fragment(), CardStackListener {
             Direction.Right -> {
                 handleFeedback(FeedbackType.LIKE)
             }
-
+            // todo: разобраться не работает пока что!
             Direction.Bottom -> {
                 handleFeedback(FeedbackType.SKIP)
             }
