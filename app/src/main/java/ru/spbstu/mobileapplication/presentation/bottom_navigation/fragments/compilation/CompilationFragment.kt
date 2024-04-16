@@ -94,7 +94,7 @@ class CompilationFragment : Fragment(), CardStackListener {
     }
 
     private suspend fun loadAnnouncements(lastSurvey: AnswerDbModel, limit: Int, offset: Int) {
-        val announcements = viewModel.sendRequest(lastSurvey, limit, offset, token).toMutableList()
+        val announcements = viewModel.getAnnouncements(lastSurvey, limit, offset, token).toMutableList()
         if (announcements.isEmpty()) {
             Log.d(TAG, "No more announcements to load")
             return
@@ -102,7 +102,7 @@ class CompilationFragment : Fragment(), CardStackListener {
 
         lifecycleScope.launch(Dispatchers.IO) {
             for (announcement in announcements) {
-                viewModel.recordIntoDB(announcement)
+                viewModel.insertAnnouncementIntoDB(announcement)
             }
         }
 
@@ -134,7 +134,7 @@ class CompilationFragment : Fragment(), CardStackListener {
         val announcement = adapter.announcements[currentPosition]
         val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
         lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.sendRequest(feedbackCreateEntity, token)
+            viewModel.createFeedback(feedbackCreateEntity, token)
         }
 
         val direction: Direction
