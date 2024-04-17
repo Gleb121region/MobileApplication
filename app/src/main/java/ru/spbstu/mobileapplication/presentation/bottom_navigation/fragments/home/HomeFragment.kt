@@ -2,6 +2,7 @@ package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.hom
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.databinding.FragmentHomeBinding
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
@@ -41,7 +44,9 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         get() = _binding ?: throw RuntimeException("FragmentHomeBinding is null")
 
     private var isLoading = false
+    private var currentOffset = 0
 
+    private var layoutManagerState: Parcelable? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -65,24 +70,22 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val loadingIndicator = binding.loadingIndicator
+        isLoadingObserve()
 
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
-            Log.d(TAG, token)
             val model = viewModel.getLastSurveyFromDB()
-            Log.d(TAG, model.toString())
-            try {
-                loadingIndicator.visibility = View.VISIBLE
-                loadAnnouncements(model, token, 10, 0)
-            } catch (e: Exception) {
-                Log.e(TAG, "Error in network", e)
-            } finally {
-                loadingIndicator.visibility = View.GONE
-            }
+            loadAnnouncements(model, token)
         }
 
         Log.d(TAG, "HomeFragment onViewCreated")
+    }
+
+    private fun isLoadingObserve() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            Log.d(TAG, "isLoading observer")
+            binding.loadingIndicator.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onItemSkip(position: Int) {
@@ -98,53 +101,65 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     }
 
     private suspend fun loadAnnouncements(
-        lastSurvey: AnswerDbModel, token: String, limit: Int, offset: Int
+        model: AnswerDbModel, token: String, offset: Int = 0
     ) {
-        if (isLoading) return
-        isLoading = true
-
-        val announcements = viewModel.sendRequest(lastSurvey, limit, offset, token).toMutableList()
-        if (announcements.isEmpty()) {
-            Log.d(TAG, "No more announcements to load")
+        if (isLoading) {
+            Log.d(TAG, "Already loading, skip loading")
             return
         }
-        val announcementAdapter = AnnouncementAdapter(
-            announcements,
-            this@HomeFragment,
-            this@HomeFragment,
-        )
-        binding.rvShopList.adapter = announcementAdapter
+        isLoading = true
+        layoutManagerState = binding.rvShopList.layoutManager?.onSaveInstanceState()
 
-        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
+        viewModel.getAnnouncements(lastSurvey = model, offset = currentOffset, token = token)
+        if (viewModel.announcements.value?.isEmpty() == true) {
+            Log.d(TAG, "No more announcements to load")
+            isLoading = false
+            return
+        }
+
+        withContext(Dispatchers.Main) {
+            Log.d(TAG, "Announcements loaded, updating RecyclerView")
+
+            viewModel.announcements.observe(viewLifecycleOwner) {
+                binding.rvShopList.layoutManager?.onRestoreInstanceState(layoutManagerState)
+
+                val adapter = AnnouncementAdapter(it, this@HomeFragment, this@HomeFragment)
+                binding.rvShopList.adapter = adapter
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.bindingAdapterPosition
-                val adapter = binding.rvShopList.adapter as AnnouncementAdapter
-                onItemSkip(position)
-            }
-        })
-        itemTouchHelper.attachToRecyclerView(binding.rvShopList)
+            val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
 
-        binding.rvShopList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    val newOffset = offset + 1
-                    lifecycleScope.launch {
-                        loadAnnouncements(lastSurvey, token, limit, newOffset)
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.bindingAdapterPosition
+                    val adapter = binding.rvShopList.adapter as AnnouncementAdapter
+                    onItemSkip(position)
+                }
+            })
+            itemTouchHelper.attachToRecyclerView(binding.rvShopList)
+
+            binding.rvShopList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val newOffset = currentOffset + 1
+                        currentOffset = newOffset
+                        lifecycleScope.launch {
+                            loadAnnouncements(model, token, newOffset)
+                        }
                     }
                 }
-            }
-        })
+            })
+            isLoading = false
+        }
     }
 
     private fun handleFeedbackClick(position: Int, feedbackType: FeedbackType) {
@@ -153,27 +168,25 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
         val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
 
-        lifecycleScope.launch {
-            viewModel.sendRequest(feedbackCreateEntity, token)
+        lifecycleScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "Sending feedback for announcement with id=${announcement.id}")
+            viewModel.createFeedback(feedbackCreateEntity, token)
 
-            when (feedbackType) {
-                FeedbackType.LIKE -> {
-                    val updatedAnnouncement = announcement.copy(isLikedByUser = true)
-                    announcementAdapter.updateAnnouncement(position, updatedAnnouncement)
-                }
+            withContext(Dispatchers.Main) {
+                when (feedbackType) {
+                    FeedbackType.LIKE -> {
+                        val updatedAnnouncement = announcement.copy(isLikedByUser = true)
+                        announcementAdapter.updateAnnouncement(position, updatedAnnouncement)
+                    }
 
-                FeedbackType.SKIP -> {
-                    // Убирает данное объявление на 2 недели из предложений для пользователя
-                    announcementAdapter.deleteAnnouncement(position)
-                }
-
-                FeedbackType.DISLIKE -> {
-                    // Убирает данное объявление навсегда из предложений для пользователя
-                    announcementAdapter.deleteAnnouncement(position)
+                    FeedbackType.SKIP, FeedbackType.DISLIKE -> {
+                        announcementAdapter.deleteAnnouncement(position)
+                    }
                 }
             }
         }
     }
+
 
     private companion object {
         private const val TAG = "HomeFragment"

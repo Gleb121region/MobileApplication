@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import ru.spbstu.mobileapplication.R
+import ru.spbstu.mobileapplication.databinding.ItemSpotBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 
 class CardStackViewAdapter(
@@ -15,7 +15,7 @@ class CardStackViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompilationViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return CompilationViewHolder(inflater.inflate(R.layout.item_spot, parent, false))
+        return CompilationViewHolder(ItemSpotBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: CompilationViewHolder, position: Int) {

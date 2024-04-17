@@ -1,51 +1,65 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 import ru.spbstu.mobileapplication.domain.announcement.usecases.GetAnnouncementListUseCase
-import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
 import ru.spbstu.mobileapplication.domain.feedback.usecases.CreateFeedbackUseCase
 import ru.spbstu.mobileapplication.domain.survey.usecase.database.GetLastSurveyFromDataBaseUseCase
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.AnnouncementPagingSource
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val getLastSurveyFromDataBaseUseCase: GetLastSurveyFromDataBaseUseCase,
     private val getAnnouncementListUseCase: GetAnnouncementListUseCase,
-    private val createFeedbackUseCase: CreateFeedbackUseCase,
-    private val getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
+    private val createFeedbackUseCase: CreateFeedbackUseCase
 ) : ViewModel() {
 
-    val loading = MutableLiveData<Boolean>()
+    val announcements: MutableLiveData<MutableList<AnnouncementEntity>> = MutableLiveData()
 
-    val announcementList = Pager(PagingConfig(1)) {
-        AnnouncementPagingSource(this, getTokenFromLocalStorageUseCase)
-    }.flow.cachedIn(viewModelScope)
+    val isLoading: MutableLiveData<Boolean> = MutableLiveData()
 
     suspend fun getLastSurveyFromDB(): AnswerDbModel {
-        return getLastSurveyFromDataBaseUseCase()
+        Log.d(TAG, "getLastSurveyFromDB started")
+        isLoading.postValue(true)
+        val model: AnswerDbModel = getLastSurveyFromDataBaseUseCase()
+        isLoading.postValue(false)
+        return model
     }
 
-    suspend fun sendRequest(
+    suspend fun getAnnouncements(
         lastSurvey: AnswerDbModel, limit: Int = 10, offset: Int = 0, token: String
-    ): List<AnnouncementEntity> {
-        return getAnnouncementListUseCase(lastSurvey, limit, offset, token)
+    ) {
+        try {
+            isLoading.postValue(true)
+            val announcementEntities =
+                getAnnouncementListUseCase(lastSurvey, limit, offset, token).toMutableList()
+            if (offset == 0) {
+                announcements.postValue(announcementEntities)
+            } else {
+                val currentList = announcements.value ?: mutableListOf()
+                currentList.addAll(announcementEntities)
+                announcements.postValue(currentList)
+            }
+            isLoading.postValue(false)
+            Log.d(TAG, announcements.toString())
+        } catch (e: Exception) {
+            Log.d(TAG, e.toString())
+        }
     }
 
-    suspend fun sendRequest(
-        feedbackCreateEntity: FeedbackCreateEntity, token: String
-    ) {
+
+    suspend fun createFeedback(feedbackCreateEntity: FeedbackCreateEntity, token: String) {
+        Log.d(TAG, "createFeedback started")
+        isLoading.postValue(true)
         createFeedbackUseCase(feedbackCreateEntity, token)
+        isLoading.postValue(false)
+        Log.d(TAG, "createFeedback finished")
     }
 
     companion object {
-        private const val TAG = "HomeViewModel"
+        const val TAG = "HomeViewModel"
     }
 }
