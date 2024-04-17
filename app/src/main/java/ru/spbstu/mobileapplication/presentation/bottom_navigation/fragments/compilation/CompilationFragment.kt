@@ -10,6 +10,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -42,6 +43,7 @@ class CompilationFragment : Fragment(), CardStackListener {
     private lateinit var viewModel: CompilationViewModel
     private lateinit var adapter: CardStackViewAdapter
     private lateinit var token: String
+    private lateinit var lastSurvey: AnswerDbModel
     private lateinit var cardStackView: CardStackView
 
     @Inject
@@ -50,9 +52,13 @@ class CompilationFragment : Fragment(), CardStackListener {
     @Inject
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
-    private var currentPosition: Int = 0
-    private var isClicked: Boolean = false
+    private val limit: Int = 10
 
+    private var isClicked: Boolean = false
+    private var isFirstTime: Boolean = true
+    private var isLoadingData = false
+
+    private var currentPosition: Int = 0
     private var currentOffset: Int = 0
 
     private var _binding: FragmentCompilationBinding? = null
@@ -82,10 +88,9 @@ class CompilationFragment : Fragment(), CardStackListener {
         binding.lifecycleOwner = viewLifecycleOwner
         lifecycleScope.launch {
             token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
-            val model = viewModel.getLastSurveyFromDB()
+            lastSurvey = viewModel.getLastSurveyFromDB()
             try {
-                loadAnnouncements(model, 10, 0)
-                setupCardStackView()
+                loadAnnouncements()
             } catch (e: Exception) {
                 Log.e(TAG, "Error in network", e)
             }
@@ -94,24 +99,49 @@ class CompilationFragment : Fragment(), CardStackListener {
         Log.d(TAG, "CompilationFragment onViewCreated")
     }
 
-    private suspend fun loadAnnouncements(lastSurvey: AnswerDbModel, limit: Int, offset: Int) {
-        val announcements =
-            viewModel.getAnnouncements(lastSurvey, limit, offset, token).toMutableList()
-        if (announcements.isEmpty()) {
-            Log.d(TAG, "No more announcements to load")
+    private fun loadAnnouncements() {
+        if (isLoadingData) {
             return
         }
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            for (announcement in announcements) {
-                viewModel.insertAnnouncementIntoDB(announcement)
+        isLoadingData = true
+
+        lifecycleScope.launch {
+            try {
+                viewModel.getAnnouncements(lastSurvey, limit, currentOffset, token)
+
+                viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
+                    if (announcements != null) {
+                        val announcementsCopy = announcements.toList()
+
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            for (announcement in announcementsCopy) {
+                                if (!viewModel.announcementExistsInDB(announcement.id)) {
+                                    viewModel.insertAnnouncementIntoDB(announcement)
+                                }
+                            }
+                        }
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            adapter = CardStackViewAdapter(announcements)
+                            cardStackView.adapter = adapter
+                            if (isFirstTime) {
+                                setupCardStackView()
+                                setupButtonListeners()
+                                isFirstTime = false
+                            }
+                        }
+                    }
+                    isLoadingData = false
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error loading announcements", e)
+                isLoadingData = false
             }
         }
+    }
 
-        adapter = CardStackViewAdapter(announcements)
-        cardStackView.adapter = adapter
-
-        setupButtonListeners()
+    private fun showNoMoreAnnouncementsNotification() {
+        Toast.makeText(requireContext(), "Все квартиры закончились!", Toast.LENGTH_LONG).show()
     }
 
     private fun setupButtonListeners() {
@@ -130,7 +160,6 @@ class CompilationFragment : Fragment(), CardStackListener {
     private fun handleFeedback(feedbackType: FeedbackType) {
         Log.d(TAG, "${feedbackType.name.lowercase(Locale.ROOT)} clicked")
         isClicked = true
-        Log.d(TAG, "value variable isClicked is $isClicked")
         val announcement = adapter.announcements[currentPosition]
         val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
         lifecycleScope.launch(Dispatchers.IO) {
@@ -202,9 +231,14 @@ class CompilationFragment : Fragment(), CardStackListener {
 
     override fun onCardAppeared(view: View?, position: Int) {
         Log.d(TAG, "onCardAppeared: $position")
-        if (position == adapter.itemCount - 1) {
-            Log.d(TAG, "Need more ads")
+        if (position == adapter.itemCount - 1 && !isLoadingData) {
+            Log.d(TAG, "Reached the end of the list, fetching more announcements")
+            currentOffset++
+            lifecycleScope.launch(Dispatchers.IO) {
+                loadAnnouncements()
+            }
         }
+        currentPosition++
         Log.d(TAG, manager.topPosition.toString())
     }
 

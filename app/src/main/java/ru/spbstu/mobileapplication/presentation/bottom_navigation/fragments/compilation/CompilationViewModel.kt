@@ -31,7 +31,7 @@ class CompilationViewModel @Inject constructor(
 
     //DB
     suspend fun getLastSurveyFromDB(): AnswerDbModel {
-        Log.d(HomeViewModel.TAG, "getLastSurveyFromDB started")
+        Log.d(TAG, "getLastSurveyFromDB started")
         isLoading.postValue(true)
         val model: AnswerDbModel = getLastSurveyFromDataBaseUseCase()
         isLoading.postValue(false)
@@ -43,10 +43,9 @@ class CompilationViewModel @Inject constructor(
         return insertAnnouncementIntoDataBaseUseCase(announcement)
     }
 
-    suspend fun getAnnouncementById(id: Int): AnnouncementDbModel? {
-        Log.d(TAG, "getAnnouncementById")
-        return getAnnouncementByIdFromDataBaseUseCase(id)
-    }
+    suspend fun announcementExistsInDB(id: Int): Boolean =
+        getAnnouncementByIdFromDataBaseUseCase(id) != null
+
 
     suspend fun getAnnouncements(): List<AnnouncementDbModel> {
         Log.d(TAG, "getAnnouncements")
@@ -69,19 +68,19 @@ class CompilationViewModel @Inject constructor(
                 announcements.postValue(currentList)
             }
             isLoading.postValue(false)
-            Log.d(HomeViewModel.TAG, announcements.toString())
+            Log.d(TAG, announcements.toString())
         } catch (e: Exception) {
-            Log.d(HomeViewModel.TAG, e.toString())
+            Log.d(TAG, e.toString())
         }
     }
 
 
     suspend fun createFeedback(feedbackCreateEntity: FeedbackCreateEntity, token: String) {
-        Log.d(HomeViewModel.TAG, "createFeedback started")
+        Log.d(TAG, "createFeedback started")
         isLoading.postValue(true)
         createFeedbackUseCase(feedbackCreateEntity, token)
         isLoading.postValue(false)
-        Log.d(HomeViewModel.TAG, "createFeedback finished")
+        Log.d(TAG, "createFeedback finished")
     }
 
     companion object {
