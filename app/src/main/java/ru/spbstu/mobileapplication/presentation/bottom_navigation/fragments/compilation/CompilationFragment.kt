@@ -40,19 +40,17 @@ import javax.inject.Inject
 class CompilationFragment : Fragment(), CardStackListener {
     private val manager by lazy { CardStackLayoutManager(this.context, this) }
 
-    private lateinit var viewModel: CompilationViewModel
-    private lateinit var adapter: CardStackViewAdapter
     private lateinit var token: String
     private lateinit var lastSurvey: AnswerDbModel
     private lateinit var cardStackView: CardStackView
+    private lateinit var adapter: CardStackViewAdapter
+    private lateinit var viewModel: CompilationViewModel
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
-
-    private val limit: Int = 10
 
     private var isClicked: Boolean = false
     private var isFirstTime: Boolean = true
@@ -86,6 +84,7 @@ class CompilationFragment : Fragment(), CardStackListener {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
         lifecycleScope.launch {
             token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
             lastSurvey = viewModel.getLastSurveyFromDB()
@@ -95,7 +94,9 @@ class CompilationFragment : Fragment(), CardStackListener {
                 Log.e(TAG, "Error in network", e)
             }
         }
+
         cardStackView = binding.cardStackView
+
         Log.d(TAG, "CompilationFragment onViewCreated")
     }
 
@@ -108,7 +109,7 @@ class CompilationFragment : Fragment(), CardStackListener {
 
         lifecycleScope.launch {
             try {
-                viewModel.getAnnouncements(lastSurvey, limit, currentOffset, token)
+                viewModel.getAnnouncements(lastSurvey, LIMIT, currentOffset, token)
 
                 viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
                     if (announcements != null) {
@@ -273,5 +274,6 @@ class CompilationFragment : Fragment(), CardStackListener {
 
     private companion object {
         private const val TAG = "CompilationFragment"
+        private const val LIMIT: Int = 10
     }
 }
