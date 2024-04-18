@@ -11,6 +11,7 @@ import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
 class AnnouncementAdapter(
     val announcements: MutableList<AnnouncementEntity>,
+    private val viewModel: HomeViewModel,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
 ) : PagingDataAdapter<AnnouncementEntity, AnnouncementViewHolder>(COMPARATOR) {
@@ -32,6 +33,7 @@ class AnnouncementAdapter(
         val binding = ItemAnnouncementBinding.inflate(inflater, parent, false)
         return AnnouncementViewHolder(
             binding,
+            viewModel,
             dislikeClickListener,
             likeClickListener
         )

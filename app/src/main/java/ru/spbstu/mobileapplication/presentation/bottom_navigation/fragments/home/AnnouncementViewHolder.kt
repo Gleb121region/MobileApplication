@@ -14,6 +14,7 @@ import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
 class AnnouncementViewHolder(
     private val binding: ItemAnnouncementBinding,
+    private val viewModel: HomeViewModel,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -64,6 +65,9 @@ class AnnouncementViewHolder(
             dislikeClickListener?.onItemDislike(position)
         }
 
+        binding.cardStackView.setOnClickListener {
+            viewModel.selectedAnnouncementId.value = announcement.id
+        }
     }
 
     private fun updateDotsCount(size: Int, dotsLayout: LinearLayout) {

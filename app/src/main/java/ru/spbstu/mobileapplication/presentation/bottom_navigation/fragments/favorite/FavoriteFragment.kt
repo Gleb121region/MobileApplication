@@ -100,7 +100,7 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
                 this@FavoriteFragment,
                 this@FavoriteFragment,
             )
-            binding.rvShopList.adapter = favoriteAdapter
+            binding.rvAnnouncementList.adapter = favoriteAdapter
 
             val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                 0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -115,14 +115,14 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.bindingAdapterPosition
-                    val adapter = binding.rvShopList.adapter as AnnouncementAdapter
+                    val adapter = binding.rvAnnouncementList.adapter as AnnouncementAdapter
                     onItemSkip(position)
                 }
             })
-            itemTouchHelper.attachToRecyclerView(binding.rvShopList)
+            itemTouchHelper.attachToRecyclerView(binding.rvAnnouncementList)
         }
 
-        binding.rvShopList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rvAnnouncementList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
@@ -149,7 +149,7 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
     }
 
     private fun handleFeedbackClick(position: Int, feedbackType: FeedbackType) {
-        val announcementAdapter = binding.rvShopList.adapter as FavoriteAdapter
+        val announcementAdapter = binding.rvAnnouncementList.adapter as FavoriteAdapter
         val announcement = announcementAdapter.announcements[position]
         val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
         val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)

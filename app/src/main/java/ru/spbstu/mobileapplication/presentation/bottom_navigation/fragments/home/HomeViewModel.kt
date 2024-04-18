@@ -17,6 +17,8 @@ class HomeViewModel @Inject constructor(
     private val createFeedbackUseCase: CreateFeedbackUseCase
 ) : ViewModel() {
 
+    val selectedAnnouncementId: MutableLiveData<Int> = MutableLiveData()
+
     val announcements: MutableLiveData<MutableList<AnnouncementEntity>> = MutableLiveData()
 
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -30,9 +32,10 @@ class HomeViewModel @Inject constructor(
     }
 
     suspend fun getAnnouncements(
-        lastSurvey: AnswerDbModel, limit: Int = 10, offset: Int = 0, token: String
+        lastSurvey: AnswerDbModel, offset: Int = 0, token: String
     ) {
         try {
+            val limit = 10
             isLoading.postValue(true)
             val announcementEntities =
                 getAnnouncementListUseCase(lastSurvey, limit, offset, token).toMutableList()

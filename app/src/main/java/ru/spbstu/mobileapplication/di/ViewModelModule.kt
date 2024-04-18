@@ -9,12 +9,13 @@ import dagger.multibindings.IntoMap
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.RestoreAccessViewModel
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignInViewModel
 import ru.spbstu.mobileapplication.presentation.authorization_activity.view_models.SignUpViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.announcement.AnnouncementDetailsViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.cabinet.CabinetViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.chat.ChatViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation.CompilationViewModel
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.favorite.FavoriteViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.modify.ModifyUserDataViewModel
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.chat.ChatViewModel
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.favorite.FavoriteViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.ApartmentTypeViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.AreaViewModel
 import ru.spbstu.mobileapplication.presentation.interview.view_models.BudgetViewModel
@@ -57,6 +58,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(FavoriteViewModel::class)
     fun bindFavoriteViewModel(viewModel: FavoriteViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AnnouncementDetailsViewModel::class)
+    fun bindAnnouncementDetailsViewModel(viewModel: AnnouncementDetailsViewModel): ViewModel
 
     @Binds
     @IntoMap

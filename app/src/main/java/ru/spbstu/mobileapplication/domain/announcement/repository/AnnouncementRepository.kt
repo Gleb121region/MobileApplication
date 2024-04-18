@@ -2,13 +2,14 @@ package ru.spbstu.mobileapplication.domain.announcement.repository
 
 import ru.spbstu.mobileapplication.data.database.announcement.AnnouncementDbModel
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
+import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementDetailedEntity
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 
 
 interface AnnouncementRepository {
     // network
     //    suspend fun addAnnouncementItem(shopItem: AnnouncementEntity)
-    suspend fun getAnnouncementItem(announcementItemId: Int, token: String): AnnouncementEntity
+    suspend fun getAnnouncementItem(announcementItemId: Int, token: String): AnnouncementDetailedEntity
     suspend fun getAnnouncementList(
         model: AnswerDbModel,
         limit: Int,

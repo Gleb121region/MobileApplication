@@ -17,7 +17,7 @@
         tools:context=".presentation.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_shop_list"
+            android:id="@+id/rv_announcement_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -33,10 +33,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/rv_shop_list"
-            app:layout_constraintEnd_toEndOf="@id/rv_shop_list"
-            app:layout_constraintStart_toStartOf="@id/rv_shop_list"
-            app:layout_constraintTop_toTopOf="@id/rv_shop_list" />
+            app:layout_constraintBottom_toBottomOf="@id/rv_announcement_list"
+            app:layout_constraintEnd_toEndOf="@id/rv_announcement_list"
+            app:layout_constraintStart_toStartOf="@id/rv_announcement_list"
+            app:layout_constraintTop_toTopOf="@id/rv_announcement_list" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
