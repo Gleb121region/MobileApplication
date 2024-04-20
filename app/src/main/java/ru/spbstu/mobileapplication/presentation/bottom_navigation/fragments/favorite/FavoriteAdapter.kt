@@ -11,6 +11,7 @@ import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
 class FavoriteAdapter(
     val announcements: MutableList<AnnouncementEntity>,
+    private val viewModel: FavoriteViewModel,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
 ) : PagingDataAdapter<AnnouncementEntity, FavoriteViewHolder>(COMPARATOR) {
@@ -32,6 +33,7 @@ class FavoriteAdapter(
         val binding = ItemAnnouncementBinding.inflate(inflater, parent, false)
         return FavoriteViewHolder(
             binding,
+            viewModel,
             dislikeClickListener,
             likeClickListener
         )

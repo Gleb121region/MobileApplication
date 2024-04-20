@@ -1,7 +1,6 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -20,6 +19,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.databinding.FragmentHomeBinding
+import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveAnnouncementIdUseCase
+import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveTagUseCase
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.enums.FeedbackType
 import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
@@ -37,6 +38,13 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var saveAnnouncementIdUseCase: SaveAnnouncementIdUseCase
+
+    @Inject
+    lateinit var saveTagUseCase: SaveTagUseCase
+
 
     @Inject
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
@@ -93,8 +101,8 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     }
 
     private fun saveIntoLocalStorage(announcementId: Int) {
-        saveAnnouncementIdToLocalStorage(announcementId)
-        saveHomeTagToLocalStorage()
+        saveAnnouncementIdUseCase(announcementId)
+        saveTagUseCase(TAG)
     }
 
     private fun isLoadingObserve() {
@@ -167,7 +175,8 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
             })
             itemTouchHelper.attachToRecyclerView(binding.rvAnnouncementList)
 
-            binding.rvAnnouncementList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            binding.rvAnnouncementList.addOnScrollListener(object :
+                RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
@@ -208,21 +217,6 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         }
     }
 
-    private fun saveAnnouncementIdToLocalStorage(announcementId: Int) {
-        val sharedPreferences =
-            requireContext().getSharedPreferences("announcement_prefs", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putInt("selected_announcement_id", announcementId)
-        editor.apply()
-    }
-
-    private fun saveHomeTagToLocalStorage() {
-        val sharedPreferences =
-            requireContext().getSharedPreferences("announcement_prefs", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("was_worked_in", TAG)
-        editor.apply()
-    }
 
     private companion object {
         private const val TAG = "HomeFragment"

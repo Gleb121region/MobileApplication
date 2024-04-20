@@ -2,6 +2,7 @@ package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.fav
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +18,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.spbstu.mobileapplication.databinding.FragmentFavoriteBinding
+import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveAnnouncementIdUseCase
+import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveTagUseCase
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.enums.FeedbackType
 import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
@@ -39,11 +43,21 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
     @Inject
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
+    @Inject
+    lateinit var saveAnnouncementIdUseCase: SaveAnnouncementIdUseCase
+
+    @Inject
+    lateinit var saveTagUseCase: SaveTagUseCase
+
     private var _binding: FragmentFavoriteBinding? = null
     private val binding: FragmentFavoriteBinding
         get() = _binding ?: throw RuntimeException("FragmentFavoriteBinding is null")
 
     private var isLoading = false
+    private var currentOffset = 0
+
+    private lateinit var token: String
+    private var layoutManagerState: Parcelable? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -67,40 +81,60 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val loadingIndicator = binding.loadingIndicator
+        isLoadingObserve()
+
+        viewModel.selectedAnnouncementId.observe(viewLifecycleOwner) { announcementId ->
+            announcementId?.let {
+                saveIntoLocalStorage(announcementId)
+                navigateToAnnouncementDetails()
+            }
+        }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
-            try {
-                loadingIndicator.visibility = View.VISIBLE
-                loadAnnouncements(10, 0, token)
-            } catch (e: Exception) {
-                Log.e(TAG, "Error in network", e)
-            } finally {
-                loadingIndicator.visibility = View.GONE
-            }
+            token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
+            loadAnnouncements()
         }
 
         Log.d(TAG, "FavoriteFragment onViewCreated")
     }
 
-    private suspend fun loadAnnouncements(limit: Int, offset: Int, token: String) {
-        if (isLoading) return
-        isLoading = true
-        val announcements = viewModel.getFavoriteAnnouncements(limit, offset, token).toMutableList()
+    private fun isLoadingObserve() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            Log.d(TAG, "isLoading observer")
+            binding.loadingIndicator.visibility = if (it) View.VISIBLE else View.GONE
+        }
+    }
 
-        if (announcements.isEmpty()) {
+    private suspend fun loadAnnouncements() {
+        if (isLoading) {
+            Log.d(TAG, "Already loading, skip loading")
+            return
+        }
+        isLoading = true
+        layoutManagerState = binding.rvAnnouncementList.layoutManager?.onSaveInstanceState()
+
+        viewModel.getFavoriteAnnouncements(10, currentOffset, token)
+        if (viewModel.announcements.value?.isEmpty() == true) {
             Log.d(TAG, "No more announcements to load")
+            isLoading = false
             return
         }
 
         withContext(Dispatchers.Main) {
-            val favoriteAdapter = FavoriteAdapter(
-                announcements,
-                this@FavoriteFragment,
-                this@FavoriteFragment,
-            )
-            binding.rvAnnouncementList.adapter = favoriteAdapter
+            Log.d(TAG, "Announcements loaded, updating RecyclerView")
+
+            viewModel.announcements.observe(viewLifecycleOwner) {
+                binding.rvAnnouncementList.layoutManager?.onRestoreInstanceState(layoutManagerState)
+
+                val adapter =
+                    FavoriteAdapter(
+                        it,
+                        viewModel,
+                        this@FavoriteFragment,
+                        this@FavoriteFragment
+                    )
+                binding.rvAnnouncementList.adapter = adapter
+            }
 
             val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                 0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -120,19 +154,22 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
                 }
             })
             itemTouchHelper.attachToRecyclerView(binding.rvAnnouncementList)
-        }
 
-        binding.rvAnnouncementList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    val newOffset = offset + 1
-                    lifecycleScope.launch {
-                        loadAnnouncements(limit, newOffset, token)
+            binding.rvAnnouncementList.addOnScrollListener(object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val newOffset = currentOffset + 1
+                        currentOffset = newOffset
+                        lifecycleScope.launch {
+                            loadAnnouncements()
+                        }
                     }
                 }
-            }
-        })
+            })
+            isLoading = false
+        }
     }
 
 
@@ -155,7 +192,7 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
         val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
 
         lifecycleScope.launch {
-            viewModel.sendRequest(feedbackCreateEntity, token)
+            viewModel.createFeedback(feedbackCreateEntity, token)
 
             when (feedbackType) {
                 FeedbackType.LIKE -> {
@@ -174,6 +211,17 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
                 }
             }
         }
+    }
+
+    private fun saveIntoLocalStorage(announcementId: Int) {
+        saveAnnouncementIdUseCase(announcementId)
+        saveTagUseCase(TAG)
+    }
+
+    private fun navigateToAnnouncementDetails() {
+        findNavController().navigate(
+            FavoriteFragmentDirections.actionNavigationFavoriteToAnnouncementDetailsFragment()
+        )
     }
 
     private companion object {

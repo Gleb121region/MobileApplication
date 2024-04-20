@@ -17,6 +17,7 @@ class AnnouncementDetailsViewModel @Inject constructor(
     val announcementDetails: MutableLiveData<AnnouncementDetailedEntity> = MutableLiveData()
     val featureList: MutableLiveData<List<String>> = MutableLiveData()
 
+    val isLiked: MutableLiveData<Boolean> = MutableLiveData(false)
     val isDataLoading: MutableLiveData<Boolean> = MutableLiveData()
 
     suspend fun fetchAnnouncementDetails(announcementId: Int, authToken: String) {
@@ -34,6 +35,7 @@ class AnnouncementDetailsViewModel @Inject constructor(
         Log.d(TAG, "Submitting feedback started")
         isDataLoading.postValue(true)
         submitFeedbackUseCase(feedbackData, authToken)
+        isLiked.postValue(true)
         isDataLoading.postValue(false)
         Log.d(TAG, "Submitting feedback finished")
     }

@@ -9,12 +9,14 @@ import androidx.viewpager.widget.ViewPager
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.ItemAnnouncementBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.PhotoPagerAdapter
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 
 class FavoriteViewHolder(
     private val binding: ItemAnnouncementBinding,
+    private val viewModel: FavoriteViewModel,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -61,6 +63,9 @@ class FavoriteViewHolder(
             dislikeClickListener?.onItemDislike(position)
         }
 
+        binding.cardStackView.setOnClickListener {
+            viewModel.selectedAnnouncementId.value = announcement.id
+        }
     }
 
     private fun updateDotsCount(size: Int, dotsLayout: LinearLayout) {
