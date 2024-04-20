@@ -1,7 +1,7 @@
 package ru.spbstu.mobileapplication.data.repository
 
 import android.content.Context
-import ru.spbstu.mobileapplication.data.storage.SharedPreferencesStorage
+import ru.spbstu.mobileapplication.data.storage.auth.SharedPreferencesStorage
 import ru.spbstu.mobileapplication.domain.user.repository.IsUserFirstTimeRepository
 
 class IsUserFirstTimeRepositoryImpl(context: Context) : IsUserFirstTimeRepository {

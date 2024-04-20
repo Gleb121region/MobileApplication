@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.data.storage
+package ru.spbstu.mobileapplication.data.storage.auth
 
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SharedPreferencesStorage @Inject constructor(
-    private val context: Context
+    context: Context
 ) : TokenStorage, IsUserFirstTimeStorage {
 
     companion object {

@@ -1,6 +1,6 @@
 package ru.spbstu.mobileapplication.data.repository
 
-import ru.spbstu.mobileapplication.data.storage.SharedPreferencesStorage
+import ru.spbstu.mobileapplication.data.storage.auth.SharedPreferencesStorage
 import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem
 import ru.spbstu.mobileapplication.domain.authentication.repository.TokenRepository
 import javax.inject.Inject

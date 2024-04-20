@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.data.storage
+package ru.spbstu.mobileapplication.data.storage.auth
 
 import ru.spbstu.mobileapplication.domain.authentication.entity.TokenItem
 
