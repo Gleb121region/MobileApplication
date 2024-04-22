@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
@@ -10,68 +11,68 @@
     </data>
 
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:clipToPadding="false">
+        android:background="?attr/selectableItemBackground"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="8dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageViewMainBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gradation_black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:id="@+id/previousLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".50"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/nextLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".50"
+                    android:orientation="horizontal" />
+            </LinearLayout>
+
+        </FrameLayout>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="8dp"
-            app:cardPreventCornerOverlap="false"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="16dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
             app:cardUseCompatPadding="true">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imageViewMainBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:importantForAccessibility="no"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/gradation_black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:baselineAligned="false"
-                    android:weightSum="1">
-
-                    <LinearLayout
-                        android:id="@+id/previousLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight=".50"
-                        android:orientation="horizontal" />
-
-                    <LinearLayout
-                        android:id="@+id/nextLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="end"
-                        android:layout_weight=".50"
-                        android:orientation="horizontal" />
-                </LinearLayout>
-
-            </FrameLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@drawable/gradation_black"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/item_price"
@@ -82,8 +83,9 @@
                     android:textStyle="bold"
                     tool:text="35 000 ₽/мес." />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/liner_layout_text_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
@@ -91,27 +93,74 @@
                         android:id="@+id/item_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
+                        android:text="1-комн."
                         android:textColor="@android:color/white"
-                        tool:text="a" />
+                        app:layout_constraintEnd_toStartOf="@id/info_icon"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/item_type_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="квартира"
+                        android:textColor="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="@id/item_type"
+                        app:layout_constraintTop_toBottomOf="@id/item_type" />
 
                     <TextView
                         android:id="@+id/item_square"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
+                        android:text="35 м^2"
                         android:textColor="@android:color/white"
-                        tool:text="b" />
+                        app:layout_constraintEnd_toStartOf="@id/info_icon"
+                        app:layout_constraintHorizontal_bias="0.25"
+                        app:layout_constraintStart_toEndOf="@id/item_type_description"
+                        app:layout_constraintTop_toTopOf="@id/item_type" />
+
+                    <TextView
+                        android:id="@+id/item_square_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="общая пл."
+                        android:textColor="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="@id/item_square"
+                        app:layout_constraintTop_toBottomOf="@id/item_square" />
 
                     <TextView
                         android:id="@+id/item_storey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
+                        android:text="10 из 15"
                         android:textColor="@android:color/white"
-                        tool:text="c" />
+                        app:layout_constraintEnd_toStartOf="@id/info_icon"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@id/item_square_label"
+                        app:layout_constraintTop_toTopOf="@id/item_type" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/item_storey_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="этаж"
+                        android:textColor="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="@id/item_storey"
+                        app:layout_constraintTop_toBottomOf="@id/item_storey" />
+
+                    <ImageButton
+                        android:id="@+id/info_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="16dp"
+                        android:src="@drawable/info_24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/item_type" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <TextView
                     android:id="@+id/item_underground"
@@ -127,50 +176,49 @@
                     android:textColor="@android:color/white"
                     tool:text="улица Библиотека им. Ленина дом 1" />
 
-
             </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/left_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/overlay_black">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/skip_white_120dp" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/right_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/overlay_black">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/like_white_120dp" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/top_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <FrameLayout
-                android:id="@+id/bottom_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
         </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/left_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/overlay_black">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no"
+                android:src="@drawable/skip_white_120dp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/right_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/overlay_black">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no"
+                android:src="@drawable/like_white_120dp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/top_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/bottom_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.cardview.widget.CardView>
+
 </layout>
