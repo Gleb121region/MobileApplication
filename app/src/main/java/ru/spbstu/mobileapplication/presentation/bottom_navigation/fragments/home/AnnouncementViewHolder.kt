@@ -3,6 +3,7 @@ package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.hom
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -25,9 +26,22 @@ class AnnouncementViewHolder(
         dots = Array(0) { ImageView(itemView.context) }
     }
 
+    private val price: TextView = binding.tvPricePerMonth
+    private val type: TextView = binding.tvApartmentType
+    private val square: TextView = binding.tvTotalMeters
+    private val storey: TextView = binding.tvFloor
+    private val underground: TextView = binding.tvUnderground
+    private val address: TextView = binding.tvAddress
+
     fun bind(announcement: AnnouncementEntity, position: Int) {
         binding.announcementItem = announcement
-        binding.executePendingBindings()
+
+        price.text = announcement.getFormattedPricePerMonth()
+        type.text = announcement.getApartmentTypeRusName(itemView.context)
+        square.text = announcement.getFormattedTotalMeters()
+        storey.text = announcement.getFormattedFloorAndFloorsCount()
+        underground.text = announcement.underground
+        address.text = announcement.address
 
         val adapter = PhotoPagerAdapter(itemView.context, announcement.photoUrls)
         binding.viewPagerPhotos.adapter = adapter

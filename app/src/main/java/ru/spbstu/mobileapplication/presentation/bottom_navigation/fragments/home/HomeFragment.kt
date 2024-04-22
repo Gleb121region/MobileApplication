@@ -195,7 +195,6 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     private fun handleFeedbackClick(position: Int, feedbackType: FeedbackType) {
         val announcementAdapter = binding.rvAnnouncementList.adapter as AnnouncementAdapter
         val announcement = announcementAdapter.announcements[position]
-        val token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
         val feedbackCreateEntity = FeedbackCreateEntity(feedbackType, announcement.id)
 
         lifecycleScope.launch(Dispatchers.IO) {

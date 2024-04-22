@@ -90,7 +90,6 @@
                     android:id="@+id/tv_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{announcementItem.getFormattedAddress()}"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     tools:text="Адрес: гор. Москва, ул. Ленина, д. 1" />
@@ -99,7 +98,6 @@
                     android:id="@+id/tv_underground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{announcementItem.underground}"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     tools:text="Метро: Цветной бульвар" />
@@ -108,7 +106,6 @@
                     android:id="@+id/tv_apartment_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{announcementItem.getApartmentTypeRusName()}"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     tools:text="Тип недвижимости: Студия" />
@@ -117,7 +114,6 @@
                     android:id="@+id/tv_price_per_month"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{announcementItem.getFormattedPricePerMonth()}"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     tools:text="Цена за месяц: 10000 руб." />
@@ -126,7 +122,6 @@
                     android:id="@+id/tv_total_meters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{announcementItem.getFormattedTotalMeters()}"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     tools:text="Общая площадь: 30 м²" />
@@ -144,7 +139,6 @@
                     android:id="@+id/tv_floor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{announcementItem.getFormattedFloorAndFloorsCount()}"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     tools:text="Этаж: 5 из 10" />

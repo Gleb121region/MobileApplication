@@ -1,5 +1,6 @@
 package ru.spbstu.mobileapplication.domain.announcement.entity
 
+import android.content.Context
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.domain.enums.ApartmentType
 
@@ -17,38 +18,36 @@ data class AnnouncementEntity(
     val description: String?,
     var currentImagePosition: Int = 0
 ) {
-    fun getFormattedAddress(): String = "Адрес: $address"
+    fun getFormattedTotalMeters(): String = "$totalMeters м²"
 
-    fun getFormattedTotalMeters(): String = "Общая площадь: $totalMeters м²"
+    fun getFormattedPricePerMonth(): String = "$pricePerMonth ₽/мес."
 
-    fun getFormattedPricePerMonth(): String = "Цена за месяц: $pricePerMonth руб."
+    fun getFormattedFloorAndFloorsCount(): String = "$floor/$floorsCount этаж"
 
-    fun getFormattedFloorAndFloorsCount(): String = "Этаж: $floor из $floorsCount"
-
-    fun getApartmentTypeRusName(): String {
-        when (apartmentType) {
+    fun getApartmentTypeRusName(context: Context): String {
+        return when (apartmentType) {
             ApartmentType.STUDIO -> {
-                return "Тип недвижимости:  ${R.string.studio}"
+                context.getString(R.string.studio)
             }
 
             ApartmentType.ONE_ROOM_APARTMENT -> {
-                return "Тип недвижимости:  ${R.string.one_room_flat}"
+                context.getString(R.string.one_room_flat)
             }
 
             ApartmentType.TWO_ROOM_APARTMENT -> {
-                return "Тип недвижимости:  ${R.string.two_rooms_flat}"
+                context.getString(R.string.two_rooms_flat)
             }
 
             ApartmentType.THREE_ROOM_APARTMENT -> {
-                return "Тип недвижимости:  ${R.string.three_rooms_flat}"
+                context.getString(R.string.three_rooms_flat)
             }
 
             ApartmentType.FOUR_ROOM_APARTMENT -> {
-                return "Тип недвижимости:  ${R.string.four_rooms_flat}"
+                context.getString(R.string.four_rooms_flat)
             }
 
             ApartmentType.FIVE_ROOM_APARTMENT -> {
-                return "Тип недвижимости:  ${R.string.five_rooms_flat}"
+                context.getString(R.string.five_rooms_flat)
             }
         }
     }
