@@ -5,14 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.spbstu.mobileapplication.databinding.ItemSpotBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel
 
 class CardStackViewAdapter(
     var announcements: MutableList<AnnouncementEntity>,
+    private val viewModel: CompilationViewModel,
 ) : RecyclerView.Adapter<CompilationViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompilationViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return CompilationViewHolder(ItemSpotBinding.inflate(inflater, parent, false))
+        return CompilationViewHolder(ItemSpotBinding.inflate(inflater, parent, false), viewModel)
     }
 
     override fun onBindViewHolder(holder: CompilationViewHolder, position: Int) {

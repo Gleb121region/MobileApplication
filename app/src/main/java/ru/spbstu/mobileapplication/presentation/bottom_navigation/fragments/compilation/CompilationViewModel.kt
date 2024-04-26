@@ -25,6 +25,8 @@ class CompilationViewModel @Inject constructor(
     private val getAnnouncementsFromDataBaseUseCase: GetAnnouncementsFromDataBaseUseCase
 ) : ViewModel() {
 
+    val selectedAnnouncementId: MutableLiveData<Int> = MutableLiveData()
+
     val announcements: MutableLiveData<MutableList<AnnouncementEntity>> = MutableLiveData()
 
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()

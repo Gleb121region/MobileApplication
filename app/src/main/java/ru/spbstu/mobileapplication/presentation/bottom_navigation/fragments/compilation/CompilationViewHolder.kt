@@ -1,5 +1,6 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.compilation
 
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -7,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.spbstu.mobileapplication.databinding.ItemSpotBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel
 
-class CompilationViewHolder(binding: ItemSpotBinding) :
+class CompilationViewHolder(binding: ItemSpotBinding, private val viewModel: CompilationViewModel) :
     RecyclerView.ViewHolder(binding.root) {
 
     private val price: TextView = binding.itemPrice
@@ -20,6 +22,7 @@ class CompilationViewHolder(binding: ItemSpotBinding) :
     private val image: ImageView = binding.imageViewMainBackground
     private val previousLayout: LinearLayout = binding.previousLayout
     private val nextLayout: LinearLayout = binding.nextLayout
+    private val infoIcon: ImageButton = binding.infoIcon
 
     fun bind(announcement: AnnouncementEntity, position: Int, adapter: CardStackViewAdapter) {
         price.text = announcement.getFormattedPricePerMonth()
@@ -38,6 +41,10 @@ class CompilationViewHolder(binding: ItemSpotBinding) :
 
         nextLayout.setOnClickListener {
             adapter.handleImageNavigation(position, true)
+        }
+
+        infoIcon.setOnClickListener {
+            viewModel.selectedAnnouncementId.value = announcement.id
         }
     }
 }
