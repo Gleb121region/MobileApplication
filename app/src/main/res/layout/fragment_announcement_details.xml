@@ -198,17 +198,10 @@
                     android:textSize="18sp"
                     tools:text="Novokosino Suzdalskaya 18K4" />
 
-                <ImageView
-                    android:id="@+id/copyAddressButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_copy_black_24dp" />
-
             </LinearLayout>
 
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/linear_layout_metro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -221,17 +214,24 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_subway_black_24dp" />
+                    android:src="@drawable/ic_subway_black_24dp"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
                 <TextView
                     android:id="@+id/textview_metro_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@id/imageView_metro_label"
+                    app:layout_constraintTop_toTopOf="@id/imageView_metro_label"
                     tools:text="Metro: Новокосино" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/advertised"
@@ -239,7 +239,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/linear_layout_metro"
                 android:orientation="horizontal"
-                android:padding="16dp" />
+                android:padding="8dp" />
 
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>

@@ -18,7 +18,7 @@
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -30,18 +30,24 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_fridge_black_24dp"
-                android:visibility="visible" />
+                android:visibility="visible"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/refrigeratorTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:text="Холодильник"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:visibility="visible" />
+                android:visibility="visible"
+                app:layout_constraintStart_toEndOf="@id/refrigeratorImageView"
+                app:layout_constraintTop_toTopOf="@id/refrigeratorImageView" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
