@@ -22,7 +22,7 @@ data class AnnouncementEntity(
 
     fun getFormattedPricePerMonth(): String = "$pricePerMonth ₽/мес."
 
-    fun getFormattedFloorAndFloorsCount(): String = "$floor/$floorsCount этаж"
+    fun getFormattedFloorAndFloorsCount(): String = "$floor/$floorsCount"
 
     fun getApartmentTypeRusName(context: Context): String {
         return when (apartmentType) {

@@ -21,12 +21,12 @@ class AnnouncementViewHolder(
 
     private val cardStackView: CardView = binding.cardStackView
 
-    private val price: TextView = binding.tvPricePerMonth
-    private val type: TextView = binding.tvApartmentType
-    private val square: TextView = binding.tvTotalMeters
-    private val storey: TextView = binding.tvFloor
-    private val underground: TextView = binding.tvUnderground
-    private val address: TextView = binding.tvAddress
+    private val price: TextView = binding.itemPrice
+    private val type: TextView = binding.itemType
+    private val square: TextView = binding.itemSquare
+    private val storey: TextView = binding.itemStorey
+    private val underground: TextView = binding.itemUnderground
+    private val address: TextView = binding.itemAddress
 
     private val image: ImageView = binding.imageViewMainBackground
     private val imageLike: ImageView = binding.ivLike

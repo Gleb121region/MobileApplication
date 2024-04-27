@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tool="http://schemas.android.com/tools">
 
     <data>
 
@@ -109,67 +109,111 @@
                 android:visibility="gone" />
 
             <LinearLayout
-                android:id="@+id/linear_layout_basic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="Адрес: гор. Москва, ул. Ленина, д. 1" />
-
-                <TextView
-                    android:id="@+id/tv_underground"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    tools:text="Метро: Цветной бульвар" />
-
-                <TextView
-                    android:id="@+id/tv_apartment_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    tools:text="Тип недвижимости: Студия" />
-
-                <TextView
-                    android:id="@+id/tv_price_per_month"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    tools:text="Цена за месяц: 10000 руб." />
-
-                <TextView
-                    android:id="@+id/tv_total_meters"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    tools:text="Общая площадь: 30 м²" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/linear_layout_floors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_floor"
+                    android:id="@+id/item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    tools:text="Этаж: 5 из 10" />
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tool:text="35 000 ₽/мес." />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/liner_layout_text_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/item_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1-комн."
+                        android:textColor="@android:color/white"
+                        app:layout_constraintEnd_toStartOf="@id/info_icon"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/item_type_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="квартира"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="@id/item_type"
+                        app:layout_constraintTop_toBottomOf="@id/item_type" />
+
+                    <TextView
+                        android:id="@+id/item_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="35 м^2"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintEnd_toStartOf="@id/info_icon"
+                        app:layout_constraintHorizontal_bias="0.25"
+                        app:layout_constraintStart_toEndOf="@id/item_type_description"
+                        app:layout_constraintTop_toTopOf="@id/item_type" />
+
+                    <TextView
+                        android:id="@+id/item_square_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="общая пл."
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="@id/item_square"
+                        app:layout_constraintTop_toBottomOf="@id/item_square" />
+
+                    <TextView
+                        android:id="@+id/item_storey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10 из 15"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintEnd_toStartOf="@id/info_icon"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@id/item_square_label"
+                        app:layout_constraintTop_toTopOf="@id/item_type" />
+
+                    <TextView
+                        android:id="@+id/item_storey_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="этаж"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="@id/item_storey"
+                        app:layout_constraintTop_toBottomOf="@id/item_storey" />
+
+                    <ImageButton
+                        android:id="@+id/info_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="16dp"
+                        android:src="@drawable/info_24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/item_type" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/item_underground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    tool:text="Библиотека им. Ленина" />
+
+                <TextView
+                    android:id="@+id/item_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    tool:text="улица Библиотека им. Ленина дом 1" />
 
             </LinearLayout>
 

@@ -9,7 +9,6 @@ import com.squareup.picasso.Picasso
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.ItemAnnouncementBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.AnnouncementAdapter
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 
@@ -22,12 +21,12 @@ class FavoriteViewHolder(
 
     private val cardStackView: CardView = binding.cardStackView
 
-    private val price: TextView = binding.tvPricePerMonth
-    private val type: TextView = binding.tvApartmentType
-    private val square: TextView = binding.tvTotalMeters
-    private val storey: TextView = binding.tvFloor
-    private val underground: TextView = binding.tvUnderground
-    private val address: TextView = binding.tvAddress
+    private val price: TextView = binding.itemPrice
+    private val type: TextView = binding.itemType
+    private val square: TextView = binding.itemSquare
+    private val storey: TextView = binding.itemStorey
+    private val underground: TextView = binding.itemUnderground
+    private val address: TextView = binding.itemAddress
 
     private val image: ImageView = binding.imageViewMainBackground
     private val imageLike: ImageView = binding.ivLike
