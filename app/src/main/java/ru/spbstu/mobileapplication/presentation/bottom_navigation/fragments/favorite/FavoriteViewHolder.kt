@@ -1,101 +1,76 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.favorite
 
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
+import com.squareup.picasso.Picasso
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.ItemAnnouncementBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.PhotoPagerAdapter
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.AnnouncementAdapter
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 
 class FavoriteViewHolder(
-    private val binding: ItemAnnouncementBinding,
+    binding: ItemAnnouncementBinding,
     private val viewModel: FavoriteViewModel,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var dots: Array<ImageView>
+    private val cardStackView: CardView = binding.cardStackView
 
-    init {
-        dots = Array(0) { ImageView(itemView.context) }
-    }
+    private val price: TextView = binding.tvPricePerMonth
+    private val type: TextView = binding.tvApartmentType
+    private val square: TextView = binding.tvTotalMeters
+    private val storey: TextView = binding.tvFloor
+    private val underground: TextView = binding.tvUnderground
+    private val address: TextView = binding.tvAddress
 
-    fun bind(announcement: AnnouncementEntity, position: Int) {
-        binding.announcementItem = announcement
-        binding.executePendingBindings()
+    private val image: ImageView = binding.imageViewMainBackground
+    private val imageLike: ImageView = binding.ivLike
+    private val imageDislike: ImageView = binding.ivDislike
 
-        val adapter = PhotoPagerAdapter(itemView.context, announcement.photoUrls)
-        binding.viewPagerPhotos.adapter = adapter
+    private val previousLayout: LinearLayout = binding.previousLayout
+    private val nextLayout: LinearLayout = binding.nextLayout
 
-        binding.viewPagerPhotos.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int, positionOffset: Float, positionOffsetPixels: Int
-            ) {
-            }
+    fun bind(announcement: AnnouncementEntity, position: Int, adapter: FavoriteAdapter) {
+        price.text = announcement.getFormattedPricePerMonth()
+        type.text = announcement.getApartmentTypeRusName(itemView.context)
+        square.text = announcement.getFormattedTotalMeters()
+        storey.text = announcement.getFormattedFloorAndFloorsCount()
+        underground.text = announcement.underground
+        address.text = announcement.address
 
-            override fun onPageSelected(position: Int) {
-                updateDots(position)
-            }
+        Picasso.get().load(announcement.photoUrls[announcement.currentImagePosition])
+            .into(image)
 
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
-
-        updateDotsCount(announcement.photoUrls.size, binding.dotsLayout)
-
-        if (announcement.photoUrls.isNotEmpty()) {
-            updateDots(0)
+        previousLayout.setOnClickListener {
+            adapter.handleImageNavigation(position, false)
         }
 
-        binding.ivLike.setImageResource(R.drawable.like_green_24dp)
+        nextLayout.setOnClickListener {
+            adapter.handleImageNavigation(position, true)
+        }
 
-        binding.ivLike.setOnClickListener {
+        if (announcement.isLikedByUser) {
+            imageLike.setImageResource(R.drawable.like_green_24dp)
+        } else {
+            imageLike.setImageResource(R.drawable.like_gray_24dp)
+        }
+
+        imageLike.setOnClickListener {
             likeClickListener?.onItemLike(position)
         }
 
-        binding.ivDislike.setOnClickListener {
+        imageDislike.setOnClickListener {
             dislikeClickListener?.onItemDislike(position)
         }
 
-        binding.cardStackView.setOnClickListener {
+        cardStackView.setOnClickListener {
             viewModel.selectedAnnouncementId.value = announcement.id
-        }
-    }
-
-    private fun updateDotsCount(size: Int, dotsLayout: LinearLayout) {
-        dotsLayout.removeAllViews()
-
-        dots = Array(size) {
-            val dot = ImageView(itemView.context)
-            dot.setImageDrawable(
-                ContextCompat.getDrawable(
-                    itemView.context, R.drawable.non_active_dot
-                )
-            )
-
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            params.setMargins(8, 0, 8, 0)
-            dotsLayout.addView(dot, params)
-            dot
-        }
-    }
-
-    private fun updateDots(currentDot: Int) {
-        for (i in dots.indices) {
-            val drawable: Drawable? = if (i == currentDot) {
-                ContextCompat.getDrawable(itemView.context, R.drawable.active_dot)
-            } else {
-                ContextCompat.getDrawable(itemView.context, R.drawable.non_active_dot)
-            }
-            dots[i].setImageDrawable(drawable)
         }
     }
 }

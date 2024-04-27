@@ -1,12 +1,11 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
+import com.squareup.picasso.Picasso
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.ItemAnnouncementBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
@@ -14,17 +13,13 @@ import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 
 class AnnouncementViewHolder(
-    private val binding: ItemAnnouncementBinding,
+    binding: ItemAnnouncementBinding,
     private val viewModel: HomeViewModel,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var dots: Array<ImageView>
-
-    init {
-        dots = Array(0) { ImageView(itemView.context) }
-    }
+    private val cardStackView: CardView = binding.cardStackView
 
     private val price: TextView = binding.tvPricePerMonth
     private val type: TextView = binding.tvApartmentType
@@ -33,9 +28,14 @@ class AnnouncementViewHolder(
     private val underground: TextView = binding.tvUnderground
     private val address: TextView = binding.tvAddress
 
-    fun bind(announcement: AnnouncementEntity, position: Int) {
-        binding.announcementItem = announcement
+    private val image: ImageView = binding.imageViewMainBackground
+    private val imageLike: ImageView = binding.ivLike
+    private val imageDislike: ImageView = binding.ivDislike
 
+    private val previousLayout: LinearLayout = binding.previousLayout
+    private val nextLayout: LinearLayout = binding.nextLayout
+
+    fun bind(announcement: AnnouncementEntity, position: Int, adapter: AnnouncementAdapter) {
         price.text = announcement.getFormattedPricePerMonth()
         type.text = announcement.getApartmentTypeRusName(itemView.context)
         square.text = announcement.getFormattedTotalMeters()
@@ -43,75 +43,33 @@ class AnnouncementViewHolder(
         underground.text = announcement.underground
         address.text = announcement.address
 
-        val adapter = PhotoPagerAdapter(itemView.context, announcement.photoUrls)
-        binding.viewPagerPhotos.adapter = adapter
+        Picasso.get().load(announcement.photoUrls[announcement.currentImagePosition])
+            .into(image)
 
-        binding.viewPagerPhotos.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int, positionOffset: Float, positionOffsetPixels: Int
-            ) {
-            }
+        previousLayout.setOnClickListener {
+            adapter.handleImageNavigation(position, false)
+        }
 
-            override fun onPageSelected(position: Int) {
-                updateDots(position)
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
-
-        updateDotsCount(announcement.photoUrls.size, binding.dotsLayout)
-
-        if (announcement.photoUrls.isNotEmpty()) {
-            updateDots(0)
+        nextLayout.setOnClickListener {
+            adapter.handleImageNavigation(position, true)
         }
 
         if (announcement.isLikedByUser) {
-            binding.ivLike.setImageResource(R.drawable.like_green_24dp)
+            imageLike.setImageResource(R.drawable.like_green_24dp)
         } else {
-            binding.ivLike.setImageResource(R.drawable.like_gray_24dp)
+            imageLike.setImageResource(R.drawable.like_gray_24dp)
         }
 
-        binding.ivLike.setOnClickListener {
+        imageLike.setOnClickListener {
             likeClickListener?.onItemLike(position)
         }
 
-        binding.ivDislike.setOnClickListener {
+        imageDislike.setOnClickListener {
             dislikeClickListener?.onItemDislike(position)
         }
 
-        binding.cardStackView.setOnClickListener {
+        cardStackView.setOnClickListener {
             viewModel.selectedAnnouncementId.value = announcement.id
-        }
-    }
-
-    private fun updateDotsCount(size: Int, dotsLayout: LinearLayout) {
-        dotsLayout.removeAllViews()
-
-        dots = Array(size) {
-            val dot = ImageView(itemView.context)
-            dot.setImageDrawable(
-                ContextCompat.getDrawable(
-                    itemView.context, R.drawable.non_active_dot
-                )
-            )
-
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            params.setMargins(8, 0, 8, 0)
-            dotsLayout.addView(dot, params)
-            dot
-        }
-    }
-
-    private fun updateDots(currentDot: Int) {
-        for (i in dots.indices) {
-            val drawable: Drawable? = if (i == currentDot) {
-                ContextCompat.getDrawable(itemView.context, R.drawable.active_dot)
-            } else {
-                ContextCompat.getDrawable(itemView.context, R.drawable.non_active_dot)
-            }
-            dots[i].setImageDrawable(drawable)
         }
     }
 }

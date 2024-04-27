@@ -14,7 +14,7 @@ data class AnnouncementEntity(
     val address: String,
     val underground: String,
     val photoUrls: List<String>,
-    val isLikedByUser: Boolean,
+    val isLikedByUser: Boolean = false,
     val description: String?,
     var currentImagePosition: Int = 0
 ) {

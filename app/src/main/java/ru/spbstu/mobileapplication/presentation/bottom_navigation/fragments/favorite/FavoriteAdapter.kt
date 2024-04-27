@@ -40,7 +40,18 @@ class FavoriteAdapter(
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
-        holder.bind(announcements[position], position)
+        holder.bind(announcements[position], position, this)
+    }
+
+    fun handleImageNavigation(position: Int, isNext: Boolean) {
+        val announcement = announcements[position]
+        val size = announcement.photoUrls.size
+        if (isNext && announcement.currentImagePosition < size - 1) {
+            announcement.currentImagePosition++
+        } else if (!isNext && announcement.currentImagePosition > 0) {
+            announcement.currentImagePosition--
+        }
+        notifyItemChanged(position)
     }
 
     override fun getItemCount() = announcements.size
