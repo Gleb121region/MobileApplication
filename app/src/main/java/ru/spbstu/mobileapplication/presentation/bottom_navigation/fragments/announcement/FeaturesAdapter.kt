@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.spbstu.mobileapplication.R
-import ru.spbstu.mobileapplication.databinding.FeatureItemBinding
+import ru.spbstu.mobileapplication.databinding.ItemFeatureBinding
 
 class FeaturesAdapter(var features: List<String>) : RecyclerView.Adapter<FeatureViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeatureViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val viewHolder = FeatureViewHolder(FeatureItemBinding.inflate(inflater, parent, false))
+        val viewHolder = FeatureViewHolder(ItemFeatureBinding.inflate(inflater, parent, false))
         Log.d(TAG, "onCreateViewHolder: ViewHolder created")
         return viewHolder
     }
