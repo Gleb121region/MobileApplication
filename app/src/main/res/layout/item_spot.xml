@@ -63,8 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:padding="16dp"
-            app:cardBackgroundColor="@android:color/transparent"
+            app:cardBackgroundColor="#80808080"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:cardUseCompatPadding="true">
@@ -78,6 +77,7 @@
                     android:id="@+id/item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -87,7 +87,8 @@
                     android:id="@+id/liner_layout_text_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="4dp">
 
                     <TextView
                         android:id="@+id/item_type"
@@ -105,7 +106,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="квартира"
-                       android:textColor="@android:color/white"
+                        android:textColor="@android:color/white"
                         app:layout_constraintStart_toStartOf="@id/item_type"
                         app:layout_constraintTop_toBottomOf="@id/item_type" />
 
@@ -125,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="общая пл."
-                       android:textColor="@android:color/white"
+                        android:textColor="@android:color/white"
                         app:layout_constraintStart_toStartOf="@id/item_square"
                         app:layout_constraintTop_toBottomOf="@id/item_square" />
 
@@ -145,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="этаж"
-                       android:textColor="@android:color/white"
+                        android:textColor="@android:color/white"
                         app:layout_constraintStart_toStartOf="@id/item_storey"
                         app:layout_constraintTop_toBottomOf="@id/item_storey" />
 
@@ -167,6 +168,7 @@
                     android:id="@+id/item_underground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     android:textColor="@android:color/white"
                     tool:text="Библиотека им. Ленина" />
 
@@ -174,6 +176,7 @@
                     android:id="@+id/item_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     android:textColor="@android:color/white"
                     tool:text="улица Библиотека им. Ленина дом 1" />
 
