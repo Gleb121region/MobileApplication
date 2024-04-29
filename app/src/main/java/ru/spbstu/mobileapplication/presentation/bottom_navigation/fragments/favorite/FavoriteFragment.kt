@@ -26,6 +26,7 @@ import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.AnnouncementAdapter
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDefaultClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnSkipClickListener
@@ -33,7 +34,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener,
-    OnSkipClickListener {
+    OnSkipClickListener, OnDefaultClickListener {
 
     private lateinit var viewModel: FavoriteViewModel
 
@@ -131,6 +132,7 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
                         it,
                         viewModel,
                         this@FavoriteFragment,
+                        this@FavoriteFragment,
                         this@FavoriteFragment
                     )
                 binding.rvAnnouncementList.adapter = adapter
@@ -185,6 +187,10 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
         handleFeedbackClick(position, FeedbackType.DISLIKE)
     }
 
+    override fun onItemDefault(position: Int) {
+        handleFeedbackClick(position, FeedbackType.DEFAULT)
+    }
+
     private fun handleFeedbackClick(position: Int, feedbackType: FeedbackType) {
         val announcementAdapter = binding.rvAnnouncementList.adapter as FavoriteAdapter
         val announcement = announcementAdapter.announcements[position]
@@ -200,14 +206,13 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
                     announcementAdapter.updateAnnouncement(position, updatedAnnouncement)
                 }
 
-                FeedbackType.SKIP -> {
-                    // Убирает данное объявление на 2 недели из предложений для пользователя
+                FeedbackType.SKIP, FeedbackType.DISLIKE -> {
                     announcementAdapter.deleteAnnouncement(position)
                 }
 
-                FeedbackType.DISLIKE -> {
-                    // Убирает данное объявление навсегда из предложений для пользователя
-                    announcementAdapter.deleteAnnouncement(position)
+                FeedbackType.DEFAULT -> {
+                    val updatedAnnouncement = announcement.copy(isLikedByUser = false)
+                    announcementAdapter.updateAnnouncement(position, updatedAnnouncement)
                 }
             }
         }

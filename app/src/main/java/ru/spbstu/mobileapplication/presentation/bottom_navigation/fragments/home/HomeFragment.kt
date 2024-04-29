@@ -26,13 +26,15 @@ import ru.spbstu.mobileapplication.domain.enums.FeedbackType
 import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
 import ru.spbstu.mobileapplication.presentation.App
 import ru.spbstu.mobileapplication.presentation.ViewModelFactory
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDefaultClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnSkipClickListener
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, OnSkipClickListener {
+class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, OnSkipClickListener,
+    OnDefaultClickListener {
 
     private lateinit var viewModel: HomeViewModel
 
@@ -130,6 +132,10 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         handleFeedbackClick(position, FeedbackType.DISLIKE)
     }
 
+    override fun onItemDefault(position: Int) {
+        handleFeedbackClick(position, FeedbackType.DEFAULT)
+    }
+
     private suspend fun loadAnnouncements() {
         if (isLoading) {
             Log.d(TAG, "Already loading, skip loading")
@@ -152,7 +158,13 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
                 binding.rvAnnouncementList.layoutManager?.onRestoreInstanceState(layoutManagerState)
 
                 val adapter =
-                    AnnouncementAdapter(it, viewModel, this@HomeFragment, this@HomeFragment)
+                    AnnouncementAdapter(
+                        it,
+                        viewModel,
+                        this@HomeFragment,
+                        this@HomeFragment,
+                        this@HomeFragment
+                    )
                 binding.rvAnnouncementList.adapter = adapter
             }
 
@@ -211,11 +223,15 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
                     FeedbackType.SKIP, FeedbackType.DISLIKE -> {
                         announcementAdapter.deleteAnnouncement(position)
                     }
+
+                    FeedbackType.DEFAULT -> {
+                        val updatedAnnouncement = announcement.copy(isLikedByUser = false)
+                        announcementAdapter.updateAnnouncement(position, updatedAnnouncement)
+                    }
                 }
             }
         }
     }
-
 
     private companion object {
         private const val TAG = "HomeFragment"

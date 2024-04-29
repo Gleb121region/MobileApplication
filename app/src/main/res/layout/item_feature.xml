@@ -26,7 +26,7 @@
             android:padding="16dp">
 
             <ImageView
-                android:id="@+id/refrigeratorImageView"
+                android:id="@+id/iv_feature"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_fridge_black_24dp"
@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/refrigeratorTextView"
+                android:id="@+id/tv_feature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -44,8 +44,8 @@
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:visibility="visible"
-                app:layout_constraintStart_toEndOf="@id/refrigeratorImageView"
-                app:layout_constraintTop_toTopOf="@id/refrigeratorImageView" />
+                app:layout_constraintStart_toEndOf="@id/iv_feature"
+                app:layout_constraintTop_toTopOf="@id/iv_feature" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

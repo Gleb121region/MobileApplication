@@ -200,6 +200,8 @@ class CompilationFragment : Fragment(), CardStackListener {
                 direction = Direction.Left
                 interpolator = AccelerateInterpolator()
             }
+
+            FeedbackType.DEFAULT -> TODO()
         }
 
         val setting = SwipeAnimationSetting.Builder().setDirection(direction)

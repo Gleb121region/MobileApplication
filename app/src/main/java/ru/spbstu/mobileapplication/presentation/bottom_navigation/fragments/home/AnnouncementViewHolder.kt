@@ -9,6 +9,7 @@ import com.squareup.picasso.Picasso
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.databinding.ItemAnnouncementBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDefaultClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 
@@ -17,6 +18,7 @@ class AnnouncementViewHolder(
     private val viewModel: HomeViewModel,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
+    private val defaultClickListener: OnDefaultClickListener?
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val cardStackView: CardView = binding.cardStackView
@@ -61,7 +63,11 @@ class AnnouncementViewHolder(
         }
 
         imageLike.setOnClickListener {
-            likeClickListener?.onItemLike(position)
+            if (announcement.isLikedByUser) {
+                defaultClickListener?.onItemDefault(position)
+            } else {
+                likeClickListener?.onItemLike(position)
+            }
         }
 
         imageDislike.setOnClickListener {

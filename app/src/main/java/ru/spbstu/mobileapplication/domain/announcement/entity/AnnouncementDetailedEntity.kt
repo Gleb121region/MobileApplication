@@ -14,7 +14,7 @@ data class AnnouncementDetailedEntity(
     val address: String,
     val underground: String,
     val photoUrls: List<String>,
-    val isLikedByUser: Boolean,
+    val isLikedByUser: Boolean = false,
     val description: String?,
 
     // Условия в квартире

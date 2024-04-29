@@ -34,8 +34,6 @@ class AnnouncementDetailsFragment : Fragment() {
 
     private lateinit var token: String
 
-    private var isLoading = false
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -97,6 +95,7 @@ class AnnouncementDetailsFragment : Fragment() {
             binding.floorDetailsTextView.text = announcement.getFormattedFloorAndFloorsCount()
             binding.textviewMetroName.text = announcement.underground
             binding.photoNumberTextView.text = announcement.getFormattedPhotoPositionAndPhotosSize()
+            binding.tvDescription.text = announcement.description
 
             Picasso.get().load(announcement.photoUrls[announcement.currentImagePosition])
                 .into(binding.imageViewMainBackground)
@@ -134,9 +133,14 @@ class AnnouncementDetailsFragment : Fragment() {
     private fun setupClickListenerLikeImageView() {
         binding.likeImageView.setOnClickListener {
             val announcementId = getAnnouncementIdUseCase()
-            val feedbackData = FeedbackCreateEntity(FeedbackType.LIKE, announcementId)
+
             Log.d(TAG, "likeImageView clicked")
             lifecycleScope.launch(Dispatchers.IO) {
+                val feedbackData = if (viewModel.isLiked.value == false) {
+                    FeedbackCreateEntity(FeedbackType.LIKE, announcementId)
+                } else {
+                    FeedbackCreateEntity(FeedbackType.DEFAULT, announcementId)
+                }
                 viewModel.submitFeedback(feedbackData, token)
             }
         }
@@ -188,14 +192,7 @@ class AnnouncementDetailsFragment : Fragment() {
 
 
     private suspend fun loadAnnouncement() {
-        if (isLoading) {
-            Log.d(TAG, "Already loading, skip loading")
-            return
-        }
-        isLoading = true
-
         val announcementId = getAnnouncementIdUseCase()
-
         viewModel.fetchAnnouncementDetails(announcementId, token)
     }
 

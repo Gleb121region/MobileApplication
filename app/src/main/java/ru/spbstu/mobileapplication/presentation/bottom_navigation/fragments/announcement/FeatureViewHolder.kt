@@ -7,6 +7,6 @@ import ru.spbstu.mobileapplication.databinding.ItemFeatureBinding
 
 class FeatureViewHolder(private val binding: ItemFeatureBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    val featureName: TextView = binding.refrigeratorTextView
-    val featureIcon: ImageView = binding.refrigeratorImageView
+    val featureName: TextView = binding.tvFeature
+    val featureIcon: ImageView = binding.ivFeature
 }

@@ -6,6 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import ru.spbstu.mobileapplication.databinding.ItemAnnouncementBinding
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDefaultClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
 
@@ -14,6 +15,7 @@ class AnnouncementAdapter(
     private val viewModel: HomeViewModel,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
+    private val defaultClickListener: OnDefaultClickListener?
 ) : PagingDataAdapter<AnnouncementEntity, AnnouncementViewHolder>(COMPARATOR) {
 
     fun updateAnnouncement(position: Int, updatedAnnouncement: AnnouncementEntity) {
@@ -35,7 +37,8 @@ class AnnouncementAdapter(
             binding,
             viewModel,
             dislikeClickListener,
-            likeClickListener
+            likeClickListener,
+            defaultClickListener
         )
     }
 
