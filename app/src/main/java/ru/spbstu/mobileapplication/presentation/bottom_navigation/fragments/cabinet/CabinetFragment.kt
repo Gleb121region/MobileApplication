@@ -160,9 +160,9 @@ class CabinetFragment : Fragment() {
 
     private fun loadingImageIntoImageView(photos: List<String>?, position: Int) {
         if (photos?.isNotEmpty() == true) {
-            Picasso.get().load(photos[position]).error(R.drawable.camera).into(binding.profileImage)
+            Picasso.get().load(photos[position]).error(R.drawable.ic_camera_black_24dp).into(binding.profileImage)
         } else {
-            binding.profileImage.setImageResource(R.drawable.camera)
+            binding.profileImage.setImageResource(R.drawable.ic_camera_black_24dp)
         }
     }
 

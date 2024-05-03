@@ -1,9 +1,9 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.favorite
 
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.spbstu.mobileapplication.R
@@ -21,8 +21,6 @@ class FavoriteViewHolder(
     private val defaultClickListener: OnDefaultClickListener?,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val cardStackView: CardView = binding.cardStackView
-
     private val price: TextView = binding.itemPrice
     private val type: TextView = binding.itemType
     private val square: TextView = binding.itemSquare
@@ -32,7 +30,8 @@ class FavoriteViewHolder(
 
     private val image: ImageView = binding.imageViewMainBackground
     private val imageLike: ImageView = binding.ivLike
-    private val imageDislike: ImageView = binding.ivDislike
+
+    private val infoIcon: ImageButton = binding.infoIcon
 
     private val previousLayout: LinearLayout = binding.previousLayout
     private val nextLayout: LinearLayout = binding.nextLayout
@@ -57,9 +56,9 @@ class FavoriteViewHolder(
         }
 
         if (announcement.isLikedByUser) {
-            imageLike.setImageResource(R.drawable.like_green_24dp)
+            imageLike.setImageResource(R.drawable.ic_favorite_red_24dp)
         } else {
-            imageLike.setImageResource(R.drawable.like_gray_24dp)
+            imageLike.setImageResource(R.drawable.ic_favorite_default_24dp)
         }
 
         imageLike.setOnClickListener {
@@ -70,11 +69,7 @@ class FavoriteViewHolder(
             }
         }
 
-        imageDislike.setOnClickListener {
-            dislikeClickListener?.onItemDislike(position)
-        }
-
-        cardStackView.setOnClickListener {
+        infoIcon.setOnClickListener {
             viewModel.selectedAnnouncementId.value = announcement.id
         }
     }
