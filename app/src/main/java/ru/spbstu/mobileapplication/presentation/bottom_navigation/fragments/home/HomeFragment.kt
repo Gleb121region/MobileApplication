@@ -163,6 +163,7 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
                         viewModel,
                         this@HomeFragment,
                         this@HomeFragment,
+                        this@HomeFragment,
                         this@HomeFragment
                     )
                 binding.rvAnnouncementList.adapter = adapter

@@ -9,10 +9,12 @@ import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDefaultClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnSkipClickListener
 
 class AnnouncementAdapter(
     val announcements: MutableList<AnnouncementEntity>,
     private val viewModel: HomeViewModel,
+    private val skipClickListener: OnSkipClickListener?,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
     private val defaultClickListener: OnDefaultClickListener?
@@ -36,6 +38,7 @@ class AnnouncementAdapter(
         return AnnouncementViewHolder(
             binding,
             viewModel,
+            skipClickListener,
             dislikeClickListener,
             likeClickListener,
             defaultClickListener

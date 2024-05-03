@@ -21,181 +21,238 @@
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/imageViewMainBackground"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
                 android:importantForAccessibility="no"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="16dp"
+                android:src="@drawable/ic_favorite_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:baselineAligned="false"
-                android:weightSum="1">
+                android:id="@+id/previousLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/nextLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_like" />
 
-                <LinearLayout
-                    android:id="@+id/previousLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".50"
-                    android:orientation="horizontal" />
+            <LinearLayout
+                android:id="@+id/nextLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/previousLayout"
+                app:layout_constraintTop_toBottomOf="@id/iv_like" />
 
-                <LinearLayout
-                    android:id="@+id/nextLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".50"
-                    android:orientation="horizontal" />
-            </LinearLayout>
-        </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginLeft="-4dp"
+            android:layout_marginRight="-4dp"
+            android:layout_marginBottom="-4dp"
             app:cardBackgroundColor="#80000000"
-            app:cardCornerRadius="2dp"
+            app:cardCornerRadius="4dp"
             app:cardElevation="0dp"
             app:cardUseCompatPadding="true">
 
-            <LinearLayout
-                android:id="@+id/linear_layout_images"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/iv_like"
+                    android:id="@+id/iv_dots"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:layout_marginRight="5dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_favorite_default_24dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    android:padding="10dp"
+                    android:src="@drawable/ic_dots_white_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
+                    android:layout_marginStart="12dp"
+                    android:padding="10dp"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tool:text="35 000 ₽/мес." />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/liner_layout_text_info"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/item_type"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="4dp">
+                    android:layout_marginLeft="25dp"
+                    android:padding="5dp"
+                    android:text="1-комн."
+                    android:textColor="@android:color/white"
+                    app:layout_constraintStart_toStartOf="@id/item_price"
+                    app:layout_constraintTop_toBottomOf="@id/item_price" />
 
-                    <TextView
-                        android:id="@+id/item_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1-комн."
-                        android:textColor="@android:color/white"
-                        app:layout_constraintEnd_toStartOf="@id/info_icon"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/item_type_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="квартира"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintStart_toStartOf="@id/item_type"
+                    app:layout_constraintTop_toBottomOf="@id/item_type" />
 
-                    <TextView
-                        android:id="@+id/item_type_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="квартира"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@id/item_type"
-                        app:layout_constraintTop_toBottomOf="@id/item_type" />
+                <TextView
+                    android:id="@+id/item_square"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="35 м^2"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@id/info_icon"
+                    app:layout_constraintHorizontal_bias="0.25"
+                    app:layout_constraintStart_toEndOf="@id/item_type_description"
+                    app:layout_constraintTop_toTopOf="@id/item_type" />
 
-                    <TextView
-                        android:id="@+id/item_square"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="35 м^2"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintEnd_toStartOf="@id/info_icon"
-                        app:layout_constraintHorizontal_bias="0.25"
-                        app:layout_constraintStart_toEndOf="@id/item_type_description"
-                        app:layout_constraintTop_toTopOf="@id/item_type" />
+                <TextView
+                    android:id="@+id/item_square_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="общая пл."
+                    android:textColor="@android:color/white"
+                    app:layout_constraintStart_toStartOf="@id/item_square"
+                    app:layout_constraintTop_toBottomOf="@id/item_square" />
 
-                    <TextView
-                        android:id="@+id/item_square_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="общая пл."
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@id/item_square"
-                        app:layout_constraintTop_toBottomOf="@id/item_square" />
+                <TextView
+                    android:id="@+id/item_storey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="10 из 15"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@id/info_icon"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@id/item_square_label"
+                    app:layout_constraintTop_toTopOf="@id/item_type" />
 
-                    <TextView
-                        android:id="@+id/item_storey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10 из 15"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintEnd_toStartOf="@id/info_icon"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@id/item_square_label"
-                        app:layout_constraintTop_toTopOf="@id/item_type" />
+                <TextView
+                    android:id="@+id/item_storey_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:padding="2dp"
+                    android:text="этаж"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintStart_toStartOf="@id/item_storey"
+                    app:layout_constraintTop_toBottomOf="@id/item_storey" />
 
-                    <TextView
-                        android:id="@+id/item_storey_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="этаж"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@id/item_storey"
-                        app:layout_constraintTop_toBottomOf="@id/item_storey" />
+                <ImageButton
+                    android:id="@+id/info_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/info_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/iv_dots"
+                    app:layout_constraintTop_toTopOf="@id/iv_dots"
+                    app:layout_constraintVertical_bias="0.377" />
 
-                    <ImageButton
-                        android:id="@+id/info_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/info_24dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/iv_metro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/ic_metro_white_16dp"
+                    app:layout_constraintStart_toStartOf="@id/item_price"
+                    app:layout_constraintTop_toTopOf="@id/item_underground" />
 
                 <TextView
                     android:id="@+id/item_underground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="12dp"
+                    android:padding="2dp"
                     android:textColor="@android:color/white"
+                    app:layout_constraintStart_toEndOf="@id/iv_metro"
+                    app:layout_constraintTop_toBottomOf="@id/item_type_description"
                     tool:text="Библиотека им. Ленина" />
+
+                <ImageView
+                    android:id="@+id/iv_pin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/ic_pin_white_16dp"
+                    app:layout_constraintStart_toStartOf="@id/item_price"
+                    app:layout_constraintTop_toTopOf="@id/item_address" />
 
                 <TextView
                     android:id="@+id/item_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
+                    android:layout_marginStart="4dp"
+                    android:padding="2dp"
                     android:textColor="@android:color/white"
+                    app:layout_constraintStart_toEndOf="@id/iv_pin"
+                    app:layout_constraintTop_toBottomOf="@id/item_underground"
                     tool:text="улица Библиотека им. Ленина дом 1" />
 
-            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="5sp"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="@id/item_price"
+                    app:layout_constraintTop_toBottomOf="@id/item_address" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 </layout>

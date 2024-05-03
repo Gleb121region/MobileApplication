@@ -90,4 +90,8 @@
     <string name="phone">Номер телефона</string>
     <string name="patronymic">Отчество</string>
 
+    <string name="hide_ad">Скрыть объявление</string>
+    <string name="do_not_show_ad">Не показывать объявление</string>
+    <string name="call">Позвонить</string>
+
 </resources>
