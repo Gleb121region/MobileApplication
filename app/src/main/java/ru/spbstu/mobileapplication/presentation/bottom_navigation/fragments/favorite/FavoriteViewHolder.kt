@@ -3,6 +3,7 @@ package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.fav
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -12,13 +13,15 @@ import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDefaultClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnDislikeClickListener
 import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnLikeClickListener
+import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.listener.OnSkipClickListener
 
 class FavoriteViewHolder(
     binding: ItemAnnouncementBinding,
     private val viewModel: FavoriteViewModel,
+    private val skipClickListener: OnSkipClickListener?,
     private val dislikeClickListener: OnDislikeClickListener?,
     private val likeClickListener: OnLikeClickListener?,
-    private val defaultClickListener: OnDefaultClickListener?,
+    private val defaultClickListener: OnDefaultClickListener?
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val price: TextView = binding.itemPrice
@@ -30,6 +33,7 @@ class FavoriteViewHolder(
 
     private val image: ImageView = binding.imageViewMainBackground
     private val imageLike: ImageView = binding.ivLike
+    private val imageDots: ImageView = binding.ivDots
 
     private val infoIcon: ImageButton = binding.infoIcon
 
@@ -67,6 +71,30 @@ class FavoriteViewHolder(
             } else {
                 likeClickListener?.onItemLike(position)
             }
+        }
+
+        imageDots.setOnClickListener { view ->
+            val popupMenu = PopupMenu(view.context, view)
+            popupMenu.menu.add(R.string.hide_ad)
+            popupMenu.menu.add(R.string.do_not_show_ad)
+            popupMenu.menu.add(R.string.call)
+            popupMenu.setOnMenuItemClickListener {
+                when (it.title) {
+                    "Скрыть объявление" -> {
+                        skipClickListener?.onItemSkip(position)
+                    }
+
+                    "Не показывать объявление" -> {
+                        dislikeClickListener?.onItemDislike(position)
+                    }
+
+                    "Позвонить" -> {
+
+                    }
+                }
+                true
+            }
+            popupMenu.show()
         }
 
         infoIcon.setOnClickListener {

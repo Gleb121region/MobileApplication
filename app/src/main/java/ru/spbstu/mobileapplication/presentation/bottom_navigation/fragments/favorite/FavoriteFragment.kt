@@ -133,6 +133,7 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
                         viewModel,
                         this@FavoriteFragment,
                         this@FavoriteFragment,
+                        this@FavoriteFragment,
                         this@FavoriteFragment
                     )
                 binding.rvAnnouncementList.adapter = adapter
