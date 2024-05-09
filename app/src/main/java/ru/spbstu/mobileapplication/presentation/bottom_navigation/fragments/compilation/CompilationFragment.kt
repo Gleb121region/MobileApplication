@@ -125,7 +125,7 @@ class CompilationFragment : Fragment(), CardStackListener {
 
         lifecycleScope.launch {
             try {
-                viewModel.getAnnouncements(lastSurvey, LIMIT, currentOffset, token)
+                viewModel.getAnnouncements(lastSurvey, currentOffset, token)
 
                 viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
                     if (announcements != null) {
@@ -303,6 +303,5 @@ class CompilationFragment : Fragment(), CardStackListener {
 
     private companion object {
         private const val TAG = "CompilationFragment"
-        private const val LIMIT: Int = 10
     }
 }

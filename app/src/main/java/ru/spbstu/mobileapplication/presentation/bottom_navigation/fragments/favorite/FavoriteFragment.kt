@@ -114,7 +114,7 @@ class FavoriteFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener
         isLoading = true
         layoutManagerState = binding.rvAnnouncementList.layoutManager?.onSaveInstanceState()
 
-        viewModel.getFavoriteAnnouncements(10, currentOffset, token)
+        viewModel.getFavoriteAnnouncements(currentOffset, token)
         if (viewModel.announcements.value?.isEmpty() == true) {
             Log.d(TAG, "No more announcements to load")
             isLoading = false

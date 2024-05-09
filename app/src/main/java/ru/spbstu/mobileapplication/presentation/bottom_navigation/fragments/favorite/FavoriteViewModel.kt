@@ -19,10 +19,10 @@ class FavoriteViewModel @Inject constructor(
     val announcements: MutableLiveData<MutableList<AnnouncementEntity>> = MutableLiveData()
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
 
-    suspend fun getFavoriteAnnouncements(limit: Int, offset: Int, token: String) {
+    suspend fun getFavoriteAnnouncements(offset: Int, token: String) {
         try {
             isLoading.postValue(true)
-            val announcementEntities = getFeedbacksUseCase(limit, offset, token).toMutableList()
+            val announcementEntities = getFeedbacksUseCase(LIMIT, offset, token).toMutableList()
             if (offset == 0) {
                 announcements.postValue(announcementEntities)
             } else {
@@ -47,5 +47,6 @@ class FavoriteViewModel @Inject constructor(
 
     companion object {
         const val TAG = "HomeViewModel"
+        const val LIMIT: Int = 10
     }
 }

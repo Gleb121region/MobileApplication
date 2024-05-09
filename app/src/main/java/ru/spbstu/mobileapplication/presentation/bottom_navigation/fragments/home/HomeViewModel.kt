@@ -35,10 +35,9 @@ class HomeViewModel @Inject constructor(
         lastSurvey: AnswerDbModel, offset: Int = 0, token: String
     ) {
         try {
-            val limit = 10
             isLoading.postValue(true)
             val announcementEntities =
-                getAnnouncementListUseCase(lastSurvey, limit, offset, token).toMutableList()
+                getAnnouncementListUseCase(lastSurvey, offset, token).toMutableList()
             if (offset == 0) {
                 announcements.postValue(announcementEntities)
             } else {

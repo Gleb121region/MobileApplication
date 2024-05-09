@@ -13,7 +13,6 @@ import ru.spbstu.mobileapplication.domain.announcement.usecases.database.InsertA
 import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
 import ru.spbstu.mobileapplication.domain.feedback.usecases.CreateFeedbackUseCase
 import ru.spbstu.mobileapplication.domain.survey.usecase.database.GetLastSurveyFromDataBaseUseCase
-import ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home.HomeViewModel
 import javax.inject.Inject
 
 class CompilationViewModel @Inject constructor(
@@ -56,12 +55,12 @@ class CompilationViewModel @Inject constructor(
 
     // Net
     suspend fun getAnnouncements(
-        lastSurvey: AnswerDbModel, limit: Int = 10, offset: Int = 0, token: String
+        lastSurvey: AnswerDbModel, offset: Int = 0, token: String
     ) {
         try {
             isLoading.postValue(true)
             val announcementEntities =
-                getAnnouncementListUseCase(lastSurvey, limit, offset, token).toMutableList()
+                getAnnouncementListUseCase(lastSurvey, offset, token).toMutableList()
             if (offset == 0) {
                 announcements.postValue(announcementEntities)
             } else {
