@@ -59,17 +59,17 @@ class FavoriteViewHolder(
             adapter.handleImageNavigation(position, true)
         }
 
-        if (announcement.isLikedByUser) {
-            imageLike.setImageResource(R.drawable.ic_favorite_red_24dp)
-        } else {
-            imageLike.setImageResource(R.drawable.ic_favorite_default_24dp)
-        }
+        imageLike.setImageResource(
+            when {
+                announcement.isLikedByUser -> R.drawable.ic_favorite_red_24dp
+                else -> R.drawable.ic_favorite_default_24dp
+            }
+        )
 
         imageLike.setOnClickListener {
-            if (announcement.isLikedByUser) {
-                defaultClickListener?.onItemDefault(position)
-            } else {
-                likeClickListener?.onItemLike(position)
+            when {
+                announcement.isLikedByUser -> defaultClickListener?.onItemDefault(position)
+                else -> likeClickListener?.onItemLike(position)
             }
         }
 
