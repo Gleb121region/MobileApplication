@@ -31,7 +31,6 @@ class FavoriteAdapter(
         notifyItemRangeChanged(position, announcements.size)
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemAnnouncementBinding.inflate(inflater, parent, false)
@@ -67,19 +66,12 @@ class FavoriteAdapter(
 
         private val COMPARATOR = object : DiffUtil.ItemCallback<AnnouncementEntity>() {
             override fun areItemsTheSame(
-                oldItem: AnnouncementEntity,
-                newItem: AnnouncementEntity
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+                oldItem: AnnouncementEntity, newItem: AnnouncementEntity
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: AnnouncementEntity,
-                newItem: AnnouncementEntity
-            ): Boolean {
-                return oldItem == newItem
-            }
+                oldItem: AnnouncementEntity, newItem: AnnouncementEntity
+            ): Boolean = oldItem == newItem
         }
     }
 }
-
