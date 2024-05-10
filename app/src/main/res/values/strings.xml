@@ -93,5 +93,8 @@
     <string name="hide_ad">Скрыть объявление</string>
     <string name="do_not_show_ad">Не показывать объявление</string>
     <string name="call">Позвонить</string>
+    <string name="like">like</string>
+    <string name="skip">skip</string>
+    <string name="dislike">dislike</string>
 
 </resources>
