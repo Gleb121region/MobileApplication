@@ -96,5 +96,8 @@
     <string name="like">like</string>
     <string name="skip">skip</string>
     <string name="dislike">dislike</string>
+    <string name="mainimage">mainImage</string>
+    <string name="metro">metro</string>
+    <string name="description">Описание</string>
 
 </resources>
