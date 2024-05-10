@@ -24,22 +24,14 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:id="@+id/backChooseIconButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/ic_back_black_24dp" />
-            </com.google.android.material.appbar.MaterialToolbar>
-
+                android:layout_height="wrap_content"
+                app:navigationIcon="@drawable/ic_back_black_24dp" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <RelativeLayout
@@ -204,14 +196,19 @@
                         tools:text="@tools:sample/lorem/random" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/advertised"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/constraint_layout"
-                    android:orientation="horizontal"
-                    android:padding="8dp" />
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/constraint_layout">
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/advertised"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        android:padding="8dp" />
+                </LinearLayout>
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

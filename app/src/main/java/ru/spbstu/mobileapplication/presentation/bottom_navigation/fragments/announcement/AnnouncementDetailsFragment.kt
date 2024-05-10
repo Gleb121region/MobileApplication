@@ -114,7 +114,7 @@ class AnnouncementDetailsFragment : Fragment() {
     }
 
     private fun setupClickListenerBackIconButton() {
-        binding.backChooseIconButton.setOnClickListener {
+        binding.toolbar.setOnClickListener {
             Log.d(TAG, "backChooseIconButton clicked")
             val tag = getTagUseCase()
 
