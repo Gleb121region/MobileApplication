@@ -21,7 +21,9 @@ import kotlinx.coroutines.withContext
 import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.databinding.FragmentHomeBinding
+import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.GetScrollPositionUseCase
 import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveAnnouncementIdUseCase
+import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveScrollPositionUseCase
 import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveTagUseCase
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.enums.FeedbackType
@@ -48,6 +50,12 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
 
     @Inject
     lateinit var saveTagUseCase: SaveTagUseCase
+
+    @Inject
+    lateinit var saveScrollPositionUseCase: SaveScrollPositionUseCase
+
+    @Inject
+    lateinit var getScrollPositionUseCase: GetScrollPositionUseCase
 
     @Inject
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
@@ -96,6 +104,12 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
                 lastSurvey = viewModel.getLastSurveyFromDB()
                 loadAnnouncements()
             }
+        }
+
+        val localStorageScrollPosition = getScrollPositionUseCase()
+        if (localStorageScrollPosition != 0) {
+            val layoutManager = binding.rvAnnouncementList.layoutManager as? LinearLayoutManager
+            layoutManager?.scrollToPosition(localStorageScrollPosition)
         }
 
         Log.d(TAG, savedInstanceState.toString())
@@ -153,6 +167,8 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     }
 
     private fun navigateToAnnouncementDetails() {
+        val layoutManager = binding.rvAnnouncementList.layoutManager as? LinearLayoutManager
+        saveScrollPositionUseCase(layoutManager?.findFirstVisibleItemPosition() ?: 0)
         findNavController().navigate(R.id.action_navigation_home_to_announcementDetailsFragment)
     }
 

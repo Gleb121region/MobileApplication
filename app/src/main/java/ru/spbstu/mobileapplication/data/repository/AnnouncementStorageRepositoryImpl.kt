@@ -9,13 +9,13 @@ class AnnouncementStorageRepositoryImpl @Inject constructor(
 ) : AnnouncementStorageRepository {
     override fun saveAnnouncementId(id: Int) = storage.saveAnnouncementId(id)
 
-
     override fun getAnnouncementId(): Int = storage.getAnnouncementId()
-
 
     override fun saveTag(tag: String) = storage.saveTag(tag)
 
-
     override fun getTag(): String? = storage.getTag()
 
+    override fun saveScrollPosition(position: Int) = storage.saveScrollPosition(position)
+
+    override fun getScrollPosition(): Int = storage.getScrollPosition()
 }

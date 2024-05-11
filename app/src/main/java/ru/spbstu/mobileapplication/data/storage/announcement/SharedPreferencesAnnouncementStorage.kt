@@ -13,6 +13,7 @@ class SharedPreferencesAnnouncementStorage @Inject constructor(
         const val ANNOUNCEMENT_PREFS_NAME = "announcement_prefs"
         const val KEY_SELECTED_ANNOUNCEMENT_ID = "selected_announcement_id"
         const val KEY_WAS_WORKED_IN = "was_worked_in"
+        const val KEY_SCROLL_POSITION = "scroll_position"
     }
 
     private val sharedPreferences = context.getSharedPreferences(
@@ -34,5 +35,13 @@ class SharedPreferencesAnnouncementStorage @Inject constructor(
 
     override fun getTag(): String? {
         return sharedPreferences.getString(KEY_WAS_WORKED_IN, null)
+    }
+
+    override fun saveScrollPosition(position: Int) {
+        sharedPreferences.edit().putInt(KEY_SCROLL_POSITION, position).apply()
+    }
+
+    override fun getScrollPosition(): Int {
+        return sharedPreferences.getInt(KEY_SCROLL_POSITION, 0)
     }
 }

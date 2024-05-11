@@ -5,4 +5,6 @@ interface AnnouncementStorageRepository {
     fun getAnnouncementId(): Int
     fun saveTag(tag: String)
     fun getTag(): String?
+    fun saveScrollPosition(position: Int)
+    fun getScrollPosition(): Int
 }
