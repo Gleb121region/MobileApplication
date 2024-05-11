@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -95,6 +96,14 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
                 lastSurvey = viewModel.getLastSurveyFromDB()
                 loadAnnouncements()
             }
+        }
+
+        Log.d(TAG, savedInstanceState.toString())
+        if (savedInstanceState != null) {
+            val scrollPosition = savedInstanceState.getInt("scrollPosition", 0)
+            Log.d(TAG, scrollPosition.toString())
+            val layoutManager = binding.rvAnnouncementList.layoutManager as? LinearLayoutManager
+            layoutManager?.scrollToPosition(scrollPosition)
         }
 
         Log.d(TAG, "HomeFragment onViewCreated")
@@ -246,6 +255,14 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
             }
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d(TAG, "onSaveInstanceState called")
+        val layoutManager = binding.rvAnnouncementList.layoutManager as? LinearLayoutManager
+        outState.putInt("scrollPosition", layoutManager?.findFirstVisibleItemPosition() ?: 0)
+    }
+
 
     private companion object {
         private const val TAG = "HomeFragment"
