@@ -66,8 +66,7 @@ class AnnouncementDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel =
-            ViewModelProvider(this, viewModelFactory)[AnnouncementDetailsViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[AnnouncementDetailsViewModel::class.java]
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

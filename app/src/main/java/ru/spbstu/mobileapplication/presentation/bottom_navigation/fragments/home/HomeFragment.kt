@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.spbstu.mobileapplication.R
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.databinding.FragmentHomeBinding
 import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveAnnouncementIdUseCase
@@ -88,10 +89,12 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
 
         swipeHandler()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
-            lastSurvey = viewModel.getLastSurveyFromDB()
-            loadAnnouncements()
+        if (viewModel.announcements.value.isNullOrEmpty()) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
+                lastSurvey = viewModel.getLastSurveyFromDB()
+                loadAnnouncements()
+            }
         }
 
         Log.d(TAG, "HomeFragment onViewCreated")
@@ -141,9 +144,7 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     }
 
     private fun navigateToAnnouncementDetails() {
-        findNavController().navigate(
-            HomeFragmentDirections.actionNavigationHomeToAnnouncementDetailsFragment()
-        )
+        findNavController().navigate(R.id.action_navigation_home_to_announcementDetailsFragment)
     }
 
     override fun onItemSkip(position: Int) {
