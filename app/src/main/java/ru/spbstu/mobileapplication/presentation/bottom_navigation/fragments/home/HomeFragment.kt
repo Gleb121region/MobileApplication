@@ -84,14 +84,9 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        isLoadingObserve()
+        setObservers()
 
-        viewModel.selectedAnnouncementId.observe(viewLifecycleOwner) { announcementId ->
-            announcementId?.let {
-                saveIntoLocalStorage(announcementId)
-                navigateToAnnouncementDetails()
-            }
-        }
+        swipeHandler()
 
         lifecycleScope.launch(Dispatchers.IO) {
             token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
@@ -102,9 +97,19 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
         Log.d(TAG, "HomeFragment onViewCreated")
     }
 
-    private fun saveIntoLocalStorage(announcementId: Int) {
-        saveAnnouncementIdUseCase(announcementId)
-        saveTagUseCase(TAG)
+    private fun setObservers() {
+        isLoadingObserve()
+        selectedAnnouncementIdObserver()
+        announcementsObserver()
+    }
+
+    private fun selectedAnnouncementIdObserver() {
+        viewModel.selectedAnnouncementId.observe(viewLifecycleOwner) { announcementId ->
+            announcementId?.let {
+                saveIntoLocalStorage(announcementId)
+                navigateToAnnouncementDetails()
+            }
+        }
     }
 
     private fun isLoadingObserve() {
@@ -112,6 +117,27 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
             Log.d(TAG, "isLoading observer")
             binding.loadingIndicator.visibility = if (it) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun announcementsObserver() {
+        viewModel.announcements.observe(viewLifecycleOwner) {
+            binding.rvAnnouncementList.layoutManager?.onRestoreInstanceState(layoutManagerState)
+
+            val adapter = AnnouncementAdapter(
+                it,
+                viewModel,
+                this@HomeFragment,
+                this@HomeFragment,
+                this@HomeFragment,
+                this@HomeFragment
+            )
+            binding.rvAnnouncementList.adapter = adapter
+        }
+    }
+
+    private fun saveIntoLocalStorage(announcementId: Int) {
+        saveAnnouncementIdUseCase(announcementId)
+        saveTagUseCase(TAG)
     }
 
     private fun navigateToAnnouncementDetails() {
@@ -150,58 +176,45 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
             isLoading = false
             return
         }
-
         withContext(Dispatchers.Main) {
-            Log.d(TAG, "Announcements loaded, updating RecyclerView")
+            scrollHandler()
+        }
+    }
 
-            viewModel.announcements.observe(viewLifecycleOwner) {
-                binding.rvAnnouncementList.layoutManager?.onRestoreInstanceState(layoutManagerState)
 
-                val adapter =
-                    AnnouncementAdapter(
-                        it,
-                        viewModel,
-                        this@HomeFragment,
-                        this@HomeFragment,
-                        this@HomeFragment,
-                        this@HomeFragment
-                    )
-                binding.rvAnnouncementList.adapter = adapter
-            }
-
-            val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-                0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return false
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.bindingAdapterPosition
-                    onItemSkip(position)
-                }
-            })
-            itemTouchHelper.attachToRecyclerView(binding.rvAnnouncementList)
-
-            binding.rvAnnouncementList.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        val newOffset = currentOffset + 1
-                        currentOffset = newOffset
-                        lifecycleScope.launch {
-                            loadAnnouncements()
-                        }
+    private fun scrollHandler() {
+        binding.rvAnnouncementList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val newOffset = currentOffset + 1
+                    currentOffset = newOffset
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        loadAnnouncements()
                     }
                 }
-            })
-            isLoading = false
-        }
+            }
+        })
+        isLoading = false
+    }
+
+    private fun swipeHandler() {
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                onItemSkip(viewHolder.bindingAdapterPosition)
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(binding.rvAnnouncementList)
     }
 
     private fun handleFeedbackClick(position: Int, feedbackType: FeedbackType) {
