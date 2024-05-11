@@ -47,7 +47,6 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     @Inject
     lateinit var saveTagUseCase: SaveTagUseCase
 
-
     @Inject
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
 
@@ -55,11 +54,12 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     private val binding: FragmentHomeBinding
         get() = _binding ?: throw RuntimeException("FragmentHomeBinding is null")
 
+    private lateinit var token: String
+    private lateinit var lastSurvey: AnswerDbModel
+
     private var isLoading = false
     private var currentOffset = 0
 
-    private lateinit var token: String
-    private lateinit var lastSurvey: AnswerDbModel
     private var layoutManagerState: Parcelable? = null
 
     override fun onAttach(context: Context) {
@@ -182,7 +182,6 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.bindingAdapterPosition
-                    val adapter = binding.rvAnnouncementList.adapter as AnnouncementAdapter
                     onItemSkip(position)
                 }
             })

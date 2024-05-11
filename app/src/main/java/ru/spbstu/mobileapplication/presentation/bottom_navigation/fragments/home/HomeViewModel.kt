@@ -34,6 +34,7 @@ class HomeViewModel @Inject constructor(
     suspend fun getAnnouncements(
         lastSurvey: AnswerDbModel, offset: Int = 0, token: String
     ) {
+        Log.d(TAG, "Is announcements empty? ${announcements.value?.isEmpty() ?: true}")
         try {
             isLoading.postValue(true)
             val announcementEntities =
