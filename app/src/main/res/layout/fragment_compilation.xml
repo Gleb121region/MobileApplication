@@ -34,38 +34,42 @@
                 android:layout_height="match_parent"
                 android:clipChildren="false">
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/button_container"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="8dp"
-                    android:clipChildren="false"
-                    android:orientation="horizontal">
+                    android:clipChildren="false">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/dislike_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
                         android:layout_toStartOf="@+id/skip_button"
+                        android:contentDescription="@string/dislike"
                         android:src="@drawable/dislike_red_24dp"
                         app:backgroundTint="@android:color/white"
                         app:fabSize="auto"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:rippleColor="#22ED7563" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/skip_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginEnd="32dp"
-                        android:layout_marginRight="32dp"
+                        android:contentDescription="@string/skip"
                         android:src="@drawable/skip_black_24dp"
                         app:backgroundTint="@android:color/white"
                         app:fabSize="mini"
+                        app:layout_constraintBottom_toBottomOf="@id/like_button"
+                        app:layout_constraintEnd_toEndOf="@id/like_button"
+                        app:layout_constraintStart_toStartOf="@id/dislike_button"
+                        app:layout_constraintTop_toTopOf="@id/dislike_button"
                         app:rippleColor="#225BC9FA" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -73,12 +77,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
                         android:layout_toEndOf="@+id/skip_button"
+                        android:contentDescription="@string/like"
                         android:src="@drawable/like_green_24dp"
                         app:backgroundTint="@android:color/white"
                         app:fabSize="auto"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/dislike_button"
                         app:rippleColor="#226FE2B3" />
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.yuyakaido.android.cardstackview.CardStackView
                     android:id="@+id/card_stack_view"

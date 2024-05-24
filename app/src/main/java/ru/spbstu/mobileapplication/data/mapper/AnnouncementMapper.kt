@@ -3,13 +3,14 @@ package ru.spbstu.mobileapplication.data.mapper
 import ru.spbstu.mobileapplication.data.database.announcement.AnnouncementDbModel
 import ru.spbstu.mobileapplication.data.network.announcement.model.response.AnnouncementResponse
 import ru.spbstu.mobileapplication.data.network.announcement.model.response.AnnouncementWithDescriptionResponse
+import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementDetailedEntity
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 import javax.inject.Inject
 
 class AnnouncementMapper @Inject constructor() {
     fun mapAnnouncementWithDescriptionResponseToAnnouncementEntity(
         announcementWithDescriptionResponse: AnnouncementWithDescriptionResponse
-    ): AnnouncementEntity = AnnouncementEntity(
+    ): AnnouncementDetailedEntity = AnnouncementDetailedEntity(
         id = announcementWithDescriptionResponse.id,
         floor = announcementWithDescriptionResponse.floor,
         floorsCount = announcementWithDescriptionResponse.floorsCount,
@@ -20,7 +21,18 @@ class AnnouncementMapper @Inject constructor() {
         underground = announcementWithDescriptionResponse.underground,
         photoUrls = announcementWithDescriptionResponse.photoUrls,
         isLikedByUser = announcementWithDescriptionResponse.isLikedByUser,
-        description = announcementWithDescriptionResponse.description
+        description = announcementWithDescriptionResponse.description,
+        isRefrigerator = announcementWithDescriptionResponse.isRefrigerator,
+        isWashingMachine = announcementWithDescriptionResponse.isWashingMachine,
+        isTV = announcementWithDescriptionResponse.isTV,
+        isShowerCubicle = announcementWithDescriptionResponse.isShowerCubicle,
+        isBathtub = announcementWithDescriptionResponse.isBathtub,
+        isFurnitureRoom = announcementWithDescriptionResponse.isFurnitureRoom,
+        isFurnitureKitchen = announcementWithDescriptionResponse.isFurnitureKitchen,
+        isAirConditioning = announcementWithDescriptionResponse.isAirConditioning,
+        isDishwasher = announcementWithDescriptionResponse.isDishwasher,
+        isInternet = announcementWithDescriptionResponse.isInternet,
+        isHide = announcementWithDescriptionResponse.isHide
     )
 
     fun mapAnnouncementResponseToAnnouncementEntity(

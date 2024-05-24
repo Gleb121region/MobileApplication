@@ -44,11 +44,11 @@
 
     <!--    -->
     <string name="studio">Студия</string>
-    <string name="one_room_flat">Однокомнатная квартира</string>
-    <string name="two_rooms_flat">Двухкомнатная квартира</string>
-    <string name="three_rooms_flat">Трехкомнатная квартира</string>
-    <string name="four_rooms_flat">Четырехкомнатная квартира</string>
-    <string name="five_rooms_flat">Пятикомнатная квартира</string>
+    <string name="one_room_flat">1-комн.</string>
+    <string name="two_rooms_flat">2-комн.</string>
+    <string name="three_rooms_flat">3-комн.</string>
+    <string name="four_rooms_flat">4-комн.</string>
+    <string name="five_rooms_flat">5-комн.</string>
 
     <!-- About    -->
     <string name="write">write about yourself</string>
@@ -89,5 +89,15 @@
     <string name="lastname">Фамилия</string>
     <string name="phone">Номер телефона</string>
     <string name="patronymic">Отчество</string>
+
+    <string name="hide_ad">Скрыть объявление</string>
+    <string name="do_not_show_ad">Не показывать объявление</string>
+    <string name="call">Позвонить</string>
+    <string name="like">like</string>
+    <string name="skip">skip</string>
+    <string name="dislike">dislike</string>
+    <string name="mainimage">mainImage</string>
+    <string name="metro">metro</string>
+    <string name="description">Описание</string>
 
 </resources>

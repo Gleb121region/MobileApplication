@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -28,6 +29,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.databinding.FragmentCompilationBinding
+import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveAnnouncementIdUseCase
+import ru.spbstu.mobileapplication.domain.announcement.usecases.local_storage.SaveTagUseCase
 import ru.spbstu.mobileapplication.domain.authentication.usecase.local_storage.GetTokenFromLocalStorageUseCase
 import ru.spbstu.mobileapplication.domain.enums.FeedbackType
 import ru.spbstu.mobileapplication.domain.feedback.entity.FeedbackCreateEntity
@@ -51,6 +54,12 @@ class CompilationFragment : Fragment(), CardStackListener {
 
     @Inject
     lateinit var getTokenFromLocalStorageUseCase: GetTokenFromLocalStorageUseCase
+
+    @Inject
+    lateinit var saveAnnouncementIdUseCase: SaveAnnouncementIdUseCase
+
+    @Inject
+    lateinit var saveTagUseCase: SaveTagUseCase
 
     private var isClicked: Boolean = false
     private var isFirstTime: Boolean = true
@@ -85,6 +94,13 @@ class CompilationFragment : Fragment(), CardStackListener {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        viewModel.selectedAnnouncementId.observe(viewLifecycleOwner) { announcementId ->
+            announcementId?.let {
+                saveIntoLocalStorage(announcementId)
+                navigateToAnnouncementDetails()
+            }
+        }
+
         lifecycleScope.launch {
             token = "Bearer ${getTokenFromLocalStorageUseCase().accessToken}"
             lastSurvey = viewModel.getLastSurveyFromDB()
@@ -109,7 +125,7 @@ class CompilationFragment : Fragment(), CardStackListener {
 
         lifecycleScope.launch {
             try {
-                viewModel.getAnnouncements(lastSurvey, LIMIT, currentOffset, token)
+                viewModel.getAnnouncements(lastSurvey, currentOffset, token)
 
                 viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
                     if (announcements != null) {
@@ -123,7 +139,7 @@ class CompilationFragment : Fragment(), CardStackListener {
                             }
                         }
                         lifecycleScope.launch(Dispatchers.Main) {
-                            adapter = CardStackViewAdapter(announcements)
+                            adapter = CardStackViewAdapter(announcements, viewModel)
                             cardStackView.adapter = adapter
                             if (isFirstTime) {
                                 setupCardStackView()
@@ -184,6 +200,8 @@ class CompilationFragment : Fragment(), CardStackListener {
                 direction = Direction.Left
                 interpolator = AccelerateInterpolator()
             }
+
+            FeedbackType.DEFAULT -> TODO()
         }
 
         val setting = SwipeAnimationSetting.Builder().setDirection(direction)
@@ -272,8 +290,18 @@ class CompilationFragment : Fragment(), CardStackListener {
         }
     }
 
+    private fun saveIntoLocalStorage(announcementId: Int) {
+        saveAnnouncementIdUseCase(announcementId)
+        saveTagUseCase(TAG)
+    }
+
+    private fun navigateToAnnouncementDetails() {
+        findNavController().navigate(
+            CompilationFragmentDirections.actionNavigationCompilationToAnnouncementDetailsFragment()
+        )
+    }
+
     private companion object {
         private const val TAG = "CompilationFragment"
-        private const val LIMIT: Int = 10
     }
 }

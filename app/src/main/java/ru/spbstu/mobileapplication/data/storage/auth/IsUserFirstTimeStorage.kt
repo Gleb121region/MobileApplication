@@ -1,4 +1,4 @@
-package ru.spbstu.mobileapplication.data.storage
+package ru.spbstu.mobileapplication.data.storage.auth
 
 interface IsUserFirstTimeStorage {
     fun changeFirstTimeStatus()

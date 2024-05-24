@@ -7,6 +7,7 @@ import ru.spbstu.mobileapplication.data.mapper.AnnouncementMapper
 import ru.spbstu.mobileapplication.data.mapper.SurveyMapper
 import ru.spbstu.mobileapplication.data.network.announcement.AnnouncementApiService
 import ru.spbstu.mobileapplication.data.network.announcement.model.response.AnnouncementWithDescriptionResponse
+import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementDetailedEntity
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 import ru.spbstu.mobileapplication.domain.announcement.repository.AnnouncementRepository
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class AnnouncementRepositoryImpl @Inject constructor(
 
     override suspend fun getAnnouncementItem(
         announcementItemId: Int, token: String
-    ): AnnouncementEntity {
+    ): AnnouncementDetailedEntity {
         val announcementWithDescriptionResponse: AnnouncementWithDescriptionResponse? =
             api.getAnnouncementInfo(announcementItemId, token)
         return announcementMapper.mapAnnouncementWithDescriptionResponseToAnnouncementEntity(

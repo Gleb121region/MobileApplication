@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 enum class FeedbackType : Parcelable {
     LIKE,
     DISLIKE,
-    SKIP
+    SKIP,
+    DEFAULT
 }

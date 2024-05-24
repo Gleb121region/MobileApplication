@@ -10,10 +10,14 @@ class GetAnnouncementListUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        model: AnswerDbModel, limit: Int = 10, offset: Int = 0, token: String
+        model: AnswerDbModel, offset: Int = 0, token: String
     ): List<AnnouncementEntity> {
         return announcementRepository.getAnnouncementList(
-            model, limit, offset, token
+            model, LIMIT, offset, token
         )
+    }
+
+    companion object {
+        private const val LIMIT = 10
     }
 }
