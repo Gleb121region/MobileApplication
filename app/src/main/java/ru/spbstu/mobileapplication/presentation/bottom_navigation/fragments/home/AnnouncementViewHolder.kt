@@ -89,6 +89,10 @@ class AnnouncementViewHolder(
                     }
 
                     "Позвонить" -> {
+                        viewModel.sendCallIntent(announcement.phoneNumber)
+                    }
+
+                    "Написать сообщение" -> {
 
                     }
                 }

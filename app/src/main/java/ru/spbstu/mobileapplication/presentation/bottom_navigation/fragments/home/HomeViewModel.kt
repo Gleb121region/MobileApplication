@@ -1,8 +1,14 @@
 package ru.spbstu.mobileapplication.presentation.bottom_navigation.fragments.home
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import ru.spbstu.mobileapplication.data.database.answer.AnswerDbModel
 import ru.spbstu.mobileapplication.domain.announcement.entity.AnnouncementEntity
 import ru.spbstu.mobileapplication.domain.announcement.usecases.GetAnnouncementListUseCase
@@ -16,6 +22,8 @@ class HomeViewModel @Inject constructor(
     private val getAnnouncementListUseCase: GetAnnouncementListUseCase,
     private val createFeedbackUseCase: CreateFeedbackUseCase
 ) : ViewModel() {
+    private val _intentFlow = MutableStateFlow<Intent?>(null)
+    val intentFlow: StateFlow<Intent?> = _intentFlow
 
     val selectedAnnouncementId: MutableLiveData<Int> = MutableLiveData()
 
@@ -60,6 +68,12 @@ class HomeViewModel @Inject constructor(
         createFeedbackUseCase(feedbackCreateEntity, token)
         isLoading.postValue(false)
         Log.d(TAG, "createFeedback finished")
+    }
+
+    fun sendCallIntent(phone: String) = viewModelScope.launch {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:$phone")
+        _intentFlow.emit(intent)
     }
 
     companion object {

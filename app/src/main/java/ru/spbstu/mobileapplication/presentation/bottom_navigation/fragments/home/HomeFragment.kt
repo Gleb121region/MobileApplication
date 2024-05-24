@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.spbstu.mobileapplication.R
@@ -124,9 +126,16 @@ class HomeFragment : Fragment(), OnLikeClickListener, OnDislikeClickListener, On
     }
 
     private fun setObservers() {
+        isCallObserver()
         isLoadingObserve()
         selectedAnnouncementIdObserver()
         announcementsObserver()
+    }
+
+    private fun isCallObserver() {
+        viewModel.intentFlow.filterNotNull().asLiveData().observe(viewLifecycleOwner) { intent ->
+            startActivity(intent)
+        }
     }
 
     private fun selectedAnnouncementIdObserver() {

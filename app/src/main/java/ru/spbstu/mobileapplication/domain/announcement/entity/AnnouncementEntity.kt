@@ -16,6 +16,7 @@ data class AnnouncementEntity(
     val photoUrls: List<String>,
     val isLikedByUser: Boolean = false,
     val description: String?,
+    val phoneNumber: String = "89999999999",
     var currentImagePosition: Int = 0
 ) {
     fun getFormattedTotalMeters(): String = "$totalMeters м²"
